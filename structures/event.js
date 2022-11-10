@@ -1,29 +1,14 @@
-const { Module } = require('./module');
-const { DistubeEventType } = require('./distube');
-const { ClientEventType } = require('./client');
-
-class Event extends Module {
-    /**
-     *
-     * @param name {string} event name in relation to module_type
-     * @param module_type {ClientEventType | DistubeEventType}
-     * @param run {function}
-     */
-    constructor({ name, module_type, run }) {
-        super({
-            types: [
-                DistubeEventType,
-                ClientEventType,
-            ],
-            module_type: module_type,
-        });
-
+class Event {
+    constructor({ name, module_type = 'client', run }) {
         if (
             !name ||
-            !module_type ||
             !run
         ) {
             throw new Error('Event module is missing properties');
+        }
+
+        if (['distube', 'client'].includes(module_type) === false) {
+            throw new Error('Event module is not recognized or is empty');
         }
 
         this.name = name;

@@ -1,9 +1,8 @@
-const { Event } = require(__root + '/structures/event');
-const { DistubeEventType } = require('../../../structures/distube');
+const { Event } = require('../../../structures/event');
 
 module.exports = new Event({
 	name: 'error',
-	module_type: new DistubeEventType(),
+	module_type: 'distube',
 
 	run(client, channel, err) {
 		console.log(err);

@@ -34,43 +34,15 @@ class Distube extends distube.DisTube {
     }
 
     skipSong(queue) {
-        if (queue.songs.length <= 1) {
-            queue.stop();
-        } else {
-            queue.skip();
-        }
+        return queue.songs.length <= 1 ? queue.stop() : queue.skip();
     }
 
     playSong(interaction, search) {
-        const channel = interaction.member.voice.channel;
-
-        this.play(channel, search, {
+        this.play(interaction.member.voice.channel, search, {
             textChannel: interaction.channel,
             member: interaction.member,
         });
     }
 }
 
-class DistubeEventType {
-    constructor() {
-        return this;
-    }
-}
-
-class DistubeType {
-    /**
-     *
-     * @param options {{require_shared_voice_channel, require_in_voice_channel} | null}
-     * @returns {DistubeType}
-     */
-    constructor(options = null) {
-        if (options) {
-            this.require_shared_voice_channel = options.require_shared_voice_channel || false;
-            this.require_in_voice_channel = options.require_in_voice_channel || true;
-        }
-
-        return this;
-    }
-}
-
-module.exports = { Distube, DistubeType, DistubeEventType };
+module.exports = { Distube };

@@ -1,11 +1,9 @@
 const discord = require('discord.js');
 const { Command } = require('../../structures/command');
-const { ClientType } = require('../../structures/client');
 
 module.exports = new Command({
     name: 'echo',
     description: 'echoes a message',
-    module_type: new ClientType(),
     options: [
         {
             name: 'message',

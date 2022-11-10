@@ -1,9 +1,7 @@
-const { Event } = require('../../structures/event');
-const { ClientEventType } = require('../../structures/client');
+const { Event } = require('../../../structures/event');
 
 module.exports = new Event({
 	name: 'ready',
-	module_type: new ClientEventType(),
 
 	run(client) {
 		client.registerSlashCommands().then(() => {

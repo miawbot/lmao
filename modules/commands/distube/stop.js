@@ -1,10 +1,9 @@
 const { Command } = require('../../../structures/command');
-const { DistubeType } = require('../../../structures/distube');
 
 module.exports = new Command({
 	name: 'stop',
 	description: 'stop queue and leave voice channel',
-	module_type: new DistubeType(),
+	module_type: 'distube',
 
 	async run(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);

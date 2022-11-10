@@ -1,11 +1,10 @@
 const { Command } = require('../../../structures/command');
 const { EmbedBuilder } = require('discord.js');
-const { DistubeType } = require('../../../structures/distube');
 
 module.exports = new Command({
 	name: 'queue',
 	description: 'get queue',
-	module_type: new DistubeType(),
+	module_type: 'distube',
 
 	async run(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);

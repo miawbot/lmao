@@ -1,13 +1,13 @@
 const discord = require('discord.js');
 const { Command } = require('../../../structures/command');
-const { DistubeType } = require('../../../structures/distube');
 
 module.exports = new Command({
     name: 'play',
     description: 'play a song',
-    module_type: new DistubeType({
+    module_type: 'distube',
+    restraints: {
         require_shared_voice_channel: false,
-    }),
+    },
     options: [
         {
             name: 'search',

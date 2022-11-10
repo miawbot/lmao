@@ -1,10 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
-const { Event } = require('../../structures/event');
-const { ClientEventType } = require('../../structures/client');
+const { Event } = require('../../../structures/event');
 
 module.exports = new Event({
 	name: 'guildMemberAdd',
-	module_type: new ClientEventType(),
 
 	async run(client, interaction) {
 		const embed = new EmbedBuilder()

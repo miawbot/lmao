@@ -1,25 +1,15 @@
-const { Module } = require('./module');
-const { DistubeType } = require('./distube');
-const { ClientType } = require('./client');
-
-class Command extends Module {
-    /**
-     *
-     * @param name {string} slash command name
-     * @param description {string} slash command description
-     * @param options {object[]} slash command option fields to be rendered to the command
-     * @param module_type {DistubeType | ClientType} extended data for advanced modules
-     * @param run {function} slash command function
-     */
-    constructor({ name, description, options = [], module_type = null, run }) {
-        super({
-            types: [
-                DistubeType,
-                ClientType,
-            ],
-            module_type: module_type,
-        });
-
+class Command {
+    constructor({
+        name,
+        description,
+        options = [],
+        module_type = 'client',
+        restraints = {
+            require_in_voice_channel: true,
+            require_shared_voice_channel: false,
+        },
+        run,
+    }) {
         if (
             !name ||
             !description ||
@@ -28,7 +18,12 @@ class Command extends Module {
             throw new Error('Command module is missing properties');
         }
 
+        if (['distube', 'client'].includes(module_type) === false) {
+            throw new Error('Event module is not recognized or is empty');
+        }
+
         this.module_type = module_type;
+        this.restraints = restraints;
         this.name = name;
         this.description = description;
         this.options = options;

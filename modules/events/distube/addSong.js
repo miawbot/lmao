@@ -1,10 +1,9 @@
-const { Event } = require(__root + '/structures/event');
+const { Event } = require('../../../structures/event');
 const { EmbedBuilder } = require('discord.js');
-const { DistubeEventType } = require('../../../structures/distube');
 
 module.exports = new Event({
 	name: 'addSong',
-	module_type: new DistubeEventType(),
+	module_type: 'distube',
 
 	run(client, queue, song) {
 		const embed = new EmbedBuilder()

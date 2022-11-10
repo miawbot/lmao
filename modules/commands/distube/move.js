@@ -1,11 +1,10 @@
 const discord = require('discord.js');
 const { Command } = require('../../../structures/command');
-const { DistubeType } = require('../../../structures/distube');
 
 module.exports = new Command({
     name: 'move',
     description: 'move a song to top',
-    module_type: new DistubeType(),
+    module_type: 'distube',
     options: [
         {
             name: 'id',
