@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { Event } = require('../../../structures/event');
+const { Event } = require('../../structures/event');
 
 module.exports = new Event({
 	name: 'guildMemberAdd',

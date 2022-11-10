@@ -1,11 +1,11 @@
-const { Command } = require('../../../structures/command');
+const { Command } = require('../../structures/command');
 
 module.exports = new Command({
-	name: 'stop',
-	description: 'stop queue and leave voice channel',
+	name: 'skip',
+	description: 'skip current song',
 	module_type: 'distube',
 
-	async run(client, interaction) {
+	run(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);
 
 		if (!queue) {
@@ -14,7 +14,7 @@ module.exports = new Command({
 			return;
 		}
 
-		await queue.stop();
+		client.distube.skipSong(queue);
 
 		interaction.reply('song has been skipped');
 	},

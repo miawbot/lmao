@@ -1,4 +1,4 @@
-const { Event } = require('../../../structures/event');
+const { Event } = require('../../structures/event');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = new Event({

@@ -1,4 +1,4 @@
-const { Command } = require('../../../structures/command');
+const { Command } = require('../../structures/command');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = new Command({
