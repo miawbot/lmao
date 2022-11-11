@@ -1,25 +1,23 @@
 class Command {
-    constructor({
-        name,
-        description,
-        options = [],
-        module_type = 'client',
-        restraints = {
-            require_in_voice_channel: true,
-            require_shared_voice_channel: false,
+    constructor(
+        {
+            name,
+            description,
+            options = [],
+            module_type = 'client',
+            restraints = {
+                require_in_voice_channel: true,
+                require_shared_voice_channel: false,
+            },
+            run,
         },
-        run,
-    }) {
-        if (
-            !name ||
-            !description ||
-            !run
-        ) {
-            throw new Error('Command module is missing properties');
+    ) {
+        if (!name || !description || !run) {
+            throw new Error('command module is missing properties');
         }
 
         if (['distube', 'client'].includes(module_type) === false) {
-            throw new Error('Event module is not recognized or is empty');
+            throw new Error('command module is not recognized or is empty');
         }
 
         this.module_type = module_type;

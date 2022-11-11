@@ -24,8 +24,7 @@ class Client extends discord.Client {
     }
 
     init() {
-        this
-            .login(process.env.CLIENT_TOKEN)
+        this.login(process.env.CLIENT_TOKEN)
             .then(
                 () => {
                     this.commands = new discord.Collection();
@@ -58,6 +57,10 @@ class Client extends discord.Client {
                 ephemeral: true,
             },
         );
+    }
+
+    mention(id) {
+        return discord.userMention(id);
     }
 
     inline(string) {

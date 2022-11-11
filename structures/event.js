@@ -1,14 +1,17 @@
 class Event {
-    constructor({ name, module_type = 'client', run }) {
-        if (
-            !name ||
-            !run
-        ) {
-            throw new Error('Event module is missing properties');
+    constructor(
+        {
+            name,
+            module_type = 'client',
+            run,
+        },
+    ) {
+        if (!name || !run) {
+            throw new Error('event module is missing properties');
         }
 
         if (['distube', 'client'].includes(module_type) === false) {
-            throw new Error('Event module is not recognized or is empty');
+            throw new Error('event module is not recognized or is empty');
         }
 
         this.name = name;

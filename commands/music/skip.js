@@ -1,21 +1,24 @@
 const { Command } = require('../../structures/command');
 
-module.exports = new Command({
-	name: 'skip',
-	description: 'skip current song',
-	module_type: 'distube',
 
-	run(client, interaction) {
-		const queue = client.distube.getQueue(interaction.guildId);
+module.exports = new Command(
+    {
+        name: 'skip',
+        description: 'skip current song',
+        module_type: 'distube',
 
-		if (!queue) {
-			client.error(interaction, 'no queue available to use this command');
+        run(client, interaction) {
+            const queue = client.distube.getQueue(interaction.guildId);
 
-			return;
-		}
+            if (!queue) {
+                client.error(interaction, 'no queue available to use this command');
 
-		client.distube.skipSong(queue);
+                return;
+            }
 
-		interaction.reply('song has been skipped');
-	},
-});
+            client.distube.skipSong(queue);
+
+            interaction.reply('song has been skipped');
+        },
+    },
+);
