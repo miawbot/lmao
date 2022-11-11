@@ -1,44 +1,63 @@
 const discord = require('discord.js');
 const fg = require('fast-glob');
+
 const { Event } = require('./event');
 const { Command } = require('./command');
 const { Distube } = require('./distube');
 
-class Client extends discord.Client {
-    COMMAND_PATH = './modules/commands';
-    EVENT_PATH = './modules/events';
 
+class Client extends discord.Client {
     constructor() {
-        super({
-            intents: [
-                discord.GatewayIntentBits.Guilds,
-                discord.GatewayIntentBits.MessageContent,
-                discord.GatewayIntentBits.GuildVoiceStates,
-                discord.GatewayIntentBits.GuildMessages,
-                discord.GatewayIntentBits.GuildMembers,
-                discord.GatewayIntentBits.DirectMessages,
-                discord.GatewayIntentBits.GuildInvites,
-            ],
-        });
+        super(
+            {
+                intents: [
+                    discord.GatewayIntentBits.Guilds,
+                    discord.GatewayIntentBits.MessageContent,
+                    discord.GatewayIntentBits.GuildVoiceStates,
+                    discord.GatewayIntentBits.GuildMessages,
+                    discord.GatewayIntentBits.GuildMembers,
+                    discord.GatewayIntentBits.DirectMessages,
+                    discord.GatewayIntentBits.GuildInvites,
+                ],
+            },
+        );
     }
 
     init() {
-        this.login(process.env.CLIENT_TOKEN).then(() => {
-            this.commands = new discord.Collection();
-            this.guildCommands = [];
-            this.globalCommands = [];
-            this.distube = new Distube(this);
+        this
+            .login(process.env.CLIENT_TOKEN)
+            .then(
+                () => {
+                    this.commands = new discord.Collection();
+                    this.guildCommands = [];
+                    this.globalCommands = [];
 
-            this.registerCommands();
-            this.registerEvents();
-        });
+                    this.distube = new Distube(this);
+
+                    this.registerCommands()
+                        .then(
+                            () => {
+                                console.log('loaded commands');
+                            },
+                        );
+
+                    this.registerEvents()
+                        .then(
+                            () => {
+                                console.log('loaded commands');
+                            },
+                        );
+                },
+            );
     }
 
     error(interaction, message) {
-        return interaction.reply({
-            content: message,
-            ephemeral: true,
-        });
+        return interaction.reply(
+            {
+                content: message,
+                ephemeral: true,
+            },
+        );
     }
 
     inline(string) {
@@ -49,56 +68,49 @@ class Client extends discord.Client {
         return await interaction?.guild?.channels?.cache?.get(id);
     }
 
-    registerCommands() {
-        const modules = fg.sync(this.COMMAND_PATH + '**/**/*.js');
-
-        for (const path of modules) {
-            const command = require('.' + path);
-
-            if (!(command instanceof Command)) {
-                throw new Error('Module needs to be an instance of Command');
-            }
-
-            if (command.hasOwnProperty('owner_only')) {
-                command.default_permission = false;
-            }
-
-            if (command.hasOwnProperty('guild_only')) {
-                this.guildCommands.push(command);
-            } else {
-                this.globalCommands.push(command);
-            }
-
-            this.commands.set(command.name, command);
+    async moduleRegisterer(root, callback) {
+        for (const path of await fg(`${root}/**/*.js`)) {
+            const module = require(`.${path}`);
+            await callback(module);
         }
     }
 
-    registerEvents() {
-        const modules = fg.sync(this.EVENT_PATH + '**/**/*.js');
+    async registerCommands() {
+        await this.moduleRegisterer('./commands',
+            (module) => {
+                if (module instanceof Command) {
+                    if ('owner_only' in module) {
+                        module.default_permission = false;
+                    }
 
-        for (const path of modules) {
-            const event = require('.' + path);
+                    const selector = 'guild_only' in module
+                        ? 'guildCommands'
+                        : 'globalCommands';
 
-            if (!(event instanceof Event)) {
-                throw new Error('Module needs to be an instance of Event');
-            }
+                    this[selector].push(module);
+                    this.commands.set(module.name, module);
+                }
+            },
+        );
+    }
 
-            let module = null;
+    async registerEvents() {
+        await this.moduleRegisterer('./events',
+            (module) => {
+                if (module instanceof Event) {
+                    const listeners = {
+                        'distube': this.distube,
+                        'client': this,
+                    };
 
-            if (event.module_type === 'distube') {
-                module = this.distube;
-            }
-
-            if (event.module_type === 'client') {
-                module = this;
-            }
-
-            if (module === null) {
-                throw new Error('Module cannot be null');
-            }
-
-            module.on(event.name, (...args) => event.run(this, ...args));
-        }
+                    listeners[module.module_type].on(module.name,
+                        (...args) => {
+                            module.run(this, ...args);
+                        },
+                    );
+                }
+            },
+        );
     }
 
     async registerSlashCommands() {

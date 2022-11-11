@@ -12,7 +12,7 @@ module.exports = new Event({
 
                 if (
                     command.restraints.require_in_voice_channel &&
-                    !voiceChannel
+                    !voiceChannel || !voiceChannel
                 ) {
                     client.error(interaction, 'this command cannot be used outside of a voice channel');
 
