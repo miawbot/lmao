@@ -17,14 +17,16 @@ module.exports = new Command(
                 return;
             }
 
-            const currentQueue = { queued: [] };
+            const songs = { queued: [] };
+
             for (const [id, song] of queue.songs.entries()) {
-                if (!id) {
-                    currentQueue.current = `${song.name} - ${song.formattedDuration}`;
+                if (id === 0) {
+                    songs.current = `${song.name} - ${song.formattedDuration}`;
+
                     continue;
                 }
 
-                currentQueue.queued.push(`**${id}** - ${song.name} - ${song.formattedDuration}`);
+                songs.queued.push(`**${id}** - ${song.name} - ${song.formattedDuration}`);
             }
 
             const embed = new EmbedBuilder()
@@ -36,7 +38,7 @@ module.exports = new Command(
                 .addFields(
                     {
                         name: 'next up',
-                        value: currentQueue.queued.slice(0, 10).join('\n\n') || 'none',
+                        value: songs.queued.slice(0, 10).join('\n\n') || 'none',
                     },
                 );
 

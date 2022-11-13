@@ -74,7 +74,7 @@ class Client extends discord.Client {
     async moduleRegisterer(root, callback) {
         for (const path of await fg(`${root}/**/*.js`)) {
             const module = require(`.${path}`);
-            await callback(module);
+            callback(module);
         }
     }
 
