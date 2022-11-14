@@ -1,4 +1,4 @@
-# Hello, I'm Hazel
+# Hello, I'm Bibimbap
 24/7 music, moderation, and entertainment oriented @discord.js bot.
 
 # Setup
