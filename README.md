@@ -1,4 +1,4 @@
-# hi, i'm hazel
+# hello, i'm hazel
 24/7 music, moderation, and entertainment oriented @discord.js bot
 
 # setup
