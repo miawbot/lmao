@@ -1,7 +1,7 @@
 # Hello, I'm Bibimbap
 24/7 music, moderation, and entertainment oriented @discord.js bot.
 
-# Setup
+## Setup
 Suggestions or seen issues? Make an issue or merge request regarding referenced issue.
 
 ## Installation
