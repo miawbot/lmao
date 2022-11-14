@@ -1,13 +1,21 @@
 # Hello, I'm Bibimbap
 24/7 music, moderation, and entertainment oriented @discord.js bot.
 
+## Features
+
+- Playback for YouTube & Spotify
+- Mongoose 
+- Modular design
+- Moderation 
+
+
 ## Setup
 Suggestions or seen issues? Make an issue or merge request regarding referenced issue.
 
 ## Installation
 Clone the repo on your system.
 
-    git clone https://github.com/frogyushi/hazel-v2
+    git clone https://github.com/frogyushi/bibimbap
 
 Then, navigate to the directory and install the npm packages.
 
