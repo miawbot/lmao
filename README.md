@@ -1,24 +1,24 @@
-# hello, i'm hazel
-24/7 music, moderation, and entertainment oriented @discord.js bot
+# Hello, I'm Hazel
+24/7 music, moderation, and entertainment oriented @discord.js bot.
 
-# setup
-suggestions or issues? make an issue or merge request regarding referenced issue.
+# Setup
+Suggestions or issues? Make an issue or merge request regarding referenced issue.
 
-## installation
-clone the repo on your system
+## Installation
+Clone the repo on your system.
 
     git clone https://github.com/frogyushi/hazel-v2
 
-then, navigate to the directory and install the npm packages
+Then, navigate to the directory and install the npm packages.
 
     git install
     
-## credentials
-navigate to `.env.example` and replace placeholders. rename file to `.env` when done.
+## Credentials
+Navigate to `.env.example` and replace placeholders. Rename file to `.env` when done.
 
 
-## deployment
-deploy your instance 
+## Deployment
+Deploy your instance.
 
     npm start
 
