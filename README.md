@@ -1,5 +1,5 @@
 # Hello, I'm Bibimbap
-24/7 music, moderation, and entertainment oriented @discord.js bot.
+Moderation and entertainment oriented @discord.js bot.
 
 ## Features
 
