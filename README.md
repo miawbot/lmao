@@ -12,7 +12,7 @@ A moderation and entertainment oriented @discord.js bot.
 ## Setup
 Suggestions or seen issues? Make an issue or merge request regarding referenced issue.
 
-## Installation
+### Installation
 Clone the repo on your system.
 
     git clone https://github.com/frogyushi/bibimbap
@@ -21,7 +21,7 @@ Then, navigate to the directory and install the npm packages.
 
     git install
     
-## Credentials
+### Credentials
 Navigate to `.env.example` and replace placeholders. Rename file to `.env` when done.
 
 
