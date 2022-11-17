@@ -1,24 +1,32 @@
-# @hazel-v2 
-24/7 music, moderation, and entertainment oriented @discord.js bot
+# bibimbap
+A moderation and entertainment oriented @discord.js bot.
 
-# setup
-suggestions or issues? make an issue or merge request regarding referenced issue.
+## Features
 
-## installation
-clone the repo on your system
+- Playback for YouTube & Spotify
+- Mongoose 
+- Modular design
+- Moderation 
 
-    git clone https://github.com/frogyushi/hazel-v2
 
-then, navigate to the directory and install the npm packages
+## Setup
+Suggestions or seen issues? Make an issue or merge request regarding referenced issue.
+
+### Installation
+Clone the repo on your system.
+
+    git clone https://github.com/frogyushi/bibimbap
+
+Then, navigate to the directory and install the npm packages.
 
     git install
     
-## credentials
-navigate to `.env.example` and replace placeholders. rename file to `.env` when done.
+### Credentials
+Navigate to `.env.example` and replace placeholders. Rename file to `.env` when done.
 
 
-## deployment
-deploy your instance 
+## Deployment
+Deploy your instance.
 
     npm start
 
