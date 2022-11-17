@@ -26,7 +26,7 @@ module.exports = new Command(
 
             client.distube.playSong(interaction, search);
 
-            interaction.reply(`searching ${client.inline(search)}`);
+            interaction.reply(`searching ${ client.inline(search) }`);
         },
     },
 );

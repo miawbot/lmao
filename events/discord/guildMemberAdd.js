@@ -8,11 +8,11 @@ module.exports = new Event(
 
         async run(client, interaction) {
             const embed = new EmbedBuilder()
-                .setColor('#6C78AD')
-                .setTitle('welcome to hazels')
-                .setDescription(`${client.mention(interaction.user.id)} has joined the server`);
+                .setColor('#2F3136')
+                .setTitle('welcome to bibimbap')
+                .setDescription(`${ client.mention(interaction.user.id) } has joined the server`);
 
-            const channel = await client.getChannelById(interaction, '785928459980767293');
+            const channel = await client.getChannelById(interaction, '1042913998347173891');
 
             if (!channel) {
                 return;

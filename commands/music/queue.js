@@ -21,19 +21,19 @@ module.exports = new Command(
 
             for (const [id, song] of queue.songs.entries()) {
                 if (id === 0) {
-                    songs.current = `${song.name} - ${song.formattedDuration}`;
+                    songs.current = `${ song.name } - ${ song.formattedDuration }`;
 
                     continue;
                 }
 
-                songs.queued.push(`**${id}** - ${song.name} - ${song.formattedDuration}`);
+                songs.queued.push(`**${ id }** - ${ song.name } - ${ song.formattedDuration }`);
             }
 
             const embed = new EmbedBuilder()
                 .setTitle('now playing')
-                .setDescription(currentQueue.current)
-                .setColor('#6C78AD')
-                .setFooter({ text: `${queue.songs.length - 1 || 'no'} songs in queue` })
+                .setDescription(songs.current)
+                .setColor('#2F3136')
+                .setFooter({ text: `${ queue.songs.length - 1 || 'no' } songs in queue` })
                 .setTimestamp()
                 .addFields(
                     {

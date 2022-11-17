@@ -43,7 +43,7 @@ class Client extends discord.Client {
                     this.registerEvents()
                         .then(
                             () => {
-                                console.log('loaded commands');
+                                console.log('loaded events');
                             },
                         );
                 },
@@ -72,8 +72,8 @@ class Client extends discord.Client {
     }
 
     async moduleRegisterer(root, callback) {
-        for (const path of await fg(`${root}/**/*.js`)) {
-            const module = require(`.${path}`);
+        for (const path of await fg(`${ root }/**/*.js`)) {
+            const module = require(`.${ path }`);
             callback(module);
         }
     }
@@ -118,9 +118,10 @@ class Client extends discord.Client {
 
     async registerSlashCommands() {
         const slash = this.application?.commands;
+        await slash.set(this.globalCommands);
 
-        if (slash) {
-            await slash.set(this.globalCommands, process.env.GUILD_ID);
+        if (process.env.GUILD_ID) {
+            await slash.set(this.guildCommands, process.env.GUILD_ID);
         }
     }
 }

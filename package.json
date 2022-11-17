@@ -20,7 +20,7 @@
     "nodemon": "^2.0.20",
     "opusscript": "^0.0.8"
   },
-  "name": "hazel",
+  "name": "bibimbap",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -29,5 +29,14 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "24/7 music, moderation, and entertainment oriented @discord.js bot",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frogyushi/hazel-v2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frogyushi/hazel-v2/issues"
+  },
+  "homepage": "https://github.com/frogyushi/hazel-v2#readme"
 }

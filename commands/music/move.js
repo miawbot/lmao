@@ -39,7 +39,7 @@ module.exports = new Command(
             songs.splice(id, 1);
             songs.splice(1, 0, song);
 
-            interaction.reply(`moved ${client.inline(song.name)} to first position in the queue`);
+            interaction.reply(`moved ${ client.inline(song.name) } to first position in the queue`);
         },
     },
 );

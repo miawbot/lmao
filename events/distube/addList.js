@@ -7,7 +7,7 @@ module.exports = new Event(
         module_type: 'distube',
 
         run(client, queue, playlist) {
-            queue.textChannel.send(`added ${client.inline(playlist.songs.length)} songs to queue`);
+            queue.textChannel.send(`added ${ client.inline(playlist.songs.length) } songs to queue`);
         },
     },
 );

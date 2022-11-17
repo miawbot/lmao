@@ -22,7 +22,7 @@ module.exports = new Command(
             const embed = new EmbedBuilder()
                 .setTitle(song.name)
                 .setTimestamp()
-                .setColor('#6C78AD')
+                .setColor('#2F3136')
                 .setFields(
                     {
                         name: 'channel',
@@ -31,7 +31,7 @@ module.exports = new Command(
                     },
                     {
                         name: 'song duration',
-                        value: `${queue.formattedCurrentTime}/${song.formattedDuration}`,
+                        value: `${ queue.formattedCurrentTime }/${ song.formattedDuration }`,
                         inline: true,
                     },
                     {
