@@ -1,5 +1,5 @@
-# Hello, I'm Bibimbap
-Moderation and entertainment oriented @discord.js bot.
+# bibimbap
+A moderation and entertainment oriented @discord.js bot.
 
 ## Features
 
