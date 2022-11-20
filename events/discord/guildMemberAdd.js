@@ -8,7 +8,6 @@ module.exports = new Event(
 
         async run(client, interaction) {
             const embed = new EmbedBuilder()
-                .setColor('#2F3136')
                 .setTitle('welcome to bibimbap')
                 .setDescription(`${ client.mention(interaction.user.id) } has joined the server`);
 

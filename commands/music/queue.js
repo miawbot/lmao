@@ -32,7 +32,6 @@ module.exports = new Command(
             const embed = new EmbedBuilder()
                 .setTitle('now playing')
                 .setDescription(songs.current)
-                .setColor('#2F3136')
                 .setFooter({ text: `${ queue.songs.length - 1 || 'no' } songs in queue` })
                 .setTimestamp()
                 .addFields(

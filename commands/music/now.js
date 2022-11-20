@@ -22,7 +22,6 @@ module.exports = new Command(
             const embed = new EmbedBuilder()
                 .setTitle(song.name)
                 .setTimestamp()
-                .setColor('#2F3136')
                 .setFields(
                     {
                         name: 'channel',
