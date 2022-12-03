@@ -71,15 +71,15 @@ class Client extends discord.Client {
         return await interaction?.guild?.channels?.cache?.get(id);
     }
 
-    async moduleRegisterer(root, callback) {
-        for (const path of await fg(`${ root }/**/*.js`)) {
-            const module = require(`.${ path }`);
+    async register(root, callback) {
+        for (const path of await fg(`${root}/**/*.js`)) {
+            const module = require(`.${path}`);
             callback(module);
         }
     }
 
     async registerCommands() {
-        await this.moduleRegisterer('./commands',
+        await this.register('./commands',
             (module) => {
                 if (module instanceof Command) {
                     if ('owner_only' in module) {
@@ -98,7 +98,7 @@ class Client extends discord.Client {
     }
 
     async registerEvents() {
-        await this.moduleRegisterer('./events',
+        await this.register('./events',
             (module) => {
                 if (module instanceof Event) {
                     const listeners = {
@@ -118,10 +118,23 @@ class Client extends discord.Client {
 
     async registerSlashCommands() {
         const slash = this.application?.commands;
-        await slash.set(this.globalCommands);
+
+        await slash
+            .set(this.globalCommands)
+            .then(
+                () => {
+                    console.log('global set');
+                },
+            );
 
         if (process.env.GUILD_ID) {
-            await slash.set(this.guildCommands, process.env.GUILD_ID);
+            await slash
+                .set(this.guildCommands, process.env.GUILD_ID)
+                .then(
+                    () => {
+                        console.log('guild set')
+                    }
+                );
         }
     }
 }

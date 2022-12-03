@@ -5,14 +5,10 @@ module.exports = new Event(
     {
         name: 'ready',
 
-        run(client) {
-            client
-                .registerSlashCommands()
-                .then(
-                    () => {
-                        console.log('slash commands loaded');
-                    },
-                );
+        async run(client) {
+            console.log('ready')
+
+            await client.registerSlashCommands()
         },
     },
 );
