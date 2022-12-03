@@ -23,31 +23,27 @@ class Client extends discord.Client {
         );
     }
 
-    init() {
-        this.login(process.env.CLIENT_TOKEN)
+    async init() {
+        this.commands = new discord.Collection();
+        this.guildCommands = [];
+        this.globalCommands = [];
+        this.distube = new Distube(this);
+
+        this.registerCommands()
             .then(
                 () => {
-                    this.commands = new discord.Collection();
-                    this.guildCommands = [];
-                    this.globalCommands = [];
-
-                    this.distube = new Distube(this);
-
-                    this.registerCommands()
-                        .then(
-                            () => {
-                                console.log('loaded commands');
-                            },
-                        );
-
-                    this.registerEvents()
-                        .then(
-                            () => {
-                                console.log('loaded events');
-                            },
-                        );
+                    console.log('loaded commands');
                 },
             );
+
+        this.registerEvents()
+            .then(
+                () => {
+                    console.log('loaded events');
+                },
+            );
+
+        await this.login(process.env.CLIENT_TOKEN);
     }
 
     error(interaction, message) {
@@ -132,8 +128,8 @@ class Client extends discord.Client {
                 .set(this.guildCommands, process.env.GUILD_ID)
                 .then(
                     () => {
-                        console.log('guild set')
-                    }
+                        console.log('guild set');
+                    },
                 );
         }
     }
