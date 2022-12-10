@@ -19,7 +19,7 @@ Clone the repo on your system.
 
 Then, navigate to the directory and install the npm packages.
 
-    git install
+    npm install
     
 ### Credentials
 Navigate to `.env.example` and replace placeholders. Rename file to `.env` when done.
