@@ -29,7 +29,7 @@ module.exports = new Event({
         if (
             command.getSetting('sharedVoiceChannel') &&
             client.voice.adapters.get(interaction.guildId) &&
-            !voiceChannel.members.has(client.id)
+            !voiceChannel.members.has(client.user.id)
         ) {
             client.userOnly(interaction, 'this command can only be used in a voice channel where i am in');
             return;
