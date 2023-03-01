@@ -1,8 +1,9 @@
+const Bibimbap = require('../../structs/Bibimbap');
 const { Event } = require('../../structs/event');
 
 module.exports = new Event({
     name: 'error',
-    isPlayer: 'distube',
+    isPlayer: true,
 
     /**
      * 

@@ -6,11 +6,6 @@ module.exports = new Command({
     name: 'stop',
     description: 'stop queue and leave voice channel',
     isPlayer: true,
-    settings: {
-        sharedVoiceChannel: true,
-        voiceChannel: true,
-        queueNotEmpty: true,
-    },
 
     /**
      * 
@@ -20,7 +15,9 @@ module.exports = new Command({
     callback(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId);
 
-        queue.stop();
+        if (queue) {
+            queue.stop();
+        }
 
         interaction.reply('stopped playback');
     },

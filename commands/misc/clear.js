@@ -24,17 +24,17 @@ module.exports = new Command({
         const amount = interaction.options.getNumber("amount");
 
         if (amount < 1) {
-            client.userOnly('amount must be greater than zero');
+            client.userOnly(interaction, 'amount must be greater than zero');
             return;
         }
 
         if (amount > 100) {
-            client.userOnly('amount must not be greater than 100');
+            client.userOnly(interaction, 'amount must not be greater than 100');
             return;
         }
 
         interaction.channel.bulkDelete(amount, true);
 
-        client.userOnly(`i have deleted ${client.inline(amount)} messages`);
+        interaction.reply(`i have deleted ${client.inline(amount)} messages`);
     }
 })

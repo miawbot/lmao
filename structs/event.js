@@ -3,7 +3,7 @@ class EventType {
     isPlayer = false;
 
     /**
-     * @type Function
+     * @type {Function}
      */
     callback = null;
 }

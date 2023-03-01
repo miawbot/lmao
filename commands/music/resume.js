@@ -21,7 +21,7 @@ module.exports = new Command({
         const queue = client.player.getQueue(interaction.guildId);
 
         if (!queue.paused) {
-            client.userOnly('queue is not paused');
+            client.userOnly(interaction, 'queue is not paused');
             return;
         }
 

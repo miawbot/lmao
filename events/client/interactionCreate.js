@@ -16,7 +16,7 @@ module.exports = new Event({
         }
 
         const command = client.getCommand(interaction.commandName);
-        const voiceChannel = client.getCurrentVoiceChannel(interaction);
+        const voiceChannel = interaction.member?.voice?.channel;
 
         if (
             command.getSetting('voiceChannel') &&
@@ -28,10 +28,10 @@ module.exports = new Event({
 
         if (
             command.getSetting('sharedVoiceChannel') &&
-            !voiceChannel.members.has(client.user.id) &&
-            client.voice.adapters.size > 0
+            client.voice.adapters.get(interaction.guildId) &&
+            !voiceChannel.members.has(client.id)
         ) {
-            client.userOnly(interaction, 'this command can only be used in a voice channel shared with the bot');
+            client.userOnly(interaction, 'this command can only be used in a voice channel where i am in');
             return;
         }
 
@@ -43,10 +43,6 @@ module.exports = new Event({
             return;
         }
 
-        try {
-            command.callback(client, interaction);
-        } catch (err) {
-            console.log('something went wrong: ' + err)
-        }
+        command.callback(client, interaction);
     }
 });

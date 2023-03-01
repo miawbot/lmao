@@ -1,5 +1,5 @@
 {
-  "name": "Bibimbap",
+  "name": "bibimbap",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "@distube/ytdl-core": "^4.11.5",
     "discord-api-types": "^0.37.16",
     "discord.js": "^14.6.0",
-    "distube": "^4.0.4",
+    "distube": "^4.0.3",
     "dotenv": "^16.0.3",
     "fast-glob": "^3.2.12",
     "ffmpeg": "^0.0.4",
@@ -26,8 +26,15 @@
     "mongoose": "^6.7.1",
     "node": "^19.0.1",
     "node-opus": "^0.3.3",
-    "nodemon": "^2.0.20",
-    "opusscript": "^0.0.8"
+    "nodemon": "^2.0.20"
   },
-  "description": ""
+  "description": "A moderation and entertainment oriented @discord.js bot.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frogyushi/bibimbap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frogyushi/bibimbap/issues"
+  },
+  "homepage": "https://github.com/frogyushi/bibimbap#readme"
 }

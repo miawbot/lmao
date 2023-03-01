@@ -2,6 +2,7 @@ const Bibimbap = require('./Bibimbap');
 const { CommandInteraction } = require('discord.js')
 const { DisTube, Queue, Song } = require('distube');
 const { SpotifyPlugin } = require('@distube/spotify');
+const { YtDlpPlugin } = require("@distube/yt-dlp")
 
 class Player extends DisTube {
 
@@ -18,8 +19,8 @@ class Player extends DisTube {
             emptyCooldown: 60,
             leaveOnFinish: false,
             leaveOnStop: true,
-            youtubeCookie: process.env.YOUTUBE_COOKIE,
             plugins: [
+                new YtDlpPlugin({ update: false }),
                 new SpotifyPlugin({
                     parallel: true,
                     emitEventsAfterFetching: true,

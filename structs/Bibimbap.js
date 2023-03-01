@@ -82,7 +82,7 @@ class Bibimbap extends Client {
      * @param {Command} command 
      */
     loadCommand(command) {
-        if (command instanceof Command) {            
+        if (command instanceof Command) {
             this.commands.set(command.name, command);
         }
     }
@@ -114,7 +114,9 @@ class Bibimbap extends Client {
 
     async registerCommands() {
         const slash = this.application?.commands;
-        if (slash) await slash.set([...this.commands.values()]);
+        if (slash) {
+            await slash.set([...this.commands.values()]);
+        }
     }
 }
 

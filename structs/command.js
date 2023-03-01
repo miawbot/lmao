@@ -30,7 +30,7 @@ class CommandType {
     settings = {};
 
     /**
-     * @type Function
+     * @type {Function}
      */
     callback = null;
 }
