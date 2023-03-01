@@ -22,6 +22,6 @@ module.exports = new Command({
 
         queue.stop();
 
-        interaction.reply('song has been skipped');
+        interaction.reply('stopped playback');
     },
 });

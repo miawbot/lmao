@@ -22,6 +22,6 @@ module.exports = new Command({
 
         client.player.randomizeQueue(queue);
 
-        interaction.reply('queue has been shuffled');
+        interaction.reply('queue has been randomized');
     },
 });
