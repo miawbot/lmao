@@ -11,14 +11,6 @@ module.exports = new Command({
         voiceChannel: true,
         queueNotEmpty: true,
     },
-    options: [
-        {
-            name: 'search',
-            description: 'search a song',
-            type: ApplicationCommandOptionType.String,
-            required: true,
-        },
-    ],
 
     /**
      * 
