@@ -31,8 +31,6 @@ module.exports = new Event({
             !voiceChannel.members.has(client.user.id) &&
             client.voice.adapters.size > 0
         ) {
-
-            console.log(client.voice.adapters.size)
             client.error(interaction, 'this command can only be used in a voice channel shared with the bot');
             return;
         }
@@ -42,7 +40,6 @@ module.exports = new Event({
             !client.player.getQueue(interaction.guildId)
         ) {
             client.error(interaction, 'no queue available to use this command');
-
             return;
         }
 
