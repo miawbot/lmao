@@ -4,7 +4,6 @@ A moderation and entertainment oriented @discord.js bot.
 ## Features
 
 - Playback for YouTube & Spotify
-- Mongoose 
 - Modular design
 - Moderation 
 
