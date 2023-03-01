@@ -3,8 +3,8 @@ const Bibimbap = require('../../structs/Bibimbap');
 const { Command } = require('../../structs/command');
 
 module.exports = new Command({
-    name: 'stop',
-    description: 'stop queue and leave voice channel',
+    name: 'randomize',
+    description: 'randomizes queue',
     isPlayer: true,
     settings: {
         sharedVoiceChannel: true,
@@ -17,11 +17,11 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    async callback(client, interaction) {
-        const queue = client.distube.getQueue(interaction.guildId);
+    callback(client, interaction) {
+        const queue = client.player.getQueue(interaction.guildId);
 
-        await queue.stop();
+        client.player.randomizeQueue(queue);
 
-        interaction.reply('song has been skipped');
+        interaction.reply('queue has been shuffled');
     },
 });

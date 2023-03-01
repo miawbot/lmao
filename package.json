@@ -1,4 +1,13 @@
 {
+  "name": "Bibimbap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.13.0",
@@ -20,23 +29,5 @@
     "nodemon": "^2.0.20",
     "opusscript": "^0.0.8"
   },
-  "name": "bibimbap",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "24/7 music, moderation, and entertainment oriented @discord.js bot",
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/frogyushi/hazel-v2.git"
-  },
-  "bugs": {
-    "url": "https://github.com/frogyushi/hazel-v2/issues"
-  },
-  "homepage": "https://github.com/frogyushi/hazel-v2#readme"
+  "description": ""
 }
