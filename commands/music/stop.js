@@ -18,7 +18,7 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const queue = client.distube.getQueue(interaction.guildId);
+        const queue = client.player.getQueue(interaction.guildId);
 
         await queue.stop();
 
