@@ -19,9 +19,6 @@ class Player extends DisTube {
             leaveOnFinish: false,
             leaveOnStop: true,
             youtubeCookie: process.env.YOUTUBE_COOKIE,
-            ytdlOptions: {
-                quality: 'highestaudio',
-            },
             plugins: [
                 new SpotifyPlugin({
                     parallel: true,
