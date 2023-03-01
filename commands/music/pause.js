@@ -1,10 +1,10 @@
-const { CommandInteraction } = require('discord.js');
 const Bibimbap = require('../../structs/Bibimbap');
+const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
 const { Command } = require('../../structs/command');
 
 module.exports = new Command({
-    name: 'stop',
-    description: 'stop queue and leave voice channel',
+    name: 'pause',
+    description: 'pause playback',
     isPlayer: true,
     settings: {
         sharedVoiceChannel: true,
@@ -20,8 +20,13 @@ module.exports = new Command({
     callback(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId);
 
-        queue.stop();
+        if (queue.paused) {
+            client.userOnly('queue is already paused');
+            return;
+        }
 
-        interaction.reply('song has been skipped');
+        client.player.pause(interaction.guildId);
+
+        interaction.reply('queue has been paused');
     },
 });

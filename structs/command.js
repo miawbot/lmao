@@ -48,11 +48,15 @@ class Command extends CommandType {
             !data.name ||
             !data.description ||
             !data.callback
-        ) {
+        ) { 
             throw new Error('command module is missing properties');
         }
 
         data = Object.assign(new CommandType(), data);
+
+        if (data.ownerOnly) {
+            this.default_permission = false;
+        };
 
         this.name = data.name;
         this.description = data.description;

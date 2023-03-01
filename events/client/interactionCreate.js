@@ -22,7 +22,7 @@ module.exports = new Event({
             command.getSetting('voiceChannel') &&
             !voiceChannel
         ) {
-            client.error(interaction, 'this command cannot be used outside of a voice channel');
+            client.userOnly(interaction, 'this command cannot be used outside of a voice channel');
             return;
         }
 
@@ -31,7 +31,7 @@ module.exports = new Event({
             !voiceChannel.members.has(client.user.id) &&
             client.voice.adapters.size > 0
         ) {
-            client.error(interaction, 'this command can only be used in a voice channel shared with the bot');
+            client.userOnly(interaction, 'this command can only be used in a voice channel shared with the bot');
             return;
         }
 
@@ -39,7 +39,7 @@ module.exports = new Event({
             command.getSetting('queueNotEmpty') &&
             !client.player.getQueue(interaction.guildId)
         ) {
-            client.error(interaction, 'no queue available to use this command');
+            client.userOnly(interaction, 'no queue available to use this command');
             return;
         }
 

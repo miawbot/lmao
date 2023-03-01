@@ -1,14 +1,15 @@
-const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
 const Bibimbap = require('../../structs/Bibimbap');
+const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
 const { Command } = require('../../structs/command');
 
 module.exports = new Command({
-    name: 'playskip',
-    description: 'skip the current song and play the requested song',
+    name: 'repeat',
+    description: 'toggle repeat for current song',
     isPlayer: true,
     settings: {
         sharedVoiceChannel: true,
         voiceChannel: true,
+        queueNotEmpty: true,
     },
     options: [
         {
@@ -24,15 +25,11 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    async callback(client, interaction) {
-        const query = interaction.options.getString('search');
-        
-        client.player.play(interaction.member.voice.channel, query, {
-            textChannel: interaction.channel,
-            member: interaction.member,
-            skip: true,
-        });
+    callback(client, interaction) {
+        const queue = client.player.getQueue(interaction.guildId);
 
-        interaction.reply(`searching ${client.inline(query)}`);
+        client.player.setRepeatMode(interaction, queue.repeatMode != 1 ? 1 : 0);
+
+        interaction.reply(`repeat set to ${client.inline(queue.repeatMode === 1 ? 'true' : 'false')}`);
     },
 });

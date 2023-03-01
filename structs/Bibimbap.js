@@ -56,7 +56,7 @@ class Bibimbap extends Client {
      * @param {string} message 
      * @returns {Promise<>}
      */
-    error(interaction, message) {
+    userOnly(interaction, message) {
         return interaction.reply({ content: message, ephemeral: true, });
     }
 
@@ -82,7 +82,7 @@ class Bibimbap extends Client {
      * @param {Command} command 
      */
     loadCommand(command) {
-        if (command instanceof Command) {
+        if (command instanceof Command) {            
             this.commands.set(command.name, command);
         }
     }
