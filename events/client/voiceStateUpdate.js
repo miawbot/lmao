@@ -34,9 +34,9 @@ module.exports = new Event({
                     ]
                 });
 
-                voiceChannel.then((channel) => {
-                    client.voiceChannelCache.set(channel.id, member);
-                    member.voice.setChannel(channel.id);
+                voiceChannel.then((vc) => {
+                    client.voiceChannelCache.set(vc.id, member);
+                    member.voice.setChannel(vc.id);
                 })
             }
 

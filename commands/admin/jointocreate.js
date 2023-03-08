@@ -58,7 +58,9 @@ module.exports = new Command({
             upsert: true,
             new: true,
             setDefaultsOnInsert: true,
-        }, function (err, doc) { });
+        }, function (err, doc) {
+            if (err) return;
+        });
 
         interaction.reply(`join-to-create voice channel settings have been updated`);
     }
