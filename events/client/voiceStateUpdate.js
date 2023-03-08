@@ -15,7 +15,7 @@ module.exports = new Event({
         JoinToCreate.findOne({ guildId: old.guild.id || current.guild.id }, function (err, doc) {
             if (err) return;
 
-            if (doc || !doc.isEnabled) {
+            if (!doc || !doc.isEnabled) {
                 return
             };
 
@@ -34,9 +34,9 @@ module.exports = new Event({
                     ]
                 });
 
-                voiceChannel.then((vc) => {
-                    client.voiceChannelCache.set(vc.id, member);
-                    member.voice.setChannel(vc.id);
+                voiceChannel.then((channel) => {
+                    client.voiceChannelCache.set(channel.id, member);
+                    member.voice.setChannel(channel.id);
                 })
             }
 
