@@ -173,10 +173,10 @@ class Bibimbap extends Client {
     async registerCommands() {
         const slash = this.application?.commands;
         if (slash) {
-            // await slash.set([...this.commands.values()]);
-            if (process.env.GUILD_ID) {
-                await this.application.commands.set([...this.commands.values()], process.env.GUILD_ID);
-            }
+            await slash.set([...this.commands.values()]);
+            // if (process.env.GUILD_ID) {
+            //     await this.application.commands.set([...this.commands.values()], process.env.GUILD_ID);
+            // }
         }
     }
 }
