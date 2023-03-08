@@ -21,7 +21,7 @@ module.exports = new Event({
                 const welcomeMessageEmbed = new EmbedBuilder();
 
                 if (
-                    !doc?.isEnabled ||
+                    !doc.isEnabled ||
                     !textChannel
                 ) {
                     return;
