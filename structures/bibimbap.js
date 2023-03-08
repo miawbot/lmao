@@ -152,19 +152,22 @@ class Bibimbap extends Client {
     /**
      * filters object undefined/null values and returns filtered
      * 
-     * @param {Object} obj 
+     * @param {Object} object 
      * @returns 
      */
-    cleanObject(obj) {
-        const t = {};
+    sanitizeObject(object) {
+        const temp = {};
 
-        for (const o in obj) {
-            if (obj[o] !== null && obj[o] !== undefined) {
-                t[o] = obj[o];
+        for (const prop in object) {
+            if (
+                object[prop] !== null &&
+                object[prop] !== undefined
+            ) {
+                temp[prop] = object[prop];
             }
         }
 
-        return t;
+        return temp;
     }
 
     async registerCommands() {

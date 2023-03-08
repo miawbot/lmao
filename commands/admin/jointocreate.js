@@ -28,7 +28,7 @@ module.exports = new Command({
     callback(client, interaction) {
         const JoinToCreate = client.database.get('joinToCreate');
 
-        const options = client.cleanObject({
+        const options = client.sanitizeObject({
             channelId: interaction.options.getChannel('voice_channel')?.id,
             isEnabled: interaction.options.getBoolean('enabled'),
         })
