@@ -20,11 +20,17 @@ module.exports = new Event({
                 const textChannel = member.guild.channels.cache.get(doc?.channelId);
                 const welcomeMessageEmbed = new EmbedBuilder();
 
-                if (!doc?.isEnabled || !textChannel) {
+                if (
+                    !doc?.isEnabled ||
+                    !textChannel
+                ) {
                     return;
                 }
 
-                if (doc.color) {
+                if (
+                    doc.color &&
+                    doc.color !== 'none'
+                ) {
                     welcomeMessageEmbed.setColor(doc.color);
                 }
 
@@ -41,18 +47,12 @@ module.exports = new Event({
                 }
 
                 if (doc.title) {
-                    const title = doc.title
-                        .replace(/{member}/gi, member.user.tag)
-                        .replace(/{guild}/gi, member.guild.name);
-
+                    const title = doc.title.replace(/{member}/gi, member.user.tag).replace(/{guild}/gi, member.guild.name);
                     welcomeMessageEmbed.setTitle(title);
                 }
 
                 if (doc.description) {
-                    const description = doc.description
-                        .replace(/{member}/gi, `<@${member.user.id}>`)
-                        .replace(/{guild}/gi, member.guild.name);
-
+                    const description = doc.description.replace(/{member}/gi, `<@${member.user.id}>`).replace(/{guild}/gi, member.guild.name);
                     welcomeMessageEmbed.setDescription(description);
                 }
 
