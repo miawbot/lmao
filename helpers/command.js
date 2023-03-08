@@ -1,6 +1,19 @@
+const { CommandInteraction } = require("discord.js");
+
 class CommandSettingsType {
+    /**
+     * user must be in a voice channel
+     */
     voiceChannel = false;
+
+    /**
+     * client and user must be the same voice channel for this command to work
+     */
     sharedVoiceChannel = false;
+
+    /**
+     * queue must not be empty when command is issued
+     */
     queueNotEmpty = false;
 }
 
@@ -23,6 +36,7 @@ class CommandType {
     description = '';
     options = [];
     isPlayer = false;
+    ownerOnly = false;
 
     /**
      * @type {CommandSettings}
@@ -36,7 +50,6 @@ class CommandType {
 }
 
 class Command extends CommandType {
-
     /**
      * 
      * @param {CommandType} data 
@@ -48,7 +61,7 @@ class Command extends CommandType {
             !data.name ||
             !data.description ||
             !data.callback
-        ) { 
+        ) {
             throw new Error('command module is missing properties');
         }
 
@@ -63,6 +76,12 @@ class Command extends CommandType {
         this.options = data.options;
         this.isPlayer = data.isPlayer;
         this.settings = data.settings;
+
+        /**
+         * 
+         * @param {Bibimbap} client
+         * @param {CommandInteraction} interaction
+         */
         this.callback = data.callback;
     }
 

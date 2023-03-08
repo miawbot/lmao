@@ -1,6 +1,6 @@
 const { Playlist, Queue } = require('distube');
-const Bibimbap = require('../../structs/Bibimbap');
-const { Event } = require('../../structs/event');
+const { Bibimbap } = require('../../structures/bibimbap');
+const { Event } = require('../../helpers/event');
 
 module.exports = new Event({
     name: 'addList',

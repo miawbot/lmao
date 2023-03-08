@@ -1,6 +1,6 @@
-const { Event } = require('../../structs/event');
+const { Event } = require('../../helpers/event');
 const { EmbedBuilder } = require('discord.js');
-const Bibimbap = require('../../structs/Bibimbap');
+const { Bibimbap } = require('../../structures/bibimbap');
 const { Queue, Song } = require('distube');
 
 module.exports = new Event({

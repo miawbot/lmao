@@ -1,5 +1,5 @@
-const Bibimbap = require('../../structs/Bibimbap');
-const { Event } = require('../../structs/event');
+const { Bibimbap } = require('../../structures/bibimbap');
+const { Event } = require('../../helpers/event');
 const { CommandInteraction } = require('discord.js');
 
 module.exports = new Event({
@@ -22,7 +22,7 @@ module.exports = new Event({
             command.getSetting('voiceChannel') &&
             !voiceChannel
         ) {
-            client.userOnly(interaction, 'this command cannot be used outside of a voice channel');
+            client.notification(interaction, 'this command cannot be used outside of a voice channel');
             return;
         }
 
@@ -31,7 +31,7 @@ module.exports = new Event({
             client.voice.adapters.get(interaction.guildId) &&
             !voiceChannel.members.has(client.user.id)
         ) {
-            client.userOnly(interaction, 'this command can only be used in a voice channel where i am in');
+            client.notification(interaction, 'this command can only be used in a voice channel where i am in');
             return;
         }
 
@@ -39,10 +39,14 @@ module.exports = new Event({
             command.getSetting('queueNotEmpty') &&
             !client.player.getQueue(interaction.guildId)
         ) {
-            client.userOnly(interaction, 'no queue available to use this command');
+            client.notification(interaction, 'no queue available to use this command');
             return;
         }
 
-        command.callback(client, interaction);
+        try {
+            command.callback(client, interaction);
+        } catch (err) {
+            console.log(`something went wrong: ${err}`)
+        }
     }
 });

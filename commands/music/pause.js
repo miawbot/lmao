@@ -1,6 +1,6 @@
-const Bibimbap = require('../../structs/Bibimbap');
-const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
-const { Command } = require('../../structs/command');
+const { Bibimbap } = require('../../structures/bibimbap');
+const { CommandInteraction } = require('discord.js');
+const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     name: 'pause',
@@ -21,7 +21,7 @@ module.exports = new Command({
         const queue = client.player.getQueue(interaction.guildId);
 
         if (queue.paused) {
-            client.userOnly(interaction, 'queue is already paused');
+            client.notification(interaction, 'queue is already paused');
             return;
         }
 

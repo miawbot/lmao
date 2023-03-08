@@ -1,6 +1,6 @@
-const Bibimbap = require('../../structs/Bibimbap');
+const { Bibimbap } = require('../../structures/bibimbap');
 const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
-const { Command } = require('../../structs/command');
+const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     name: 'clear',
@@ -24,12 +24,12 @@ module.exports = new Command({
         const amount = interaction.options.getNumber("amount");
 
         if (amount < 1) {
-            client.userOnly(interaction, 'amount must be greater than zero');
+            client.notification(interaction, 'amount must be greater than zero');
             return;
         }
 
         if (amount > 100) {
-            client.userOnly(interaction, 'amount must not be greater than 100');
+            client.notification(interaction, 'amount must not be greater than 100');
             return;
         }
 

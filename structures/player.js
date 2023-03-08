@@ -1,11 +1,9 @@
-const Bibimbap = require('./Bibimbap');
 const { CommandInteraction } = require('discord.js')
 const { DisTube, Queue, Song } = require('distube');
 const { SpotifyPlugin } = require('@distube/spotify');
 const { YtDlpPlugin } = require("@distube/yt-dlp")
 
 class Player extends DisTube {
-
     /**
      * 
      * @param {Bibimbap} client 

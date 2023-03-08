@@ -1,10 +1,12 @@
 const fg = require('fast-glob');
-const { Client, GatewayIntentBits, Collection, CommandInteraction, VoiceChannel, userMention, inlineCode } = require('discord.js');
-const { Command } = require('./command');
-const { Event } = require('./event');
+const { Client, GatewayIntentBits, Collection, CommandInteraction, VoiceChannel, userMention, inlineCode, InteractionResponse } = require('discord.js');
+const { Command } = require('../helpers/command');
+const { Event } = require('../helpers/event');
 const { Player } = require('./player');
+const { Database } = require('../structures/database');
 
 class Bibimbap extends Client {
+
     constructor() {
         super({
             intents: [
@@ -18,18 +20,37 @@ class Bibimbap extends Client {
             ]
         })
 
+        this.instance = this;
+
+        /**
+         * mongoose database instance
+         * 
+         * @type {Database}
+         */
+        this.database = new Database();
+
+        this.voiceChannelCache = new Collection();
         this.commands = new Collection();
         this.player = new Player(this);
-    }
-
-    static instance() {
-        return new this();
     }
 
     init() {
         this.loadCommands();
         this.loadEvents();
+
+        this.database.connect(process.env.MONGO_URI);
+        this.loadSchemas();
+
         this.login(process.env.CLIENT_TOKEN).then(() => console.log('client is online'));
+    }
+
+    /**
+     * 
+     * @param {String} str
+     * @returns {Boolean}
+     */
+    isHex(str) {
+        return str.match(/^#[a-f0-9]{6}$/i) !== null;
     }
 
     /**
@@ -51,12 +72,13 @@ class Bibimbap extends Client {
     }
 
     /**
+     * send an ephemeral message to the channel where the interaction is being fired
      * 
      * @param {CommandInteraction} interaction 
      * @param {string} message 
-     * @returns {Promise<>}
+     * @returns {Promise<InteractionResponse>}
      */
-    userOnly(interaction, message) {
+    notification(interaction, message) {
         return interaction.reply({ content: message, ephemeral: true, });
     }
 
@@ -71,7 +93,7 @@ class Bibimbap extends Client {
 
     /**
      * 
-     * @returns {VoiceChannel | false}
+     * @returns {VoiceChannel|false}
      */
     getCurrentVoiceChannel(interaction) {
         return interaction.member?.voice?.channel;
@@ -100,24 +122,62 @@ class Bibimbap extends Client {
 
     loadCommands() {
         for (const path of fg.sync('./commands/**/*.js')) {
-            const file = require(`.${path}`);
-            this.loadCommand(file)
+            try {
+                const file = require(`.${path}`);
+                this.loadCommand(file)
+            } catch (err) {
+                console.log(`skipped ${path} due to: ${err}`)
+            }
         }
     }
 
     loadEvents() {
         for (const path of fg.sync('./events/**/*.js')) {
-            const file = require(`.${path}`);
-            this.loadEvent(file);
+            try {
+                const file = require(`.${path}`);
+                this.loadEvent(file);
+            } catch (err) {
+                console.log(`skipped ${path} due to: ${err}`)
+            }
         }
+    }
+
+    loadSchemas() {
+        for (const path of fg.sync('./models/*.js')) {
+            const file = require(`.${path}`);
+            this.database.set(file.name, file.model)
+        }
+    }
+
+    /**
+     * filters object undefined/null values and returns filtered
+     * 
+     * @param {Object} obj 
+     * @returns 
+     */
+    cleanObject(obj) {
+        const t = {};
+
+        for (const o in obj) {
+            if (obj[o] !== null && obj[o] !== undefined) {
+                t[o] = obj[o];
+            }
+        }
+
+        return t;
     }
 
     async registerCommands() {
         const slash = this.application?.commands;
         if (slash) {
-            await slash.set([...this.commands.values()]);
+            // await slash.set([...this.commands.values()]);
+            if (process.env.GUILD_ID) {
+                await this.application.commands.set([...this.commands.values()], process.env.GUILD_ID);
+            }
         }
     }
 }
 
-module.exports = Bibimbap;
+const client = new Bibimbap();
+
+module.exports = { client, Bibimbap };

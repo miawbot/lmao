@@ -1,6 +1,6 @@
-const Bibimbap = require('../../structs/Bibimbap');
+const { Bibimbap } = require('../../structures/bibimbap');
 const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
-const { Command } = require('../../structs/command');
+const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     name: 'remove',
@@ -32,7 +32,7 @@ module.exports = new Command({
         const song = songs[index];
 
         if (!song) {
-            client.userOnly(interaction, 'no song was found with this index in the queue');
+            client.notification(interaction, 'no song was found with this index in the queue');
             return;
         }
 

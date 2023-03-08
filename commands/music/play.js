@@ -1,6 +1,6 @@
-const Bibimbap = require('../../structs/Bibimbap');
+const { Bibimbap } = require('../../structures/bibimbap');
 const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
-const { Command } = require('../../structs/command');
+const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     name: 'play',

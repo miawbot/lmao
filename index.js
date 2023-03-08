@@ -1,4 +1,4 @@
 require('dotenv').config();
 
-const Bibimbap = require('./structs/Bibimbap');
-Bibimbap.instance().init();
+const { client } = require('./structures/Bibimbap');
+client.init();
