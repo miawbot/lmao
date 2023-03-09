@@ -1,5 +1,4 @@
 const { Bibimbap } = require('../../structures/bibimbap');
-const { PermissionFlagsBits, ChannelType } = require('discord.js');
 const { Event } = require('../../helpers/event');
 
 module.exports = new Event({
@@ -24,14 +23,8 @@ module.exports = new Event({
 
                 const voiceChannel = member.guild.channels.create({
                     name: `${member.user.username}'s channel`,
-                    type: ChannelType.GuildVoice,
                     parent: current.channel?.parentId || null,
-                    permissionOverwrites: [
-                        {
-                            id: member.id,
-                            allow: [PermissionFlagsBits.ManageChannels],
-                        }
-                    ]
+                    type: 2
                 });
 
                 voiceChannel.then((channel) => {
