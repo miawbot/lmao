@@ -3,20 +3,20 @@ const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'jointocreate',
-    description: 'set up a join-to-create voice channel',
+    name: 'temporaryvoice',
+    description: 'set up temporary voice channels',
     ownerOnly: true,
     options: [
         {
             type: ApplicationCommandOptionType.Channel,
             name: 'voice_channel',
-            description: 'provide a voice channel to act as a join-to-create voice channel',
+            description: 'provide a voice channel to act as a hook for temporary voice channels',
             channel_types: [2],
         },
         {
             type: ApplicationCommandOptionType.Boolean,
             name: 'enabled',
-            description: 'enable/disable join-to-create',
+            description: 'enable/disable temporary voice channels',
         },
     ],
 
@@ -26,7 +26,7 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {
-        const JoinToCreate = client.database.get('joinToCreate');
+        const JoinToCreate = client.database.get('temporaryVoiceChannel');
 
         const options = client.sanitizeObject({
             channelId: interaction.options.getChannel('voice_channel')?.id,
@@ -62,6 +62,6 @@ module.exports = new Command({
             if (err) return;
         });
 
-        interaction.reply(`join-to-create voice channel settings have been updated`);
+        interaction.reply(`temporary voice channel settings have been updated`);
     }
 })
