@@ -123,7 +123,7 @@ module.exports = new Command({
 
         if (subcommandGroup === 'message') {
             if (subcommand === 'embed') {
-                const options = client.cleanObject({
+                const options = client.sanitizeObject({
                     title: interaction.options.getString('title'),
                     description: interaction.options.getString('description'),
                     color: interaction.options.getString('color'),
@@ -186,7 +186,7 @@ module.exports = new Command({
                     }
                 });
 
-                const options = client.cleanObject({
+                const options = client.sanitizeObject({
                     channelId: interaction.options.getChannel('text_channel')?.id,
                     isEnabled: interaction.options.getBoolean('enabled'),
                 });
