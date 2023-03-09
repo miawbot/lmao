@@ -75,11 +75,11 @@ class Bibimbap extends Client {
      * send an ephemeral message to the channel where the interaction is being fired
      * 
      * @param {CommandInteraction} interaction 
-     * @param {string} message 
+     * @param {string} content 
      * @returns {Promise<InteractionResponse>}
      */
-    notification(interaction, message) {
-        return interaction.reply({ content: message, ephemeral: true, });
+    notification(interaction, content) {
+        return interaction.reply({ content, ephemeral: true, });
     }
 
     /**

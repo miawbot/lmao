@@ -3,8 +3,8 @@ const { Bibimbap } = require('../../structures/bibimbap');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'randomize',
-    description: 'randomizes queue',
+    name: 'shuffle',
+    description: 'shuffles queue',
     isPlayer: true,
     settings: {
         sharedVoiceChannel: true,
@@ -22,6 +22,6 @@ module.exports = new Command({
 
         client.player.randomizeQueue(queue);
 
-        interaction.reply('queue has been randomized');
+        interaction.reply('queue has been shuffled');
     },
 });
