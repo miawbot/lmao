@@ -25,9 +25,10 @@ module.exports = new Command({
      */
     callback(client, interaction) {
         const search = interaction.options.getString('search');
-        
-        client.player.playSong(interaction, search);
+        const voiceChannel = interaction.member.voice.channel;
 
-        interaction.reply(`searching ${client.inline(search)}`);
+        client.player.play(voiceChannel, search, { textChannel: interaction.channel, member: interaction.member })
+            .then(() => { interaction.reply(`searching ${client.inline(search)}`); })
+            .catch(() => { client.notification(interaction, 'request is invalid. try a different url or search term'); });
     },
 });

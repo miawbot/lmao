@@ -26,6 +26,8 @@ class Player extends DisTube {
                 })
             ]
         });
+
+        this.client = client;
     }
 
     /**
@@ -44,16 +46,6 @@ class Player extends DisTube {
      */
     skipSong(queue) {
         return queue.songs.length <= 1 ? queue.stop() : queue.skip();
-    }
-
-    /**
-     * 
-     * @param {CommandInteraction} interaction 
-     * @param {string} query 
-     */
-    async playSong(interaction, query) {
-        const voiceChannel = interaction.member.voice.channel;
-        await this.play(voiceChannel, query, { textChannel: interaction.channel, member: interaction.member, });
     }
 }
 
