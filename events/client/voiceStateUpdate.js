@@ -10,9 +10,9 @@ module.exports = new Event({
      * @param {Bibimbap} client 
      */
     callback(client, old, current) {
-        const JoinToCreate = client.database.get('joinToCreate');
+        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
 
-        JoinToCreate.findOne({ guildId: old.guild.id || current.guild.id }, function (err, doc) {
+        TemporaryVoiceChannel.findOne({ guildId: old.guild.id || current.guild.id }, function (err, doc) {
             if (err) return;
 
             if (!doc || !doc.isEnabled) {

@@ -26,7 +26,7 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {
-        const JoinToCreate = client.database.get('temporaryVoiceChannel');
+        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
 
         const options = client.sanitizeObject({
             channelId: interaction.options.getChannel('voice_channel')?.id,
@@ -45,7 +45,7 @@ module.exports = new Command({
             return;
         }
 
-        JoinToCreate.findOne({ guildId: interaction.guildId }, function (err, doc) {
+        TemporaryVoiceChannel.findOne({ guildId: interaction.guildId }, function (err, doc) {
             if (err) return;
 
             if (doc === null) {
@@ -54,7 +54,7 @@ module.exports = new Command({
             }
         })
 
-        JoinToCreate.findOneAndUpdate({ guildId: interaction.guildId }, { $set: options }, {
+        TemporaryVoiceChannel.findOneAndUpdate({ guildId: interaction.guildId }, { $set: options }, {
             upsert: true,
             new: true,
             setDefaultsOnInsert: true,
