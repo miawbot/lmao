@@ -1,5 +1,5 @@
 const { Bibimbap } = require('../../structures/bibimbap');
-const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
@@ -70,44 +70,44 @@ module.exports = new Command({
                 },
             ],
         },
-        // {
-        //     type: ApplicationCommandOptionType.SubcommandGroup,
-        //     name: 'role',
-        //     description: 'set up roles to be added to invited users alongside welcome messages',
-        //     options: [
-        //         {
-        //             type: ApplicationCommandOptionType.Subcommand,
-        //             name: 'add',
-        //             description: 'provide a role to be listed',
-        //             options: [
-        //                 {
-        //                     type: ApplicationCommandOptionType.Role,
-        //                     name: 'role',
-        //                     description: 'provide a role',
-        //                     required: true,
-        //                 },
-        //             ],
-        //         },
-        //         {
-        //             type: ApplicationCommandOptionType.Subcommand,
-        //             name: 'remove',
-        //             description: 'provide a role to removed from the list',
-        //             options: [
-        //                 {
-        //                     type: ApplicationCommandOptionType.Role,
-        //                     name: 'role',
-        //                     description: 'provide a role',
-        //                     required: true,
-        //                 },
-        //             ],
-        //         },
-        //         {
-        //             type: ApplicationCommandOptionType.Subcommand,
-        //             name: 'roles',
-        //             description: 'display configured welcome roles',
-        //         },
-        //     ],
-        // },
+        {
+            type: ApplicationCommandOptionType.SubcommandGroup,
+            name: 'role',
+            description: 'set up roles to be added to invited users alongside welcome messages',
+            options: [
+                {
+                    type: ApplicationCommandOptionType.Subcommand,
+                    name: 'add',
+                    description: 'provide a role to be listed',
+                    options: [
+                        {
+                            type: ApplicationCommandOptionType.Role,
+                            name: 'role',
+                            description: 'provide a role',
+                            required: true,
+                        },
+                    ],
+                },
+                {
+                    type: ApplicationCommandOptionType.Subcommand,
+                    name: 'remove',
+                    description: 'provide a role to removed from the list',
+                    options: [
+                        {
+                            type: ApplicationCommandOptionType.Role,
+                            name: 'role',
+                            description: 'provide a role',
+                            required: true,
+                        },
+                    ],
+                },
+                {
+                    type: ApplicationCommandOptionType.Subcommand,
+                    name: 'show',
+                    description: 'display configured welcome roles',
+                },
+            ],
+        },
     ],
 
     /**
@@ -201,6 +201,64 @@ module.exports = new Command({
 
                     interaction.reply('welcome message channel have been updated');
                     return;
+                });
+            }
+        }
+
+        const WelcomeRole = client.database.get('welcomeRole');
+
+        if (subcommandGroup === 'role') {
+            if (subcommand === 'add') {
+                const role = interaction.options.getRole('role');
+
+                WelcomeRole.findOne({ guildId: interaction.guildId, roleId: role.id }, function (err, doc) {
+                    if (err) return;
+
+                    if (doc) {
+                        client.notification(interaction, `role ${client.inline(role.name)} is already set as a welcome role`);
+                        return;
+                    }
+
+                    WelcomeRole.create({
+                        guildId: interaction.guildId,
+                        roleId: role.id,
+                    });
+
+                    interaction.reply(`added role ${client.inline(role.name)} to welcome roles`);
+                    return;
+                });
+            }
+
+            if (subcommand === 'remove') {
+                const role = interaction.options.getRole('role');
+
+                WelcomeRole.findOneAndDelete({ guildId: interaction.guildId, roleId: role.id, }, function (err, doc) {
+                    if (err) return;
+
+                    interaction.reply(`removed role ${client.inline(role.name)} from welcome roles`);
+                    return;
+                });
+            }
+
+            if (subcommand === 'show') {
+                WelcomeRole.find({ guildId: interaction.guildId }, function (err, doc) {
+                    if (err) return;
+
+                    let roles = [];
+
+                    if (doc) {
+                        for (const { roleId } of doc) {
+                            if (interaction.member.guild.roles.cache.get(roleId)) {
+                                roles.push(`<@&${roleId}>`);
+                            }
+                        }
+                    }
+
+                    const embed = new EmbedBuilder()
+                        .setTitle('welcome roles')
+                        .setDescription(roles.length ? `these are the set welcome roles: ${roles.join(', ')}` : `no roles found. use ${client.inline('/welcome roles add')} to add a welcome role`);
+
+                    interaction.reply({ embeds: [embed] });
                 });
             }
         }

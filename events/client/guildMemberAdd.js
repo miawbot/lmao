@@ -12,6 +12,15 @@ module.exports = new Event({
      */
     callback(client, member) {
         const WelcomeMessage = client.database.get('welcomeMessage');
+        const WelcomeRole = client.database.get('welcomeRole');
+
+        WelcomeRole.find({ guildId: member.guild.id }, function (err, doc) {
+            if (err) return;
+
+            if (doc) {
+                member.roles.add(doc.map((role) => role.roleId));
+            }
+        });
 
         WelcomeMessage.findOne({ guildId: member.guild.id }, function (err, doc) {
             if (err) return;
