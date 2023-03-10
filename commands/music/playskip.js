@@ -24,20 +24,16 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-     callback(client, interaction) {
-        const query = interaction.options.getString('search');
+    callback(client, interaction) {
+        const search = interaction.options.getString('search');
 
-        client.player.playSong(interaction.member.voice.channel, query, {
-            textChannel: interaction.channel,
-            member: interaction.member,
-            skip: true,
-        }, function (err) {
+        client.player.playSong(interaction, search, { textChannel: interaction.channel, member: interaction.member, skip: true }, function (err) {
             if (err) {
                 client.notification(interaction, 'something went wrong. try again');
                 return;
             }
 
-            interaction.reply(`searching ${client.inline(query)}`);
+            interaction.reply(`searching ${client.inline(search)}`);
         })
     },
 });
