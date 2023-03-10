@@ -25,13 +25,14 @@ module.exports = new Command({
      */
     async callback(client, interaction) {
         const search = interaction.options.getString('search');
-        const voiceChannel = interaction.member.voice.channel;
 
-        try {
-            await client.player.play(voiceChannel, search, { textChannel: interaction.channel, member: interaction.member });
+        client.player.playSong(interaction, search, function (err) {
+            if (err) {
+                client.notification(interaction, 'request is invalid. try a different url or search term');
+                return;
+            }
+
             interaction.reply(`searching ${client.inline(search)}`);
-        } catch (err) {
-            client.notification(interaction, 'request is invalid. try a different url or search term');
-        }
-    },
+        });
+    }
 });

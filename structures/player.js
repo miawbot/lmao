@@ -47,6 +47,22 @@ class Player extends DisTube {
     skipSong(queue) {
         return queue.songs.length <= 1 ? queue.stop() : queue.skip();
     }
+
+    /**
+     * 
+     * @param {CommandInteraction} interaction 
+     * @param {string} query 
+     * @param {Function} callback
+     */
+    async playSong(interaction, query, callback) {
+        const voiceChannel = interaction.member.voice.channel;
+        try {
+            await this.play(voiceChannel, query, { textChannel: interaction.channel, member: interaction.member });
+            callback(null);
+        } catch (err) {
+            callback(err);
+        }
+    }
 }
 
 module.exports = { Player };

@@ -79,7 +79,7 @@ class Bibimbap extends Client {
      * @returns {Promise<InteractionResponse>}
      */
     notification(interaction, content) {
-        return interaction.reply({ content, ephemeral: true, });
+        return interaction.reply({ content, ephemeral: true });
     }
 
     /**
