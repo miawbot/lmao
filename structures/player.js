@@ -1,5 +1,5 @@
 const { CommandInteraction } = require('discord.js')
-const { DisTube, Queue, Song } = require('distube');
+const { DisTube, Queue, Song, PlayOptions } = require('distube');
 const { SpotifyPlugin } = require('@distube/spotify');
 const { YtDlpPlugin } = require("@distube/yt-dlp")
 
@@ -52,12 +52,13 @@ class Player extends DisTube {
      * 
      * @param {CommandInteraction} interaction 
      * @param {string} query 
+     * @param {PlayOptions} options
      * @param {Function} callback
      */
-    async playSong(interaction, query, callback) {
+    async playSong(interaction, query, options, callback) {
         const voiceChannel = interaction.member.voice.channel;
         try {
-            await this.play(voiceChannel, query, { textChannel: interaction.channel, member: interaction.member });
+            await this.play(voiceChannel, query, { textChannel: interaction.channel, member: interaction.member, ...options });
             callback(null);
         } catch (err) {
             callback(err);

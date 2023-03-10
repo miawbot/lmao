@@ -26,13 +26,18 @@ module.exports = new Command({
      */
     async callback(client, interaction) {
         const query = interaction.options.getString('search');
-        
-        client.player.play(interaction.member.voice.channel, query, {
+
+        client.player.playSong(interaction.member.voice.channel, query, {
             textChannel: interaction.channel,
             member: interaction.member,
             skip: true,
-        });
+        }, function (err) {
+            if (err) {
+                client.notification(interaction, 'something went wrong. try again');
+                return;
+            }
 
-        interaction.reply(`searching ${client.inline(query)}`);
+            interaction.reply(`searching ${client.inline(query)}`);
+        })
     },
 });

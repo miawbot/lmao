@@ -26,7 +26,7 @@ module.exports = new Command({
     async callback(client, interaction) {
         const search = interaction.options.getString('search');
 
-        client.player.playSong(interaction, search, function (err) {
+        client.player.playSong(interaction, search, {}, function (err) {
             if (err) {
                 client.notification(interaction, 'request is invalid. try a different url or search term');
                 return;
