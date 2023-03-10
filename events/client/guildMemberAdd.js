@@ -36,10 +36,7 @@ module.exports = new Event({
                     return;
                 }
 
-                if (
-                    doc.color &&
-                    doc.color !== 'none'
-                ) {
+                if (doc.color) {
                     welcomeMessageEmbed.setColor(doc.color);
                 }
 

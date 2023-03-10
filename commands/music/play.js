@@ -23,12 +23,15 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    callback(client, interaction) {
+    async callback(client, interaction) {
         const search = interaction.options.getString('search');
         const voiceChannel = interaction.member.voice.channel;
 
-        client.player.play(voiceChannel, search, { textChannel: interaction.channel, member: interaction.member })
-            .then(() => { interaction.reply(`searching ${client.inline(search)}`); })
-            .catch(() => { client.notification(interaction, 'request is invalid. try a different url or search term'); });
+        try {
+            await client.player.play(voiceChannel, search, { textChannel: interaction.channel, member: interaction.member });
+            interaction.reply(`searching ${client.inline(search)}`);
+        } catch (err) {
+            client.notification(interaction, 'request is invalid. try a different url or search term');
+        }
     },
 });
