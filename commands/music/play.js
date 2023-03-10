@@ -23,7 +23,7 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    async callback(client, interaction) {
+    callback(client, interaction) {
         const search = interaction.options.getString('search');
 
         client.player.playSong(interaction, search, {}, function (err) {
