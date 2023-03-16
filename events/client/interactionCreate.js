@@ -19,7 +19,7 @@ module.exports = new Event({
         const voiceChannel = interaction.member?.voice?.channel;
 
         if (
-            command.getSetting('voiceChannel') &&
+            (command.getSetting('voiceChannel') && !voiceChannel) ||
             !voiceChannel
         ) {
             client.notification(interaction, 'this command cannot be used outside of a voice channel');
@@ -29,7 +29,7 @@ module.exports = new Event({
         if (
             command.getSetting('sharedVoiceChannel') &&
             client.voice.adapters.get(interaction.guildId) &&
-            !voiceChannel.members.has(client.user.id)
+            !voiceChannel?.members.has(client.user.id)
         ) {
             client.notification(interaction, 'this command can only be used in a voice channel where i am in');
             return;
