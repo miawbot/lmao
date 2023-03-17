@@ -56,15 +56,13 @@ class Player extends DisTube {
      * @param {Function} callback
      */
     playSong(interaction, query, options, callback) {
-        this.play(interaction.member.voice.channel, query, {
+        const play = this.play(interaction.member.voice.channel, query, {
             textChannel: interaction.channel,
             member: interaction.member,
             ...options
-        }).then(() => {
-            callback(null)
-        }).catch(() => {
-            callback(err)
-        });
+        })
+
+        play.then(() => callback(null)).catch((err) => callback(err));
     }
 }
 

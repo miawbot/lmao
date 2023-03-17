@@ -11,12 +11,12 @@ module.exports = new Event({
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {
-        if (!interaction.isCommand()) {
-            return;
-        }
+        if (!interaction.isCommand()) return;
 
         const command = client.getCommand(interaction.commandName);
         const voiceChannel = interaction.member?.voice?.channel;
+
+        if (!command) return;
 
         if (
             (command.getSetting('voiceChannel') && !voiceChannel) ||
