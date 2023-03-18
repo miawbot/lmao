@@ -28,16 +28,14 @@ module.exports = new Command({
 
         const search = interaction.options.getString('search');
 
-        console.error(search)
-
         client.player.playSong(interaction, search, {}, async (err) => {
             if (err) {
                 
                 var exmsg = "";
-                if (err.message) {
+                if (err?.message) {
                     exmsg += err.message;
                 }
-                if (err.stack) {
+                if (err?.stack) {
                     exmsg += ' | stack: ' + err.stack;
                 }
 
