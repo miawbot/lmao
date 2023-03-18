@@ -150,8 +150,8 @@ module.exports = new Command({
                             }
 
                             if (
-                                (options.color && client.isHex(options.color)) ||
-                                options.color === 'none'
+                                options.color &&
+                                client.isHex(options.color)
                             ) {
                                 client.notification(interaction, 'option color must be of a proper hex format');
                                 return;

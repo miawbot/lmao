@@ -18,7 +18,9 @@ module.exports = new Event({
             .find({ guildId: member.guild.id })
             .then((roles) => {
                 if (roles) {
-                    member.roles.add(roles.map(({ roleId }) => roleId))
+                    member.roles.add(
+                        roles.map(({ roleId }) => roleId)
+                    )
                 }
             });
 
@@ -26,43 +28,47 @@ module.exports = new Event({
             .findOne({ guildId: member.guild.id })
             .then((message) => {
                 if (message) {
-                    const textChannel = member.guild.channels.cache.get(message?.channelId);
-                    const welcomeMessageEmbed = new EmbedBuilder();
+                    const channel = member.guild.channels.cache.get(message?.channelId);
+                    const embed = new EmbedBuilder();
 
                     if (
                         !message.isEnabled ||
-                        !textChannel
+                        !channel
                     ) {
                         return;
                     }
 
                     if (message.color) {
-                        welcomeMessageEmbed.setColor(message.color);
+                        embed.setColor(message.color);
                     }
 
                     if (message.image) {
-                        welcomeMessageEmbed.setImage(message.image);
+                        embed.setImage(message.image);
                     }
 
                     if (message.footer) {
-                        welcomeMessageEmbed.setFooter({ text: message.footer });
+                        embed.setFooter({ text: message.footer });
                     }
 
                     if (message.timestamp) {
-                        welcomeMessageEmbed.setTimestamp();
+                        embed.setTimestamp();
                     }
 
                     if (message.title) {
-                        const title = message.title.replace(/{member}/gi, member.user.tag).replace(/{guild}/gi, member.guild.name);
-                        welcomeMessageEmbed.setTitle(title);
+                        embed.setTitle(message.title
+                            .replace(/{member}/gi, member.user.tag)
+                            .replace(/{guild}/gi, member.guild.name)
+                        );
                     }
 
                     if (message.description) {
-                        const description = message.description.replace(/{member}/gi, `<@${member.user.id}>`).replace(/{guild}/gi, member.guild.name);
-                        welcomeMessageEmbed.setDescription(description);
+                        embed.setDescription(message.description
+                            .replace(/{member}/gi, `<@${member.user.id}>`)
+                            .replace(/{guild}/gi, member.guild.name)
+                        );
                     }
 
-                    textChannel.send({ embeds: [welcomeMessageEmbed] });
+                    channel.send({ embeds: [embed] });
                 }
             })
     },
