@@ -31,11 +31,11 @@ module.exports = new Command({
         client.player.playSong(interaction, search, {}, async (err) => {
             if (err) {
                 var exmsg = "";
-                if (e.message) {
-                    exmsg += e.message;
+                if (err.message) {
+                    exmsg += err.message;
                 }
-                if (e.stack) {
-                    exmsg += ' | stack: ' + e.stack;
+                if (err.stack) {
+                    exmsg += ' | stack: ' + err.stack;
                 }
 
                 client.notification(interaction, 'request is invalid. try a different url or search term' + exmsg);
