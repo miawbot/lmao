@@ -30,6 +30,7 @@ module.exports = new Command({
 
         client.player.playSong(interaction, search, {}, async (err) => {
             if (err) {
+                
                 var exmsg = "";
                 if (err.message) {
                     exmsg += err.message;
