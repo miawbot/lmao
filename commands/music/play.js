@@ -30,7 +30,7 @@ module.exports = new Command({
 
         client.player.playSong(interaction, search, {}, async (err) => {
             if (err) {
-                client.notification(interaction, 'request is invalid. try a different url or search term' + exmsg);
+                client.notification(interaction, 'request is invalid. try a different url or search term');
                 return;
             }
 
