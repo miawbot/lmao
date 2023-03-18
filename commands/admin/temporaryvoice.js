@@ -38,29 +38,31 @@ module.exports = new Command({
             return;
         }
 
-        const voiceChannel = interaction.guild.channels.cache.get(options.channelId);
+        const vc = interaction.guild.channels.cache.get(options.channelId);
 
-        if (!voiceChannel) {
+        if (!vc) {
             client.notification(interaction, 'selected voice channel does not exist in this server');
             return;
         }
 
-        TemporaryVoiceChannel.findOne({ guildId: interaction.guildId }, function (err, doc) {
-            if (err) return;
+        TemporaryVoiceChannel
+            .findOne({ guildId: interaction.guildId })
+            .then((tvc) => {
+                if (tvc === null) {
+                    client.notification(interaction, 'cannot update setting, no voice channel has been configured');
+                    return;
+                }
+            })
 
-            if (doc === null) {
-                client.notification(interaction, 'cannot update setting, no voice channel has been configured');
-                return;
+        TemporaryVoiceChannel.findOneAndUpdate(
+            { guildId: interaction.guildId },
+            { $set: options },
+            {
+                upsert: true,
+                new: true,
+                setDefaultsOnInsert: true,
             }
-        })
-
-        TemporaryVoiceChannel.findOneAndUpdate({ guildId: interaction.guildId }, { $set: options }, {
-            upsert: true,
-            new: true,
-            setDefaultsOnInsert: true,
-        }, function (err, doc) {
-            if (err) return;
-        });
+        )
 
         interaction.reply(`temporary voice channel settings have been updated`);
     }
