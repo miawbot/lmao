@@ -10,7 +10,7 @@ module.exports = new Event({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    callback(client, interaction) {
+    async callback(client, interaction) {
         if (!interaction.isCommand()) return;
 
         const command = client.getCommand(interaction.commandName);
@@ -44,7 +44,7 @@ module.exports = new Event({
         }
 
         try {
-            command.callback(client, interaction);
+            await command.callback(client, interaction);
         } catch (err) {
             console.log(`something went wrong: ${err}`)
         }

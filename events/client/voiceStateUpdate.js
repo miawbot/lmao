@@ -14,9 +14,7 @@ module.exports = new Event({
         TemporaryVoiceChannel.findOne({ guildId: old.guild.id || current.guild.id }, function (err, doc) {
             if (err) return;
 
-            if (!doc || !doc.isEnabled) {
-                return
-            };
+            if (!doc || !doc.isEnabled) return;
 
             if (current?.channelId === doc.channelId) {
                 const member = current.member;

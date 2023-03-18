@@ -20,7 +20,9 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    callback(client, interaction) {
+    async callback(client, interaction) {
+        await interaction.deferReply();
+
         const amount = interaction.options.getNumber("amount");
 
         if (amount < 1) {
@@ -33,8 +35,8 @@ module.exports = new Command({
             return;
         }
 
-        interaction.channel.bulkDelete(amount, true);
+        await interaction.channel.bulkDelete(amount, true);
 
-        interaction.reply(`i have deleted ${client.inline(amount)} messages`);
+        await interaction.reply(`i have deleted ${client.inline(amount)} messages`);
     }
 })
