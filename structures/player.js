@@ -67,6 +67,7 @@ class Player extends DisTube {
 
             await callback(null)
         } catch (err) {
+            console.error(err)
             callback(err)
         }
     }

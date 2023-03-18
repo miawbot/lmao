@@ -30,15 +30,6 @@ module.exports = new Command({
 
         client.player.playSong(interaction, search, {}, async (err) => {
             if (err) {
-                
-                var exmsg = "";
-                if (err?.message) {
-                    exmsg += err.message;
-                }
-                if (err?.stack) {
-                    exmsg += ' | stack: ' + err.stack;
-                }
-
                 client.notification(interaction, 'request is invalid. try a different url or search term' + exmsg);
                 return;
             }
