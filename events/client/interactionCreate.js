@@ -23,7 +23,7 @@ module.exports = new Event({
         };
 
         if (
-            (command.getSetting('voiceChannel') && !voiceChannel) ||
+            command.getSetting('voiceChannel') &&
             !voiceChannel
         ) {
             client.notification(interaction, 'this command cannot be used outside of a voice channel');
