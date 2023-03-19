@@ -9,7 +9,7 @@ module.exports = new Event({
      * @param {Bibimbap} client 
      */
     async callback(client, old, current) {
-        const tvc = client.database
+        const tvc = await client.database
             .get('temporaryVoiceChannel')
             .findOne({ guildId: old.guild.id || current.guild.id });
 

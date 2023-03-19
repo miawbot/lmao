@@ -25,7 +25,7 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    callback(client, interaction) {
+    async callback(client, interaction) {
         const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
 
         const options = client.sanitizeObject({
@@ -54,7 +54,7 @@ module.exports = new Command({
                 }
             })
 
-        TemporaryVoiceChannel.findOneAndUpdate(
+        await TemporaryVoiceChannel.findOneAndUpdate(
             { guildId: interaction.guildId },
             { $set: options },
             {
