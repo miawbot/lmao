@@ -17,7 +17,9 @@ module.exports = new Command({
      * @param {Bibimbap} client 
      * @param {CommandInteraction} interaction 
      */
-    callback(client, interaction) {
+    async callback(client, interaction) {
+        await interaction.deferReply()
+
         const queue = client.player.getQueue(interaction.guildId);
         const songs = { queued: [] };
 
@@ -42,7 +44,7 @@ module.exports = new Command({
                 },
             );
 
-        interaction.reply({ embeds: [embed] });
+        await interaction.editReply({ embeds: [embed] });
     },
 },
 );

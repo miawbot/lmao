@@ -29,13 +29,18 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
+        await interaction.deferReply();
+
         const search = interaction.options.getString('search');
         const skip = interaction.options.getBoolean('skip');
 
         try {
             client.notification(interaction, `searching ${client.inline(search)}`);
 
-            await client.player.playSong(interaction, search, skip ? { skip: true } : {});
+            await client.player.playSong(interaction, search, skip
+                ? { skip: true }
+                : {}
+            );
         } catch (err) {
             client.notification(interaction, 'request is invalid. try a different url or search term');
             return;
