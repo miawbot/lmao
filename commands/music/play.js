@@ -42,7 +42,7 @@ module.exports = new Command({
                 : {}
             );
         } catch (err) {
-            client.notification(interaction, 'request is invalid. try a different url or search term');
+            client.notification(interaction, 'hmm... something went wrong. maybe try again?');
             return;
         }
     }

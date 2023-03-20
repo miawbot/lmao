@@ -35,7 +35,7 @@ module.exports = new Event({
             client.voice.adapters.get(interaction.guildId) &&
             !voiceChannel?.members.has(client.user.id)
         ) {
-            client.notification(interaction, 'this command can only be used in a voice channel where i am in');
+            client.notification(interaction, 'this command can only be used in a voice channel where i am in silly');
             return;
         }
 
