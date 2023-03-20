@@ -18,10 +18,10 @@ class Player extends DisTube {
             leaveOnFinish: false,
             leaveOnStop: true,
             plugins: [
-                new YtDlpPlugin({ update: true }),
+                new YtDlpPlugin({ update: false }),
                 new SpotifyPlugin({
                     parallel: false ,
-                    emitEventsAfterFetching: false,
+                    emitEventsAfterFetching: true,
                     api: { clientId: process.env.SPOTIFY_ID, clientSecret: process.env.SPOTIFY_SECRET },
                 })
             ]
