@@ -8,6 +8,7 @@ module.exports = new Command({
     isPlayer: true,
     settings: {
         sharedVoiceChannel: true,
+        voiceChannel: true,
     },
     options: [
         {
