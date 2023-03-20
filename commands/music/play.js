@@ -29,8 +29,6 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        await interaction.deferReply();
-
         const search = interaction.options.getString('search');
         const skip = interaction.options.getBoolean('skip');
 
