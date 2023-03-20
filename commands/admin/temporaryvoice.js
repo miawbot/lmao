@@ -3,7 +3,7 @@ const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'temporaryvoice',
+    name: 'temporary_voice',
     description: 'set up temporary voice channels',
     ownerOnly: true,
     options: [
