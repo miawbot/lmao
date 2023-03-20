@@ -30,8 +30,11 @@ module.exports = new Command({
         const regex = new RegExp('^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$');
         const seconds = (new Date(timestamp)).getSeconds();
 
+
+        console.log(seconds, !regex.test(timestamp))
+
         if (!regex.test(timestamp)) {
-            client.notification(interaction, 'timestamp is invalid' + seconds + !regex.test(timestamp))
+            client.notification(interaction, 'timestamp is invalid')
             return;
         }
 
