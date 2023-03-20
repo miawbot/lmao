@@ -53,21 +53,13 @@ class Player extends DisTube {
      * @param {CommandInteraction} interaction 
      * @param {string} query 
      * @param {PlayOptions} options
-     * @param {Function} callback
      */
-    async playSong(interaction, query, options, callback) {
-        try {
-            await this.play(interaction.member.voice.channel, query, {
-                textChannel: interaction.channel,
-                member: interaction.member,
-                ...options
-            })
-
-            await callback(null)
-        } catch (err) {
-            
-            callback(err)
-        }
+    async playSong(interaction, query, options = {}) {
+        return this.play(interaction.member.voice.channel, query, {
+            textChannel: interaction.channel,
+            member: interaction.member,
+            ...options
+        })
     }
 }
 

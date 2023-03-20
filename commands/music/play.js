@@ -16,6 +16,11 @@ module.exports = new Command({
             type: ApplicationCommandOptionType.String,
             required: true,
         },
+        {
+            name: 'skip',
+            description: 'skip current song and play requested song instead',
+            type: ApplicationCommandOptionType.Boolean,
+        }
     ],
 
     /**
@@ -27,14 +32,15 @@ module.exports = new Command({
         await interaction.deferReply();
 
         const search = interaction.options.getString('search');
+        const skip = interaction.options.getBoolean('skip');
 
-        client.player.playSong(interaction, search, {}, async (err) => {
-            if (err) {
-                client.notification(interaction, 'request is invalid. try a different url or search term' + err);
-                return;
-            }
+        try {
+            await client.player.playSong(interaction, search, skip ? { skip: true } : {});
+        } catch (err) {
+            client.notification(interaction, 'request is invalid. try a different url or search term');
+            return;
+        }
 
-            await interaction.editReply(`searching ${client.inline(search)}`);
-        });
+        await interaction.editReply(`searching ${client.inline(search)}`);
     }
 });
