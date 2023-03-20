@@ -37,12 +37,10 @@ module.exports = new Command({
         client.notification(interaction, `searching ${client.inline(search)}`, { epheremal: false });
 
         try {
-            await client.player.playSong(interaction, search, skip
-                ? { skip: true }
-                : {}
-            );
+            await client.player.playSong(interaction, search, skip ? { skip: true } : {});
         } catch (err) {
-            client.notification(interaction, 'hmm... something went wrong. maybe try again?');
+            console.error(err);
+            client.notification(interaction, 'hmm something went wrong. maybe try again?');
             return;
         }
     }
