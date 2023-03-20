@@ -28,10 +28,10 @@ module.exports = new Command({
     callback(client, interaction) {
         const timestamp = interaction.options.getString('timestamp');
         const regex = new RegExp('^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$');
-        const seconds = (new Date(timestamp)).getSeconds();
+        const seconds = new Date(timestamp);
 
 
-        console.log(seconds, !regex.test(timestamp))
+        console.log(seconds, seconds.getSeconds(), timestamp, !regex.test(timestamp))
 
         if (!regex.test(timestamp)) {
             client.notification(interaction, 'timestamp is invalid')
