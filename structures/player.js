@@ -18,7 +18,7 @@ class Player extends DisTube {
             leaveOnFinish: false,
             leaveOnStop: true,
             plugins: [
-                new YtDlpPlugin({ update: false }),
+                new YtDlpPlugin({ update: true }),
                 new SpotifyPlugin({
                     parallel: false ,
                     emitEventsAfterFetching: false,
