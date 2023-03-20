@@ -1,24 +1,16 @@
 const { Bibimbap } = require('../../structures/bibimbap');
-const { CommandInteraction, ApplicationCommandOptionType } = require('discord.js');
+const { CommandInteraction } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'seek',
-    description: 'seek timestamp in song',
+    name: 'pause',
+    description: 'pause playback',
     isPlayer: true,
     settings: {
         sharedVoiceChannel: true,
         voiceChannel: true,
         queueNotEmpty: true,
     },
-    options: [
-        {
-            name: 'timestamp',
-            description: 'provide a timestamp',
-            type: ApplicationCommandOptionType.String,
-            required: true,
-        },
-    ],
 
     /**
      * 
@@ -26,16 +18,14 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {
-        const timestamp = interaction.options.getString('timestamp');
-        const regex = new RegExp('^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$');
-        const seconds = (new Date(timestamp)).getSeconds();
+        const queue = client.player.getQueue(interaction.guildId);
 
-        if (!regex.test(timestamp) || !seconds) {
-            client.notification(interaction, 'timestamp is invalid')
+        if (queue.paused) {
+            client.notification(interaction, 'queue is already paused');
             return;
         }
 
-        client.player.seek(seconds);
+        client.player.pause(interaction.guildId);
 
         interaction.reply('queue has been paused');
     },
