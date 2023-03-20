@@ -35,7 +35,7 @@ module.exports = new Command({
         const skip = interaction.options.getBoolean('skip');
 
         try {
-            await interaction.editReply(interaction, `searching ${client.inline(search)}`);
+            client.notification(interaction, `searching ${client.inline(search)}`, { epheremal: false });
 
             await client.player.playSong(interaction, search, skip
                 ? { skip: true }

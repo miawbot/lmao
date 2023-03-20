@@ -76,17 +76,18 @@ class Bibimbap extends Client {
      * 
      * @param {CommandInteraction} interaction 
      * @param {string} content 
+     * @param {string[]} options
      * @returns {Promise<InteractionResponse>}
      */
-    notification(interaction, content) {
+    notification(interaction, content, options = { ephemeral: true }) {
         if (
             interaction.deferred ||
             interaction.replied
         ) {
-            return interaction.editReply({ content, ephemeral: true })
+            return interaction.editReply({ content, ...options })
         }
 
-        return interaction.reply({ content, ephemeral: true });
+        return interaction.reply({ content, ...options });
     }
 
     /**
