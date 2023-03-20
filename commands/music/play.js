@@ -35,11 +35,9 @@ module.exports = new Command({
         const skip = interaction.options.getBoolean('skip');
 
         try {
-            await client.player
-                .playSong(interaction, search, skip ? { skip: true } : {})
-                .then(() => {
-                    interaction.editReply(`searching ${client.inline(search)}`)
-                });
+            client.notification(interaction, `searching ${client.inline(search)}`);
+
+            await client.player.playSong(interaction, search, skip ? { skip: true } : {});
         } catch (err) {
             client.notification(interaction, 'request is invalid. try a different url or search term');
             return;
