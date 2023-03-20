@@ -40,7 +40,7 @@ module.exports = new Command({
         const minutes = interaction.options.getNumber('minutes') || 0;
         const hours = interaction.options.getNumber('hours') || 0;
 
-        client.player.seek((hours * 3600) + (minutes * 60) + seconds);
+        client.player.seek(interaction, (hours * 3600) + (minutes * 60) + seconds);
 
         interaction.reply('song has been seeked to timestamp');
     },
