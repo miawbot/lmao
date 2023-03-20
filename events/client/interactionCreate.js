@@ -11,15 +11,19 @@ module.exports = new Event({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        if (!interaction.isCommand()) return;
+        if (!interaction.isCommand()) {
+            return
+        };
 
         const command = client.getCommand(interaction.commandName);
         const voiceChannel = interaction.member?.voice?.channel;
 
-        if (!command) return;
+        if (!command) {
+            return
+        };
 
         if (
-            (command.getSetting('voiceChannel') && !voiceChannel) ||
+            command.getSetting('voiceChannel') &&
             !voiceChannel
         ) {
             client.notification(interaction, 'this command cannot be used outside of a voice channel');
@@ -46,7 +50,7 @@ module.exports = new Event({
         try {
             await command.callback(client, interaction);
         } catch (err) {
-            console.log(`something went wrong: ${err}`)
+            console.error(`something went wrong: ${err}`)
         }
     }
 });

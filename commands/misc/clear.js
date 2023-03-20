@@ -21,8 +21,6 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        await interaction.deferReply();
-
         const amount = interaction.options.getNumber("amount");
 
         if (amount < 1) {

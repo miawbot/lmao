@@ -8,35 +8,37 @@ module.exports = new Event({
      * 
      * @param {Bibimbap} client 
      */
-    callback(client, old, current) {
-        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
+    async callback(client, old, current) {
+        const tvc = await client.database
+            .get('temporaryVoiceChannel')
+            .findOne({ guildId: old.guild.id || current.guild.id });
 
-        TemporaryVoiceChannel.findOne({ guildId: old.guild.id || current.guild.id }, function (err, doc) {
-            if (err) return;
+        if (
+            !tvc ||
+            !tvc.isEnabled
+        ) {
+            return
+        };
 
-            if (!doc || !doc.isEnabled) return;
+        if (current?.channelId === tvc.channelId) {
+            const member = current.member;
 
-            if (current?.channelId === doc.channelId) {
-                const member = current.member;
+            const vc = await member.guild.channels.create({
+                name: `${member.user.username}'s channel`,
+                parent: current.channel?.parentId || null,
+                type: 2
+            });
 
-                const voiceChannel = member.guild.channels.create({
-                    name: `${member.user.username}'s channel`,
-                    parent: current.channel?.parentId || null,
-                    type: 2
-                });
+            client.voiceChannelCache.set(vc.id, member);
+            
+            member.voice.setChannel(vc.id);
+        }
 
-                voiceChannel.then((channel) => {
-                    client.voiceChannelCache.set(channel.id, member);
-                    member.voice.setChannel(channel.id);
-                })
-            }
-
-            if (
-                client.voiceChannelCache.get(old.channelId) &&
-                !old.channel.members.size
-            ) {
-                old.channel.delete();
-            }
-        })
+        if (
+            client.voiceChannelCache.get(old.channelId) &&
+            !old.channel.members.size
+        ) {
+            old.channel.delete();
+        }
     },
 });
