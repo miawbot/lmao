@@ -223,8 +223,8 @@ module.exports = new Command({
                         guildId: interaction.guildId,
                         roleId: role.id
                     })
-                    .then((role) => {
-                        if (role) {
+                    .then((document) => {
+                        if (document) {
                             client.notification(interaction, `role ${client.inline(role.name)} is already set as a welcome role`);
                             return;
                         }
