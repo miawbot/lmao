@@ -1,6 +1,6 @@
 const { Command } = require('../../helpers/command');
 const { EmbedBuilder, CommandInteraction } = require('discord.js');
-const { Bibimbap } = require('../../structures/bibimbap');
+const { Topokki } = require('../../structures/bibimbap');
 
 module.exports = new Command({
     name: 'nowplaying',
@@ -14,7 +14,7 @@ module.exports = new Command({
 
     /**
      * 
-     * @param {Bibimbap} client 
+     * @param {Topokki} client 
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {

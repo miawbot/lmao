@@ -79,7 +79,7 @@ class Command extends CommandType {
 
         /**
          * 
-         * @param {Bibimbap} client
+         * @param {Topokki} client
          * @param {CommandInteraction} interaction
          */
         this.callback = data.callback;

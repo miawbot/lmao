@@ -1,4 +1,4 @@
-const { Bibimbap } = require('../../structures/bibimbap');
+const { Topokki } = require('../../structures/bibimbap');
 const { Event } = require('../../helpers/event');
 const { CommandInteraction } = require('discord.js');
 
@@ -7,7 +7,7 @@ module.exports = new Event({
 
     /**
      * 
-     * @param {Bibimbap} client 
+     * @param {Topokki} client 
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {

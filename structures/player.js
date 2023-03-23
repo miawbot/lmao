@@ -6,7 +6,7 @@ const { YtDlpPlugin } = require("@distube/yt-dlp")
 class Player extends DisTube {
     /**
      * 
-     * @param {Bibimbap} client 
+     * @param {Topokki} client 
      */
     constructor(client) {
         super(client, {

@@ -1,4 +1,4 @@
-const { Bibimbap } = require('../../structures/bibimbap');
+const { Topokki } = require('../../structures/bibimbap');
 const { Event } = require('../../helpers/event');
 
 module.exports = new Event({
@@ -6,7 +6,7 @@ module.exports = new Event({
 
     /**
      * 
-     * @param {Bibimbap} client 
+     * @param {Topokki} client 
      */
     callback(client) {
         client.registerCommands().then(() => console.log('loaded commands'));

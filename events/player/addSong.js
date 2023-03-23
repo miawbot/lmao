@@ -1,6 +1,6 @@
 const { Event } = require('../../helpers/event');
 const { EmbedBuilder } = require('discord.js');
-const { Bibimbap } = require('../../structures/bibimbap');
+const { Topokki } = require('../../structures/topokki');
 const { Queue, Song } = require('distube');
 
 module.exports = new Event({
@@ -9,7 +9,7 @@ module.exports = new Event({
 
     /**
      * 
-     * @param {Bibimbap} client 
+     * @param {Topokki} client 
      * @param {Queue} queue 
      * @param {Song} song 
      */

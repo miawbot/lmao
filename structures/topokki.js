@@ -3,9 +3,9 @@ const { Client, GatewayIntentBits, Collection, CommandInteraction, VoiceChannel,
 const { Command } = require('../helpers/command');
 const { Event } = require('../helpers/event');
 const { Player } = require('./player');
-const { Database } = require('../structures/database');
+const { Database } = require('./database');
 
-class Bibimbap extends Client {
+class Topokki extends Client {
 
     constructor() {
         super({
@@ -189,6 +189,6 @@ class Bibimbap extends Client {
     }
 }
 
-const client = new Bibimbap();
+const client = new Topokki();
 
-module.exports = { client, Bibimbap };
+module.exports = { client, Topokki };
