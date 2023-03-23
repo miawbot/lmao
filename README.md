@@ -1,4 +1,4 @@
-# bibimbap
+# @topokki
 A moderation and entertainment oriented @discord.js bot.
 
 ## Features
