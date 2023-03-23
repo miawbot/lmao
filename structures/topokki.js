@@ -1,5 +1,5 @@
 const fg = require('fast-glob');
-const { Client, GatewayIntentBits, Collection, CommandInteraction, VoiceChannel, userMention, inlineCode, InteractionResponse } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, CommandInteraction, VoiceChannel, userMention, inlineCode, InteractionResponse, roleMention, channelMention } = require('discord.js');
 const { Command } = require('../helpers/command');
 const { Event } = require('../helpers/event');
 const { Player } = require('./player');
@@ -28,6 +28,7 @@ class Topokki extends Client {
          * @type {Database}
          */
         this.database = new Database();
+        this.database.connect(process.env.MONGO_URI);
 
         this.voiceChannelCache = new Collection();
         this.commands = new Collection();
@@ -37,8 +38,6 @@ class Topokki extends Client {
     init() {
         this.loadCommands();
         this.loadEvents();
-
-        this.database.connect(process.env.MONGO_URI);
         this.loadSchemas();
 
         this.login(process.env.CLIENT_TOKEN).then(() => console.log('client is online'));
@@ -58,8 +57,12 @@ class Topokki extends Client {
      * @param {string} id 
      * @returns {string}
      */
-    mention(id) {
-        return userMention(id);
+    mention(type, id) {
+        return {
+            'channel': channelMention(id),
+            'role': roleMention(id),
+            'user': userMention(id),
+        }[type] ?? id;
     }
 
     /**
@@ -79,11 +82,8 @@ class Topokki extends Client {
      * @param {string[]} options
      * @returns {Promise<InteractionResponse>}
      */
-    notification(interaction, content, options = { ephemeral: true }) {
-        if (
-            interaction.deferred ||
-            interaction.replied
-        ) {
+    reply(interaction, content, options = { ephemeral: true }) {
+        if (interaction.deferred || interaction.replied) {
             return interaction.editReply({ content, ...options })
         }
 
@@ -158,20 +158,18 @@ class Topokki extends Client {
     }
 
     /**
-     * filters object undefined/null values and returns filtered
+     * option wrapper for easier use
      * 
-     * @param {Object} object 
-     * @returns 
+     * @param {CommandInteraction} interaction 
+     * @param {string[]} options 
+     * @returns
      */
-    sanitizeObject(object) {
+    options(interaction, options) {
         const temp = {};
-
-        for (const prop in object) {
-            if (
-                object[prop] !== null &&
-                object[prop] !== undefined
-            ) {
-                temp[prop] = object[prop];
+        for (let prop in options) {
+            prop = interaction.options.get(prop);
+            if (prop !== null && prop !== undefined) {
+                temp[prop] = prop;
             }
         }
 
@@ -182,9 +180,6 @@ class Topokki extends Client {
         const slash = this.application?.commands;
         if (slash) {
             await slash.set([...this.commands.values()]);
-            // if (process.env.GUILD_ID) {
-            //     await this.application.commands.set([...this.commands.values()], process.env.GUILD_ID);
-            // }
         }
     }
 }

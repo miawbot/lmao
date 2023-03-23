@@ -35,6 +35,6 @@ module.exports = new Command({
 
         await interaction.channel.bulkDelete(amount, true);
 
-        await interaction.reply(`i have deleted ${client.inline(amount)} messages`);
+        interaction.reply(`i have deleted ${client.inline(amount)} messages`);
     }
 })

@@ -20,7 +20,6 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {
-        const message = interaction.options.getString('message');
-        interaction.reply(message);
+        interaction.reply(interaction.options.getString('message'));
     }
 })

@@ -26,43 +26,39 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
-
-        const options = client.sanitizeObject({
-            channelId: interaction.options.getChannel('voice_channel')?.id,
-            isEnabled: interaction.options.getBoolean('enabled'),
-        })
+        const options = client.options(interaction, ['enabled', 'text_channel']);
 
         if (!Object.keys(options).length) {
-            client.notification(interaction, 'no options were provided');
+            client.reply(interaction, 'no options were provided');
             return;
         }
 
-        const vc = interaction.guild.channels.cache.get(options.channelId);
+        const $set = {
+            isEnabled: options.enabled,
+            channelId: options.text_channel.id
+        }
 
-        if (!vc) {
-            client.notification(interaction, 'selected voice channel does not exist in this server');
+        const channel = interaction.guild.channels.cache.get($set.channelId);
+
+        if (!channel) {
+            client.reply(interaction, 'selected voice channel does not exist in this server');
             return;
         }
 
-        TemporaryVoiceChannel
-            .findOne({ guildId: interaction.guildId })
-            .then((tvc) => {
-                if (tvc === null) {
-                    client.notification(interaction, 'cannot update setting, no voice channel has been configured');
-                    return;
-                }
-            })
+        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
 
-        await TemporaryVoiceChannel.findOneAndUpdate(
-            { guildId: interaction.guildId },
-            { $set: options },
-            {
-                upsert: true,
-                new: true,
-                setDefaultsOnInsert: true,
+        TemporaryVoiceChannel.findOne({ guildId: interaction.guildId }).then((channel) => {
+            if (!channel) {
+                client.reply(interaction, 'cannot update setting, no voice channel has been configured');
+                return;
             }
-        )
+        })
+
+        TemporaryVoiceChannel.findOneAndUpdate({ guildId: interaction.guildId }, { $set }, {
+            upsert: true,
+            new: true,
+            setDefaultsOnInsert: true,
+        })
 
         interaction.reply(`temporary voice channel settings have been updated`);
     }

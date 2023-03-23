@@ -123,92 +123,72 @@ module.exports = new Command({
 
         if (subcommandGroup === 'message') {
             if (subcommand === 'embed') {
-                const options = client.sanitizeObject({
-                    title: interaction.options.getString('title'),
-                    description: interaction.options.getString('description'),
-                    color: interaction.options.getString('color'),
-                    image: interaction.options.getString('image'),
-                    footer: interaction.options.getString('footer'),
-                    timestamp: interaction.options.getBoolean('timestamp'),
-                });
+                const options = client.options(interaction, ['title', 'description', 'color', 'image', 'footer', 'timestamp']);
 
                 if (!Object.keys(options).length) {
-                    client.notification(interaction, 'no options were provided');
+                    client.reply(interaction, 'no options were provided');
                     return;
                 }
 
-                WelcomeMessage
-                    .findOne({ guildId: interaction.guildId })
-                    .then((message) => {
-                        if (message === null) {
-                            if (
-                                !options.description ||
-                                !options.title
-                            ) {
-                                client.notification(interaction, 'there must be at least one description and title inside the welcome message embed');
-                                return;
-                            }
-
-                            if (
-                                options.color &&
-                                client.isHex(options.color)
-                            ) {
-                                client.notification(interaction, 'option color must be of a proper hex format');
-                                return;
-                            }
-
-                            WelcomeMessage.create({
-                                guildId: interaction.guildId,
-                                isEnabled: true,
-                                ...options,
-                            });
-
-                            interaction.reply('welcome message embed has been created');
+                WelcomeMessage.findOne({ guildId: interaction.guildId }).then((message) => {
+                    if (message === null) {
+                        if (
+                            !options.description ||
+                            !options.title
+                        ) {
+                            client.reply(interaction, 'there must be at least one description and title inside the welcome message embed');
                             return;
                         }
 
-                        WelcomeMessage
-                            .findOneAndUpdate(
-                                { guildId: interaction.guildId },
-                                { $set: options },
-                                {}
-                            )
-                            .then(() => {
-                                interaction.reply('welcome message embed has been updated');
-                                return;
-                            });
+                        if (
+                            options.color &&
+                            client.isHex(options.color)
+                        ) {
+                            client.reply(interaction, 'option color must be of a proper hex format');
+                            return;
+                        }
+
+                        WelcomeMessage.create({
+                            guildId: interaction.guildId,
+                            isEnabled: true,
+                            ...options,
+                        });
+
+                        interaction.reply('welcome message embed has been created');
+                        return;
+                    }
+
+                    WelcomeMessage.findOneAndUpdate({ guildId: interaction.guildId }, { $set: options }).then(() => {
+                        interaction.reply('welcome message embed has been updated');
+                        return;
                     });
+                });
             }
 
             if (subcommand === 'channel') {
-                WelcomeMessage
-                    .findOne({ guildId: interaction.guildId })
-                    .then((message) => {
-                        if (message === null) {
-                            client.notification(interaction, 'this command is not available since no welcome message embed has been set');
-                            return;
-                        }
-                    });
-
-                const options = client.sanitizeObject({
-                    channelId: interaction.options.getChannel('text_channel')?.id,
-                    isEnabled: interaction.options.getBoolean('enabled'),
-                });
+                const options = client.options(interaction, ['enabled', 'text_channel']);
 
                 if (!Object.keys(options).length) {
-                    client.notification(interaction, 'no options were provided');
+                    client.reply(interaction, 'no options were provided');
                     return;
                 }
 
-                WelcomeMessage
-                    .findOneAndUpdate(
-                        { guildId: interaction.guildId },
-                        { $set: options },
-                        {}
-                    ).then(() => {
-                        interaction.reply('welcome message channel have been updated');
+                WelcomeMessage.findOne({ guildId: interaction.guildId }).then((message) => {
+                    if (!message) {
+                        client.reply(interaction, 'this command is not available since no welcome message embed has been set');
                         return;
-                    });
+                    }
+                });
+
+                const $set = {
+                    isEnabled: options.enabled,
+                    channelId: options.text_channel.id
+                }
+
+                WelcomeMessage.findOneAndUpdate({ guildId: interaction.guildId }, { $set }).then(() => {
+                    interaction.reply('welcome message channel have been updated');
+                    return;
+                });
             }
         }
 
@@ -216,66 +196,55 @@ module.exports = new Command({
 
         if (subcommandGroup === 'role') {
             if (subcommand === 'add') {
-                const role = interaction.options.getRole('role');
+                const options = client.options(interaction, ['role']);
+                const roleId = options.role.id;
 
-                WelcomeRole
-                    .findOne({
-                        guildId: interaction.guildId,
-                        roleId: role.id
-                    })
-                    .then((document) => {
-                        if (document) {
-                            client.notification(interaction, `role ${client.inline(role.name)} is already set as a welcome role`);
-                            return;
-                        }
+                WelcomeRole.findOne({ guildId: interaction.guildId, roleId }).then((role) => {
+                    if (role) {
+                        client.reply(interaction, `role ${client.inline(role.name)} is already set as a welcome role`);
+                        return;
+                    }
 
-                        WelcomeRole.create({
-                            guildId: interaction.guildId,
-                            roleId: role.id,
-                        });
-
+                    WelcomeRole.create({ guildId: interaction.guildId, roleId }).then(() => {
                         interaction.reply(`added role ${client.inline(role.name)} to welcome roles`);
                         return;
                     });
+                });
             }
 
             if (subcommand === 'remove') {
-                const role = interaction.options.getRole('role');
+                const options = client.options(interaction, ['role']);
 
-                WelcomeRole
-                    .findOneAndDelete({
-                        guildId: interaction.guildId,
-                        roleId: role.id,
-                    })
-                    .then(() => {
-                        interaction.reply(`removed role ${client.inline(role.name)} from welcome roles`);
-                        return;
-                    });
+                WelcomeRole.findOneAndDelete({ guildId: interaction.guildId, roleId: options.role.id, }).then(() => {
+                    interaction.reply(`removed role ${client.inline(options.role.name)} from welcome roles`);
+                    return;
+                });
             }
 
             if (subcommand === 'show') {
-                WelcomeRole
-                    .find({ guildId: interaction.guildId })
-                    .then((role) => {
-                        let roles = [];
+                WelcomeRole.find({ guildId: interaction.guildId }).then((_roles) => {
+                    let roles = [];
 
-                        if (role) {
-                            for (const { roleId } of role) {
-                                if (interaction.member.guild.roles.cache.get(roleId)) {
-                                    roles.push(`<@&${roleId}>`);
-                                }
+                    if (_roles) {
+                        for (const role of _roles) {
+                            if (interaction.member.guild.roles.cache.get(role.roleId)) {
+                                roles.push(client.mention('role', role.roleId));
                             }
                         }
+                    }
 
-                        const embed = new EmbedBuilder()
-                            .setTitle('welcome roles')
-                            .setDescription(roles.length
-                                ? `these are the set welcome roles: ${roles.join(', ')}`
-                                : `no roles found. use ${client.inline('/welcome roles add')} to add a welcome role`
-                            );
+                    let description = `these are the set welcome roles: ${roles.join(', ')}`;
 
-                        interaction.reply({ embeds: [embed] });
-                    });
+                    if (!roles.length) {
+                        description = `no roles found. use ${client.inline('/welcome roles add')} to add a welcome role`;
+                    }
+
+                    const embed = new EmbedBuilder()
+                        .setTitle('welcome roles')
+                        .setDescription(description);
+
+                    interaction.reply({ embeds: [embed] });
+                });
             }
         }
     },
