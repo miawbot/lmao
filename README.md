@@ -14,7 +14,7 @@ Suggestions or seen issues? Make an issue or merge request regarding referenced 
 ### Installation
 Clone the repo on your system.
 
-    git clone https://github.com/frogyushi/bibimbap
+    git clone https://github.com/frogyushi/topokki
 
 Then, navigate to the directory and install the npm packages.
 
