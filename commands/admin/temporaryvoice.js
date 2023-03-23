@@ -26,7 +26,10 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const options = client.options(interaction, ['enabled', 'text_channel']);
+        const options = client.getOptions(interaction, [
+            'enabled',
+            'text_channel'
+        ]);
 
         if (!Object.keys(options).length) {
             client.reply(interaction, 'no options were provided');

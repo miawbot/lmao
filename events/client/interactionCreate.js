@@ -15,7 +15,7 @@ module.exports = new Event({
             return
         };
 
-        const command = client.getCommand(interaction.commandName);
+        const command = client.commands.get(interaction.commandName);
         const voiceChannel = interaction.member?.voice?.channel;
 
         if (!command) {

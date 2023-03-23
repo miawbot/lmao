@@ -21,15 +21,7 @@ class Topokki extends Client {
         })
 
         this.instance = this;
-
-        /**
-         * mongoose database instance
-         * 
-         * @type {Database}
-         */
         this.database = new Database();
-        this.database.connect(process.env.MONGO_URI);
-
         this.voiceChannelCache = new Collection();
         this.commands = new Collection();
         this.player = new Player(this);
@@ -38,48 +30,56 @@ class Topokki extends Client {
     init() {
         this.loadCommands();
         this.loadEvents();
+
+        this.database.connect(process.env.MONGO_URI);
         this.loadSchemas();
 
         this.login(process.env.CLIENT_TOKEN).then(() => console.log('client is online'));
     }
 
     /**
+     * Check if string is hex
      * 
-     * @param {String} str
-     * @returns {Boolean}
+     * @param {String} str 
+     * @returns 
      */
     isHex(str) {
         return str.match(/^#[a-f0-9]{6}$/i) !== null;
     }
 
     /**
+     * Format string
      * 
-     * @param {string} id 
-     * @returns {string}
+     * @param {String} type 
+     * @param {String} id 
+     * @returns 
      */
     mention(type, id) {
-        return {
-            'channel': channelMention(id),
-            'role': roleMention(id),
-            'user': userMention(id),
-        }[type] ?? id;
+        const obj = {
+            channel: channelMention(id),
+            role: roleMention(id),
+            user: userMention(id)
+        }
+
+        return obj?.[type];
     }
 
     /**
+     * Format string
      * 
-     * @param {string} string 
-     * @returns {string}
+     * @param {String} string 
+     * @returns 
      */
     inline(string) {
         return inlineCode(string);
     }
 
     /**
-     * send an ephemeral message to the channel where the interaction is being fired
+     * Send a message to a channel where the author has interacted
      * 
      * @param {CommandInteraction} interaction 
-     * @param {string} content 
-     * @param {string[]} options
+     * @param {String} content 
+     * @param {Object} options
      * @returns {Promise<InteractionResponse>}
      */
     reply(interaction, content, options = { ephemeral: true }) {
@@ -91,36 +91,20 @@ class Topokki extends Client {
     }
 
     /**
+     * Get current voice channel
      * 
-     * @param {string} name 
-     * @returns {Command}
-     */
-    getCommand(name) {
-        return this.commands.get(name);
-    }
-
-    /**
-     * 
-     * @returns {VoiceChannel|false}
+     * @returns {VoiceChannel|null}
      */
     getCurrentVoiceChannel(interaction) {
         return interaction.member?.voice?.channel;
     }
 
-    /**
-     * 
-     * @param {Command} command 
-     */
     loadCommand(command) {
         if (command instanceof Command) {
             this.commands.set(command.name, command);
         }
     }
 
-    /**
-     * 
-     * @param {Event} event 
-     */
     loadEvent(event) {
         if (event instanceof Event) {
             const listener = event.isPlayer ? this.player : this;
@@ -130,23 +114,15 @@ class Topokki extends Client {
 
     loadCommands() {
         for (const path of fg.sync('./commands/**/*.js')) {
-            try {
-                const file = require(`.${path}`);
-                this.loadCommand(file)
-            } catch (err) {
-                console.log(`skipped ${path} due to: ${err}`)
-            }
+            const file = require(`.${path}`);
+            this.loadCommand(file)
         }
     }
 
     loadEvents() {
         for (const path of fg.sync('./events/**/*.js')) {
-            try {
-                const file = require(`.${path}`);
-                this.loadEvent(file);
-            } catch (err) {
-                console.log(`skipped ${path} due to: ${err}`)
-            }
+            const file = require(`.${path}`);
+            this.loadEvent(file);
         }
     }
 
@@ -157,19 +133,12 @@ class Topokki extends Client {
         }
     }
 
-    /**
-     * option wrapper for easier use
-     * 
-     * @param {CommandInteraction} interaction 
-     * @param {string[]} options 
-     * @returns
-     */
-    options(interaction, options) {
+    getOptions(interaction, options) {
         const temp = {};
-        for (let prop in options) {
-            prop = interaction.options.get(prop);
+        for (let _prop of options) {
+            let prop = interaction.options.get(_prop);
             if (prop !== null && prop !== undefined) {
-                temp[prop] = prop;
+                temp[prop.name] = prop.value;
             }
         }
 

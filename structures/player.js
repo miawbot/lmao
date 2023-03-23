@@ -31,15 +31,17 @@ class Player extends DisTube {
     }
 
     /**
+     * Shuffle queue
      * 
      * @param {Queue} queue 
      * @returns {Queue}
      */
-    async randomizeQueue(queue) {
+    async shuffleQueue(queue) {
         return await queue.shuffle();
     }
 
     /**
+     * Skip song
      * 
      * @param {Queue} queue 
      * @returns {Promise<Song>|null}
@@ -49,6 +51,7 @@ class Player extends DisTube {
     }
 
     /**
+     * Request a song
      * 
      * @param {CommandInteraction} interaction 
      * @param {string} query 

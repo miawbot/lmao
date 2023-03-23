@@ -20,7 +20,7 @@ module.exports = new Command({
     callback(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId);
 
-        client.player.randomizeQueue(queue);
+        client.player.shuffleQueue(queue);
 
         interaction.reply('queue has been shuffled');
     },

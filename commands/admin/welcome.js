@@ -123,7 +123,14 @@ module.exports = new Command({
 
         if (subcommandGroup === 'message') {
             if (subcommand === 'embed') {
-                const options = client.options(interaction, ['title', 'description', 'color', 'image', 'footer', 'timestamp']);
+                const options = client.getOptions(interaction, [
+                    'title',
+                    'description',
+                    'color',
+                    'image',
+                    'footer',
+                    'timestamp'
+                ]);
 
                 if (!Object.keys(options).length) {
                     client.reply(interaction, 'no options were provided');
@@ -166,7 +173,10 @@ module.exports = new Command({
             }
 
             if (subcommand === 'channel') {
-                const options = client.options(interaction, ['enabled', 'text_channel']);
+                const options = client.getOptions(interaction, [
+                    'enabled',
+                    'text_channel'
+                ]);
 
                 if (!Object.keys(options).length) {
                     client.reply(interaction, 'no options were provided');
@@ -175,7 +185,7 @@ module.exports = new Command({
 
                 WelcomeMessage.findOne({ guildId: interaction.guildId }).then((message) => {
                     if (!message) {
-                        client.reply(interaction, 'this command is not available since no welcome message embed has been set');
+                        client.reply(interaction, 'oops, welcome messages might be disabled or no embed has been set');
                         return;
                     }
                 });
@@ -196,7 +206,7 @@ module.exports = new Command({
 
         if (subcommandGroup === 'role') {
             if (subcommand === 'add') {
-                const options = client.options(interaction, ['role']);
+                const options = client.getOptions(interaction, ['role']);
                 const roleId = options.role.id;
 
                 WelcomeRole.findOne({ guildId: interaction.guildId, roleId }).then((role) => {
@@ -213,7 +223,7 @@ module.exports = new Command({
             }
 
             if (subcommand === 'remove') {
-                const options = client.options(interaction, ['role']);
+                const options = client.getOptions(interaction, ['role']);
 
                 WelcomeRole.findOneAndDelete({ guildId: interaction.guildId, roleId: options.role.id, }).then(() => {
                     interaction.reply(`removed role ${client.inline(options.role.name)} from welcome roles`);
