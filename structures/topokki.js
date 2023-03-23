@@ -133,6 +133,13 @@ class Topokki extends Client {
         }
     }
 
+    /**
+     * Filter command interaction options
+     * 
+     * @param {CommandInteraction} interaction 
+     * @param {String[]} options 
+     * @returns 
+     */
     getOptions(interaction, options) {
         const temp = {};
         for (let _prop of options) {
