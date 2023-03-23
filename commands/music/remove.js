@@ -32,7 +32,7 @@ module.exports = new Command({
         const song = songs[index];
 
         if (!song) {
-            client.notification(interaction, 'no song was found with this index in the queue');
+            client.reply(interaction, 'no song was found with this index in the queue');
             return;
         }
 

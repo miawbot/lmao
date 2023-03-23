@@ -24,12 +24,12 @@ module.exports = new Command({
         const amount = interaction.options.getNumber("amount");
 
         if (amount < 1) {
-            client.notification(interaction, 'amount must be greater than zero');
+            client.reply(interaction, 'amount must be greater than zero');
             return;
         }
 
         if (amount > 100) {
-            client.notification(interaction, 'amount must not be greater than 100');
+            client.reply(interaction, 'amount must not be greater than 100');
             return;
         }
 

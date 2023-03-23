@@ -35,13 +35,13 @@ module.exports = new Command({
         const search = interaction.options.getString('search');
         const skip = interaction.options.getBoolean('skip');
 
-        client.notification(interaction, `searching ${client.inline(search)}`, { epheremal: false });
+        client.reply(interaction, `searching ${client.inline(search)}`, { epheremal: false });
 
         try {
             await client.player.playSong(interaction, search, skip ? { skip: true } : {});
         } catch (err) {
             console.error(err);
-            client.notification(interaction, 'hmm something went wrong. maybe try again?');
+            client.reply(interaction, 'hmm something went wrong. maybe try again?');
             return;
         }
     }
