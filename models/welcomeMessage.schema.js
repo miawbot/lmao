@@ -1,4 +1,4 @@
-const { client } = require('../structures/bibimbap')
+const { client } = require('../structures/topokki')
 
 module.exports = client.database.schema('welcomeMessage', {
     guildId: { type: String, required: true, unique: true },

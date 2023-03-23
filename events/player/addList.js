@@ -1,5 +1,5 @@
 const { Playlist, Queue } = require('distube');
-const { Topokki } = require('../../structures/bibimbap');
+const { Topokki } = require('../../structures/topokki');
 const { Event } = require('../../helpers/event');
 
 module.exports = new Event({

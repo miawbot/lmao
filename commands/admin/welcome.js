@@ -1,4 +1,4 @@
-const { Topokki } = require('../../structures/bibimbap');
+const { Topokki } = require('../../structures/topokki');
 const { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { Command } = require('../../helpers/command');
 

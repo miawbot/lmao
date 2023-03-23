@@ -1,5 +1,5 @@
 {
-  "name": "bibimbap",
+  "name": "topokki",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -28,11 +28,11 @@
   "description": "A moderation and entertainment oriented @discord.js bot.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/frogyushi/bibimbap.git"
+    "url": "git+https://github.com/frogyushi/topokki.git"
   },
   "bugs": {
-    "url": "https://github.com/frogyushi/bibimbap/issues"
+    "url": "https://github.com/frogyushi/topokki/issues"
   },
-  "homepage": "https://github.com/frogyushi/bibimbap#readme",
+  "homepage": "https://github.com/frogyushi/topokki#readme",
   "devDependencies": {}
 }

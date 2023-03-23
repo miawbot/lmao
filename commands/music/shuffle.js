@@ -1,5 +1,5 @@
 const { CommandInteraction } = require('discord.js');
-const { Topokki } = require('../../structures/bibimbap');
+const { Topokki } = require('../../structures/topokki');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
