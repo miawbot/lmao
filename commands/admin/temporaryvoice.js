@@ -28,7 +28,7 @@ module.exports = new Command({
     async callback(client, interaction) {
         const options = client.getOptions(interaction, [
             'enabled',
-            'text_channel'
+            'voice_channel'
         ]);
 
         if (!Object.keys(options).length) {
@@ -36,9 +36,11 @@ module.exports = new Command({
             return;
         }
 
+        console.log(options)
+
         const $set = {
             isEnabled: options.enabled,
-            channelId: options.text_channel.id
+            channelId: options.voice_channel.id
         }
 
         const channel = interaction.guild.channels.cache.get($set.channelId);
