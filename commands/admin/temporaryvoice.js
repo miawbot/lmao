@@ -36,14 +36,14 @@ module.exports = new Command({
             return;
         }
 
-        console.log(options)
-
         const $set = {
             isEnabled: options.enabled,
             channelId: options.voice_channel.id
         }
 
         const channel = interaction.guild.channels.cache.get($set.channelId);
+
+        console.log(channel)
 
         if (!channel) {
             client.reply(interaction, 'selected voice channel does not exist in this server');
