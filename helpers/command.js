@@ -50,6 +50,7 @@ class CommandType {
 }
 
 class Command extends CommandType {
+    
     /**
      * 
      * @param {CommandType} data 

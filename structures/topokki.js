@@ -7,9 +7,12 @@ const { Database } = require('./database');
 
 class Topokki extends Client {
 
+    /**
+     * Topokki client
+     */
     constructor() {
         super({
-            intents: [
+            'intents': [
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.MessageContent,
                 GatewayIntentBits.GuildVoiceStates,
@@ -27,6 +30,9 @@ class Topokki extends Client {
         this.player = new Player(this);
     }
 
+    /**
+     * Load dependencies and other stuff 
+     */
     init() {
         this.loadCommands();
         this.loadEvents();
@@ -38,40 +44,34 @@ class Topokki extends Client {
     }
 
     /**
-     * Check if string is hex
+     * Validated command routing
      * 
-     * @param {String} str 
-     * @returns 
+     * @param {CommandInteraction} interaction 
+     * @param {String} group 
+     * @param {String} sub 
+     * @param {Function} callback
+     * @returns {Boolean}
      */
-    isHex(str) {
-        return str.match(/^#[a-f0-9]{6}$/i) !== null;
-    }
+    routing(interaction, group, sub = null) {
+        const _group = interaction.options.getSubcommandGroup();
+        const _sub = interaction.options.getSubcommand();
 
-    /**
-     * Format string
-     * 
-     * @param {String} type 
-     * @param {String} id 
-     * @returns 
-     */
-    mention(type, id) {
-        const obj = {
-            channel: channelMention(id),
-            role: roleMention(id),
-            user: userMention(id)
+        if (
+            _group === group &&
+            _sub === sub
+        ) {
+            return true;
         }
 
-        return obj?.[type];
-    }
+        if (
+            _group === null &&
+            sub === null &&
+            _sub === group
+        ) {
+            return true;
+        }
 
-    /**
-     * Format string
-     * 
-     * @param {String} string 
-     * @returns 
-     */
-    inline(string) {
-        return inlineCode(string);
+        return false;
     }
 
     /**
@@ -82,78 +82,70 @@ class Topokki extends Client {
      * @param {Object} options
      * @returns {Promise<InteractionResponse>}
      */
-    reply(interaction, content, options = { ephemeral: true }) {
-        if (interaction.deferred || interaction.replied) {
-            return interaction.editReply({ content, ...options })
-        }
+    reply(interaction, content, options = { 'ephemeral': true }) {
+        const { deferred, replied } = interaction;
 
-        return interaction.reply({ content, ...options });
+        const method = deferred || replied
+            ? 'editReply'
+            : 'reply';
+
+        return interaction[method]?.({ content, ...options });
     }
 
     /**
-     * Get current voice channel
+     * Removes keys with nullish and undefined values
      * 
-     * @returns {VoiceChannel|null}
-     */
-    getCurrentVoiceChannel(interaction) {
-        return interaction.member?.voice?.channel;
-    }
-
-    loadCommand(command) {
-        if (command instanceof Command) {
-            this.commands.set(command.name, command);
-        }
-    }
-
-    loadEvent(event) {
-        if (event instanceof Event) {
-            const listener = event.isPlayer ? this.player : this;
-            listener.on(event.name, (...args) => event.callback(this, ...args));
-        }
-    }
-
-    loadCommands() {
-        for (const path of fg.sync('./commands/**/*.js')) {
-            const file = require(`.${path}`);
-            this.loadCommand(file)
-        }
-    }
-
-    loadEvents() {
-        for (const path of fg.sync('./events/**/*.js')) {
-            const file = require(`.${path}`);
-            this.loadEvent(file);
-        }
-    }
-
-    loadSchemas() {
-        for (const path of fg.sync('./models/*.js')) {
-            const file = require(`.${path}`);
-            this.database.set(file.name, file.model)
-        }
-    }
-
-    /**
-     * Filter command interaction options
-     * 
-     * @param {CommandInteraction} interaction 
-     * @param {String[]} options 
+     * @param {Object} options 
      * @returns 
      */
-    getOptions(interaction, options) {
-        const temp = {};
-        for (let _prop of options) {
-            let prop = interaction.options.get(_prop);
-            if (prop !== null && prop !== undefined) {
-                temp[prop.name] = prop.value;
-            }
-        }
-
-        return temp;
+    sanitize(options) {
+        return Object.fromEntries(Object.entries(options).filter(([_, v]) => v != null || v != undefined));
     }
 
+    /**
+     * Load commands
+     */
+    async loadCommands() {
+        for (const f of await fg('./commands/**/*.js')) {
+            const cmd = require('.' + f);
+            if (cmd instanceof Command) {
+                this.commands.set(cmd.name, cmd);
+            };
+        }
+    }
+
+    /**
+     * Load events
+     */
+    async loadEvents() {
+        for (const f of await fg('./events/**/*.js')) {
+            const evt = require('.' + f);
+            if (evt instanceof Event) {
+                const _this = evt.isPlayer
+                    ? this.player
+                    : this;
+
+                _this.on(evt.name, (...args) => evt.callback(this, ...args));
+            }
+        }
+    }
+
+    /**
+     * Load Mongoose schemas
+     */
+    async loadSchemas() {
+        for (const f of await fg('./models/*.js')) {
+            const { name, model } = require('.' + f);
+            this.database.set(name, model)
+        }
+    }
+
+    /**
+     * Register commands to Discord
+     */
     async registerCommands() {
         const slash = this.application?.commands;
+
         if (slash) {
             await slash.set([...this.commands.values()]);
         }

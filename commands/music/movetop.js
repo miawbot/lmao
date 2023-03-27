@@ -1,22 +1,22 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, inlineCode } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'movetop',
-    description: 'move requested song to first position in queue',
-    isPlayer: true,
-    settings: {
-        sharedVoiceChannel: true,
-        voiceChannel: true,
-        queueNotEmpty: true,
+    'name': 'movetop',
+    'description': 'move requested song to first position in queue',
+    'isPlayer': true,
+    'settings': {
+        'sharedVoiceChannel': true,
+        'voiceChannel': true,
+        'queueNotEmpty': true,
     },
-    options: [
+    'options': [
         {
-            name: 'index',
-            description: 'provide a song index',
-            type: ApplicationCommandOptionType.Number,
-            required: true,
+            'name': 'index',
+            'description': 'provide a song index',
+            'type': ApplicationCommandOptionType.Number,
+            'required': true,
         },
     ],
 
@@ -27,8 +27,7 @@ module.exports = new Command({
      */
     callback(client, interaction) {
         const index = interaction.options.getNumber('index');
-
-        const songs = client.player.getQueue(interaction.guildId)?.songs ?? [];
+        const songs = client.player.getQueue(interaction.guildId)?.songs || [];
         const song = songs[index];
 
         if (!song) {
@@ -39,6 +38,6 @@ module.exports = new Command({
         songs.splice(index, 1);
         songs.splice(1, 0, song);
 
-        interaction.reply(`moved ${client.inline(song.name)} to first position in the queue`);
+        interaction.reply(`moved ${inlineCode(song.name)} to first position in the queue`);
     },
 });

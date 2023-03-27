@@ -3,7 +3,7 @@ const { Event } = require('../../helpers/event');
 const { CommandInteraction } = require('discord.js');
 
 module.exports = new Event({
-    name: 'interactionCreate',
+    'name': 'interactionCreate',
 
     /**
      * 

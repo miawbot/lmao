@@ -3,13 +3,13 @@ const { Topokki } = require('../../structures/topokki');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'shuffle',
-    description: 'shuffles queue',
-    isPlayer: true,
-    settings: {
-        sharedVoiceChannel: true,
-        voiceChannel: true,
-        queueNotEmpty: true,
+    'name': 'shuffle',
+    'description': 'shuffles queue',
+    'isPlayer': true,
+    'settings': {
+        'sharedVoiceChannel': true,
+        'voiceChannel': true,
+        'queueNotEmpty': true,
     },
 
     /**

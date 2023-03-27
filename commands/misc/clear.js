@@ -1,17 +1,17 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, inlineCode } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'clear',
-    description: 'remove a specified amount of messages in a given channel',
-    ownerOnly: true,
-    options: [
+    'name': 'clear',
+    'description': 'remove a specified amount of messages in a given channel',
+    'ownerOnly': true,
+    'options': [
         {
-            name: 'amount',
-            description: 'amount of messages to removed',
-            type: ApplicationCommandOptionType.Number,
-            required: true,
+            'name': 'amount',
+            'description': 'amount of messages to removed',
+            'type': ApplicationCommandOptionType.Number,
+            'required': true,
         },
     ],
 
@@ -35,6 +35,6 @@ module.exports = new Command({
 
         await interaction.channel.bulkDelete(amount, true);
 
-        interaction.reply(`i have deleted ${client.inline(amount)} messages`);
+        interaction.reply(`i have deleted ${inlineCode(amount)} messages`);
     }
 })

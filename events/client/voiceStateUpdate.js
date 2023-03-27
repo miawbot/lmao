@@ -2,36 +2,36 @@ const { Topokki } = require('../../structures/topokki');
 const { Event } = require('../../helpers/event');
 
 module.exports = new Event({
-    name: 'voiceStateUpdate',
+    'name': 'voiceStateUpdate',
 
     /**
      * 
      * @param {Topokki} client 
      */
     async callback(client, old, current) {
-        const tvc = await client.database
+        const temp = await client.database
             .get('temporaryVoiceChannel')
-            .findOne({ guildId: old.guild.id || current.guild.id });
+            .findOne({ 'guildId': old.guild.id || current.guild.id });
 
         if (
-            !tvc ||
-            !tvc.isEnabled
+            !temp ||
+            !temp.isEnabled
         ) {
-            return
+            return;
         };
 
-        if (current?.channelId === tvc.channelId) {
+        if (current?.channelId === temp.channelId) {
             const member = current.member;
 
-            const vc = await member.guild.channels.create({
-                name: `${member.user.username}'s channel`,
-                parent: current.channel?.parentId || null,
-                type: 2
+            const channel = await member.guild.channels.create({
+                'name': `${member.user.username}'s channel`,
+                'parent': current.channel?.parentId || null,
+                'type': 2
             });
 
-            client.voiceChannelCache.set(vc.id, member);
-            
-            member.voice.setChannel(vc.id);
+            client.voiceChannelCache.set(channel.id, member);
+            member.voice.setChannel(channel.id);
+            return;
         }
 
         if (
@@ -39,6 +39,7 @@ module.exports = new Event({
             !old.channel.members.size
         ) {
             old.channel.delete();
+            return;
         }
     },
 });

@@ -3,9 +3,9 @@ const { Topokki } = require('../../structures/topokki');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'stop',
-    description: 'stop queue and leave voice channel',
-    isPlayer: true,
+    'name': 'stop',
+    'description': 'stop queue and leave voice channel',
+    'isPlayer': true,
 
     /**
      * 

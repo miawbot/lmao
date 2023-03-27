@@ -3,20 +3,20 @@ const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'temporaryvoice',
-    description: 'set up temporary voice channels',
-    ownerOnly: true,
-    options: [
+    'name': 'temporaryvoice',
+    'description': 'set up temporary voice channels',
+    'ownerOnly': true,
+    'options': [
         {
-            type: ApplicationCommandOptionType.Channel,
-            name: 'voice_channel',
-            description: 'provide a voice channel to act as a hook for temporary voice channels',
-            channel_types: [2],
+            'type': ApplicationCommandOptionType.Channel,
+            'name': 'voice_channel',
+            'description': 'provide a voice channel to act as a hook for temporary voice channels',
+            'channel_types': [2],
         },
         {
-            type: ApplicationCommandOptionType.Boolean,
-            name: 'enabled',
-            description: 'enable/disable temporary voice channels',
+            'type': ApplicationCommandOptionType.Boolean,
+            'name': 'enabled',
+            'description': 'enable/disable temporary voice channels',
         },
     ],
 
@@ -26,44 +26,34 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const options = client.getOptions(interaction, [
-            'enabled',
-            'voice_channel'
-        ]);
+        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
+
+        const options = client.sanitize({
+            'isEnabled': interaction.options.getBoolean('enabled'),
+            'channelId': interaction.options.getChannel('voice_channel')?.id
+        });
 
         if (!Object.keys(options).length) {
             client.reply(interaction, 'no options were provided');
             return;
         }
 
-        const $set = {
-            isEnabled: options.enabled,
-            channelId: options.voice_channel.id
-        }
+        const channel = await TemporaryVoiceChannel.findOne({ 'guildId': interaction.guildId });
 
-        const channel = interaction.guild.channels.cache.get($set.channelId);
-
-        console.log(channel)
-
-        if (!channel) {
-            client.reply(interaction, 'selected voice channel does not exist in this server');
+        if (!channel && !options.channelId) {
+            client.reply(interaction, 'cannot update setting, no voice channel has been configured');
             return;
-        }
+        };
 
-        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
-
-        TemporaryVoiceChannel.findOne({ guildId: interaction.guildId }).then((channel) => {
-            if (!channel) {
-                client.reply(interaction, 'cannot update setting, no voice channel has been configured');
-                return;
-            }
-        })
-
-        TemporaryVoiceChannel.findOneAndUpdate({ guildId: interaction.guildId }, { $set }, {
-            upsert: true,
-            new: true,
-            setDefaultsOnInsert: true,
-        })
+        await TemporaryVoiceChannel.findOneAndUpdate(
+            { 'guildId': interaction.guildId },
+            { '$set': options },
+            {
+                'upsert': true,
+                'new': true,
+                'setDefaultsOnInsert': true,
+            },
+        );
 
         interaction.reply(`temporary voice channel settings have been updated`);
     }

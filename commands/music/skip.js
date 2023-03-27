@@ -3,13 +3,13 @@ const { Topokki } = require('../../structures/topokki');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'skip',
-    description: 'skip current song',
-    isPlayer: true,
-    settings: {
-        sharedVoiceChannel: true,
-        voiceChannel: true,
-        queueNotEmpty: true,
+    'name': 'skip',
+    'description': 'skip current song',
+    'isPlayer': true,
+    'settings': {
+        'sharedVoiceChannel': true,
+        'voiceChannel': true,
+        'queueNotEmpty': true,
     },
 
     /**

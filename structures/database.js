@@ -3,9 +3,12 @@ const { Collection } = require('discord.js');
 
 class Database {
 
+    /**
+     * Mongoose wrapper
+     */
     constructor() {
         /**
-         * safe prep for mongoose 7.0
+         * Safe prep for mongoose 7.0
          */
         mongoose.set('strictQuery', false);
 
@@ -13,28 +16,28 @@ class Database {
     }
 
     /**
-     * connect to mongoose database
+     * Connect to mongoose database
      * 
      * @param {String|null} uri
      * @returns {Promise<mongoose>}
      */
     async connect(uri = '') {
-        return mongoose.connect(uri, { keepAlive: true, });
+        return mongoose.connect(uri, { 'keepAlive': true, });
     }
 
     /**
-     * create a new schema in the mongoose database
+     * Create a new schema in the mongoose database
      * 
      * @param {String} name 
      * @param {Object} model 
      * @returns {{ name: String, model: mongoose.Model }}
      */
     schema(name, model) {
-        return { name, model: mongoose.model(name, new mongoose.Schema(model)) };
+        return { name, 'model': mongoose.model(name, new mongoose.Schema(model)) };
     }
 
     /**
-     * store mongoose schema in local
+     * Store Mongoose schema in local
      * 
      * @param {String} name 
      * @param {mongoose.Model} model 
@@ -44,6 +47,7 @@ class Database {
     }
 
     /**
+     * Get schema
      * 
      * @param {String} name 
      * @returns {mongoose.Model}

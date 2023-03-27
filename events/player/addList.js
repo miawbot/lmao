@@ -1,10 +1,11 @@
 const { Playlist, Queue } = require('distube');
 const { Topokki } = require('../../structures/topokki');
 const { Event } = require('../../helpers/event');
+const { inlineCode } = require('discord.js');
 
 module.exports = new Event({
-    name: 'addList',
-    isPlayer: true,
+    'name': 'addList',
+    'isPlayer': true,
 
     /**
      * 
@@ -13,6 +14,6 @@ module.exports = new Event({
      * @param {Playlist} playlist 
      */
     callback(client, queue, playlist) {
-        queue.textChannel.send(`added ${client.inline(playlist.songs.length)} songs to queue`);
+        queue.textChannel.send(`added ${inlineCode(playlist.songs.length)} songs to queue`);
     },
 });

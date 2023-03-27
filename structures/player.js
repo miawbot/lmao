@@ -4,25 +4,30 @@ const { SpotifyPlugin } = require('@distube/spotify');
 const { YtDlpPlugin } = require("@distube/yt-dlp")
 
 class Player extends DisTube {
+
     /**
+     * Player client
      * 
      * @param {Topokki} client 
      */
     constructor(client) {
         super(client, {
-            nsfw: false,
-            searchSongs: 0,
-            searchCooldown: 30,
-            leaveOnEmpty: true,
-            emptyCooldown: 60,
-            leaveOnFinish: false,
-            leaveOnStop: true,
-            plugins: [
-                new YtDlpPlugin({ update: false }),
+            'nsfw': false,
+            'searchSongs': 0,
+            'searchCooldown': 30,
+            'leaveOnEmpty': true,
+            'emptyCooldown': 60,
+            'leaveOnFinish': false,
+            'leaveOnStop': true,
+            'plugins': [
+                new YtDlpPlugin({ 'update': false }),
                 new SpotifyPlugin({
-                    parallel: false ,
-                    emitEventsAfterFetching: true,
-                    api: { clientId: process.env.SPOTIFY_ID, clientSecret: process.env.SPOTIFY_SECRET },
+                    'parallel': false,
+                    'emitEventsAfterFetching': true,
+                    'api': {
+                        'clientId': process.env.SPOTIFY_ID,
+                        'clientSecret': process.env.SPOTIFY_SECRET
+                    },
                 })
             ]
         });
@@ -59,8 +64,8 @@ class Player extends DisTube {
      */
     async playSong(interaction, query, options = {}) {
         return this.play(interaction.member.voice.channel, query, {
-            textChannel: interaction.channel,
-            member: interaction.member,
+            'textChannel': interaction.channel,
+            'member': interaction.member,
             ...options
         })
     }

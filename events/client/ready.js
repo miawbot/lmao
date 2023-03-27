@@ -2,7 +2,7 @@ const { Topokki } = require('../../structures/topokki');
 const { Event } = require('../../helpers/event');
 
 module.exports = new Event({
-    name: 'ready',
+    'name': 'ready',
 
     /**
      * 

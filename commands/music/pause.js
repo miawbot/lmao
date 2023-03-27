@@ -3,13 +3,13 @@ const { CommandInteraction } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    name: 'pause',
-    description: 'pause playback',
-    isPlayer: true,
-    settings: {
-        sharedVoiceChannel: true,
-        voiceChannel: true,
-        queueNotEmpty: true,
+    'name': 'pause',
+    'description': 'pause playback',
+    'isPlayer': true,
+    'settings': {
+        'sharedVoiceChannel': true,
+        'voiceChannel': true,
+        'queueNotEmpty': true,
     },
 
     /**

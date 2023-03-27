@@ -9,6 +9,7 @@ class EventType {
 }
 
 class Event extends EventType {
+    
     /**
      * 
      * @param {EventType} data 
