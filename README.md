@@ -1,4 +1,4 @@
-# @topokki
+# @Topokki
 A moderation and entertainment-oriented @discord.js bot.
 
 ## Features
