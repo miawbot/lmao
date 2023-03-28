@@ -35,7 +35,7 @@ module.exports = new Command({
         const embed = new EmbedBuilder()
             .setTitle('Now Playing')
             .setDescription(songs.current)
-            .setFooter({ 'text': `${queue.songs.length - 1 || 'no'} songs in queue` })
+            .setFooter({ 'text': `${queue.songs.length - 1 || 'No'} songs in queue` })
             .setTimestamp()
             .addFields({
                 'name': 'Next up',
