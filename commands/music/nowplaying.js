@@ -42,7 +42,7 @@ module.exports = new Command({
                 },
                 {
                     'name': 'Next up',
-                    'value': queue.songs[1]?.name || 'none',
+                    'value': queue.songs[1]?.name || 'None',
                     'inline': true,
                 },
             );
