@@ -20,7 +20,7 @@ module.exports = new Event({
             .setTimestamp()
             .addFields(
                 {
-                    'name': 'Channel',
+                    'name': 'By',
                     'value': song.uploader.name,
                     'inline': true,
                 },
@@ -36,7 +36,7 @@ module.exports = new Event({
                 },
                 {
                     'name': 'Position',
-                    'value': (queue.songs.length - 1 || 'none').toString(),
+                    'value': (queue.songs.length - 1 || 'None').toString(),
                     'inline': true,
                 },
             );
