@@ -19,6 +19,6 @@ module.exports = new Command({
             queue.stop();
         }
 
-        interaction.reply('done!');
+        interaction.reply('Done!');
     },
 });

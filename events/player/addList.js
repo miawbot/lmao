@@ -14,6 +14,6 @@ module.exports = new Event({
      * @param {Playlist} playlist 
      */
     callback(client, queue, playlist) {
-        queue.textChannel.send(`added ${inlineCode(playlist.songs.length)} songs to queue`);
+        queue.textChannel.send(`I have added ${inlineCode(playlist.songs.length)} songs to the queue`);
     },
 });

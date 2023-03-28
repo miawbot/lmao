@@ -4,7 +4,7 @@ const { Topokki } = require('../../structures/topokki');
 
 module.exports = new Command({
     'name': 'nowplaying',
-    'description': 'information about current song',
+    'description': 'Get information about the current song',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -26,22 +26,22 @@ module.exports = new Command({
             .setTimestamp()
             .setFields(
                 {
-                    'name': 'channel',
+                    'name': 'By',
                     'value': song.uploader.name,
                     'inline': true,
                 },
                 {
-                    'name': 'song duration',
+                    'name': 'Song duration',
                     'value': `${queue.formattedCurrentTime}/${song.formattedDuration}`,
                     'inline': true,
                 },
                 {
-                    'name': 'requested by',
+                    'name': 'Requested by',
                     'value': userMention(song.user.username),
                     'inline': true,
                 },
                 {
-                    'name': 'next up',
+                    'name': 'Next up',
                     'value': queue.songs[1]?.name || 'none',
                     'inline': true,
                 },

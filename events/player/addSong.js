@@ -15,27 +15,27 @@ module.exports = new Event({
      */
     callback(client, queue, song) {
         const embed = new EmbedBuilder()
-            .setAuthor({ 'name': 'added to queue' })
+            .setAuthor({ 'name': 'Added to Queue' })
             .setTitle(song.name)
             .setTimestamp()
             .addFields(
                 {
-                    'name': 'channel',
+                    'name': 'Channel',
                     'value': song.uploader.name,
                     'inline': true,
                 },
                 {
-                    'name': 'song duration',
+                    'name': 'Song duration',
                     'value': song.formattedDuration,
                     'inline': true,
                 },
                 {
-                    'name': 'estimate time of playing',
+                    'name': 'Estimate time of playing',
                     'value': queue.formattedCurrentTime,
                     'inline': true,
                 },
                 {
-                    'name': 'position in queue',
+                    'name': 'Position',
                     'value': (queue.songs.length - 1 || 'none').toString(),
                     'inline': true,
                 },

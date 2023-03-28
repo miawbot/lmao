@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'shuffle',
-    'description': 'shuffles queue',
+    'description': 'Shuffle the queue',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -22,6 +22,6 @@ module.exports = new Command({
 
         client.player.shuffleQueue(queue);
 
-        interaction.reply('queue has been shuffled');
+        interaction.reply('Done!');
     },
 });

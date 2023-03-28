@@ -4,11 +4,11 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'echo',
-    'description': 'echoes a command',
+    'description': 'Echo a message',
     'options': [
         {
             'name': 'message',
-            'description': 'none',
+            'description': 'Provide a message',
             'type': ApplicationCommandOptionType.String,
             'required': true,
         },

@@ -4,19 +4,19 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'temporaryvoice',
-    'description': 'set up temporary voice channels',
+    'description': 'Set up temporary voice channels',
     'ownerOnly': true,
     'options': [
         {
             'type': ApplicationCommandOptionType.Channel,
             'name': 'voice_channel',
-            'description': 'provide a voice channel to act as a hook for temporary voice channels',
+            'description': 'Provide a voice channel to act as a hook for temporary voice channels',
             'channel_types': [2],
         },
         {
             'type': ApplicationCommandOptionType.Boolean,
             'name': 'enabled',
-            'description': 'enable/disable temporary voice channels',
+            'description': 'Enable/disable temporary voice channels',
         },
     ],
 
@@ -34,14 +34,14 @@ module.exports = new Command({
         });
 
         if (!Object.keys(options).length) {
-            client.reply(interaction, 'no options were provided');
+            client.reply(interaction, 'No options were provided');
             return;
         }
 
         const channel = await TemporaryVoiceChannel.findOne({ 'guildId': interaction.guildId });
 
         if (!channel && !options.channelId) {
-            client.reply(interaction, 'cannot update setting, no voice channel has been configured');
+            client.reply(interaction, 'Unable to update setting since no voice channel has been configured');
             return;
         };
 
@@ -55,6 +55,6 @@ module.exports = new Command({
             },
         );
 
-        interaction.reply(`temporary voice channel settings have been updated`);
+        interaction.reply(`The settings have been updated`);
     }
 })

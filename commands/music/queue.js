@@ -4,7 +4,7 @@ const { Topokki } = require('../../structures/topokki');
 
 module.exports = new Command({
     'name': 'queue',
-    'description': 'get queue',
+    'description': 'Get the queue',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -33,13 +33,13 @@ module.exports = new Command({
         }
 
         const embed = new EmbedBuilder()
-            .setTitle('now playing')
+            .setTitle('Now Playing')
             .setDescription(songs.current)
             .setFooter({ 'text': `${queue.songs.length - 1 || 'no'} songs in queue` })
             .setTimestamp()
             .addFields({
-                'name': 'next up',
-                'value': songs.queued.slice(0, 10).join('\n\n') || 'none',
+                'name': 'Next up',
+                'value': songs.queued.slice(0, 10).join('\n\n') || 'None',
             });
 
         await interaction.editReply({ 'embeds': [embed] });

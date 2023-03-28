@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'skip',
-    'description': 'skip current song',
+    'description': 'Skip the current song',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -22,6 +22,6 @@ module.exports = new Command({
 
         client.player.skipSong(queue);
 
-        interaction.reply('song has been skipped');
+        interaction.reply('Done!');
     },
 });

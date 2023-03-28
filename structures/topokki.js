@@ -1,5 +1,5 @@
 const fg = require('fast-glob');
-const { Client, GatewayIntentBits, Collection, CommandInteraction, VoiceChannel, userMention, inlineCode, InteractionResponse, roleMention, channelMention } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, CommandInteraction, InteractionResponse } = require('discord.js');
 const { Command } = require('../helpers/command');
 const { Event } = require('../helpers/event');
 const { Player } = require('./player');
@@ -8,7 +8,7 @@ const { Database } = require('./database');
 class Topokki extends Client {
 
     /**
-     * Topokki client
+     * Topokki main instance
      */
     constructor() {
         super({
@@ -40,7 +40,7 @@ class Topokki extends Client {
         this.database.connect(process.env.MONGO_URI);
         this.loadSchemas();
 
-        this.login(process.env.CLIENT_TOKEN).then(() => console.log('client is online'));
+        this.login(process.env.CLIENT_TOKEN).then(() => console.log('Client is online'));
     }
 
     /**
@@ -96,7 +96,7 @@ class Topokki extends Client {
      * Removes keys with nullish and undefined values
      * 
      * @param {Object} options 
-     * @returns 
+     * @returns {Object}
      */
     sanitize(options) {
         return Object.fromEntries(Object.entries(options).filter(([_, v]) => v != null || v != undefined));

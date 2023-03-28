@@ -2,17 +2,17 @@ const { CommandInteraction } = require("discord.js");
 
 class CommandSettingsType {
     /**
-     * user must be in a voice channel
+     * User must be in a voice channel
      */
     voiceChannel = false;
 
     /**
-     * client and user must be the same voice channel for this command to work
+     * Client and user must be the same voice channel for this command to work
      */
     sharedVoiceChannel = false;
 
     /**
-     * queue must not be empty when command is issued
+     * Queue must not be empty when command is issued
      */
     queueNotEmpty = false;
 }
@@ -63,7 +63,7 @@ class Command extends CommandType {
             !data.description ||
             !data.callback
         ) {
-            throw new Error('command module is missing properties');
+            throw new Error('Command module is missing properties');
         }
 
         data = Object.assign(new CommandType(), data);

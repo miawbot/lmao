@@ -4,12 +4,12 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'clear',
-    'description': 'remove a specified amount of messages in a given channel',
+    'description': 'Remove messages in the current channel',
     'ownerOnly': true,
     'options': [
         {
             'name': 'amount',
-            'description': 'amount of messages to removed',
+            'description': 'Provide an amount',
             'type': ApplicationCommandOptionType.Number,
             'required': true,
         },
@@ -21,20 +21,20 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const amount = interaction.options.getNumber("amount");
+        const amount = interaction.options.getNumber('amount');
 
         if (amount < 1) {
-            client.reply(interaction, 'amount must be greater than zero');
+            client.reply(interaction, 'The amount must be greater than 0');
             return;
         }
 
         if (amount > 100) {
-            client.reply(interaction, 'amount must not be greater than 100');
+            client.reply(interaction, 'The amount must be lower than 100');
             return;
         }
 
         await interaction.channel.bulkDelete(amount, true);
 
-        interaction.reply(`i have deleted ${inlineCode(amount)} messages`);
+        interaction.reply(`I have deleted ${inlineCode(amount)} messages in this channel`);
     }
 })

@@ -8,7 +8,13 @@ module.exports = new Event({
      * 
      * @param {Topokki} client 
      */
-    callback(client) {
-        client.registerCommands().then(() => console.log('loaded commands'));
+    async callback(client) {
+        client.registerCommands();
+
+        client.user.setActivity({
+
+        })
+
+        console.log('Commands have been loaded');
     },
 });

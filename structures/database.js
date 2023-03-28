@@ -7,10 +7,7 @@ class Database {
      * Mongoose wrapper
      */
     constructor() {
-        /**
-         * Safe prep for mongoose 7.0
-         */
-        mongoose.set('strictQuery', false);
+        mongoose.set('strictQuery', false); // Safe prep for mongoose 7.0
 
         this.schemas = new Collection();
     }

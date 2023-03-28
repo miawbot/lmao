@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'play',
-    'description': 'play a song',
+    'description': 'Request a song to be added to the queue',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -13,13 +13,13 @@ module.exports = new Command({
     'options': [
         {
             'name': 'search',
-            'description': 'search a song',
+            'description': 'Provide search terms or a url',
             'type': ApplicationCommandOptionType.String,
             'required': true,
         },
         {
             'name': 'skip',
-            'description': 'skip current song and play requested song instead',
+            'description': 'Skip the current song and the play requested song instead',
             'type': ApplicationCommandOptionType.Boolean,
         }
     ],
@@ -35,12 +35,12 @@ module.exports = new Command({
         const search = interaction.options.getString('search');
         const skip = interaction.options.getBoolean('skip');
 
-        client.reply(interaction, `searching ${inlineCode(search)}`);
+        client.reply(interaction, `Searching for ${inlineCode(search)}`);
 
         try {
             await client.player.playSong(interaction, search, skip ? { 'skip': true } : {});
         } catch (err) {
-            client.reply(interaction, 'hmm something went wrong. maybe try again?');
+            client.reply(interaction, 'I could not process this request. Please try again');
             return;
         }
     }

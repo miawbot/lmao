@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'seek',
-    'description': 'seek timestamp in song',
+    'description': 'Continue playback using the provided timestamp',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -14,18 +14,18 @@ module.exports = new Command({
     'options': [
         {
             'name': 'seconds',
-            'description': 'provide a timestamp',
+            'description': 'Seconds',
             'type': ApplicationCommandOptionType.Number,
             'required': true,
         },
         {
             'name': 'minutes',
-            'description': 'provide a timestamp',
+            'description': 'Minutes',
             'type': ApplicationCommandOptionType.Number,
         },
         {
             'name': 'hours',
-            'description': 'provide a timestamp',
+            'description': 'Hours',
             'type': ApplicationCommandOptionType.Number,
         },
     ],
@@ -44,6 +44,6 @@ module.exports = new Command({
 
         client.player.seek(interaction, (options.hours * 3600) + (options.minutes * 60) + options.seconds);
 
-        interaction.reply('song has been seeked to timestamp');
+        interaction.reply('Done!');
     },
 });

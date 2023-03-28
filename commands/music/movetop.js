@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'movetop',
-    'description': 'move requested song to first position in queue',
+    'description': 'Move requested song to the first position in the queue',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -14,7 +14,7 @@ module.exports = new Command({
     'options': [
         {
             'name': 'index',
-            'description': 'provide a song index',
+            'description': 'Provide an index',
             'type': ApplicationCommandOptionType.Number,
             'required': true,
         },
@@ -31,13 +31,13 @@ module.exports = new Command({
         const song = songs[index];
 
         if (!song) {
-            client.userOnly(interaction, 'no song was found with this index in the queue');
+            client.reply(interaction, 'Referred song by index does not exist in the queue');
             return;
         }
 
         songs.splice(index, 1);
         songs.splice(1, 0, song);
 
-        interaction.reply(`moved ${inlineCode(song.name)} to first position in the queue`);
+        interaction.reply(`I have moved ${inlineCode(song.name)} to the first position in the queue!`);
     },
 });

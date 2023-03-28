@@ -21,7 +21,7 @@ class Event extends EventType {
             !data.name ||
             !data.callback
         ) {
-            throw new Error('event module is missing properties');
+            throw new Error('Event module is missing properties');
         }
 
         data = Object.assign(new EventType(), data);

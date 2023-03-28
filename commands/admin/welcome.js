@@ -4,67 +4,67 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'welcome',
-    'description': 'set up a welcome message when a user is invited to this server',
+    'description': 'Set up a welcome message when a user is invited to this server',
     'isPlayer': true,
     'ownerOnly': true,
     'options': [
         {
             'type': ApplicationCommandOptionType.SubcommandGroup,
             'name': 'message',
-            'description': 'set up a welcome message',
+            'description': 'Welcome message settings',
             'options': [
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
                     'name': 'embed',
-                    'description': 'create/update embed',
+                    'description': 'Create/update welcome message embed',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.String,
                             'name': 'title',
-                            'description': 'set title',
+                            'description': 'Set a title',
                         },
                         {
                             'type': ApplicationCommandOptionType.String,
                             'name': 'description',
-                            'description': 'set description',
+                            'description': 'Set a description',
                         },
                         {
                             'type': ApplicationCommandOptionType.String,
                             'name': 'color',
-                            'description': 'provide a hex value',
+                            'description': 'Provide a hex value',
                         },
                         {
                             'type': ApplicationCommandOptionType.String,
                             'name': 'image',
-                            'description': 'provide an image url (e.g imgur)',
+                            'description': 'Provide an image url (e.g imgur)',
                         },
                         {
                             'type': ApplicationCommandOptionType.String,
                             'name': 'footer',
-                            'description': 'set footer',
+                            'description': 'Set a footer',
                         },
                         {
                             'type': ApplicationCommandOptionType.Boolean,
                             'name': 'timestamp',
-                            'description': 'set timestamp',
+                            'description': 'Enable/disable timestamp',
                         },
                     ],
                 },
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
                     'name': 'channel',
-                    'description': 'provide a channel where welcome messages are sent',
+                    'description': 'Welcome channel settings',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.Channel,
                             'name': 'text_channel',
-                            'description': 'provide a text channel',
+                            'description': 'Provide a text channel where welcome messages can be sent to',
                             'channel_types': [0],
                         },
                         {
                             'type': ApplicationCommandOptionType.Boolean,
                             'name': 'enabled',
-                            'description': 'enable/disable welcome messages',
+                            'description': 'Enable/disable welcome messages',
                         },
                     ],
                 },
@@ -73,25 +73,25 @@ module.exports = new Command({
         {
             'type': ApplicationCommandOptionType.SubcommandGroup,
             'name': 'role',
-            'description': 'set up roles to be added to invited users alongside welcome messages',
+            'description': 'Welcome role settings',
             'options': [
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'add',
-                    'description': 'provide a role to be listed',
+                    'name': 'set',
+                    'description': 'Add a new role to be given to newcomers',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.Role,
                             'name': 'role',
-                            'description': 'provide a role',
+                            'description': 'Provide a role',
                             'required': true,
                         },
                     ],
                 },
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'remove',
-                    'description': 'provide a role to removed from the list',
+                    'name': 'unset',
+                    'description': 'Unset a welcome role',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.Role,
@@ -104,7 +104,7 @@ module.exports = new Command({
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
                     'name': 'list',
-                    'description': 'display configured welcome roles',
+                    'description': 'Show a list of every welcome role that has been set',
                 },
             ],
         },
@@ -130,7 +130,7 @@ module.exports = new Command({
             });
 
             if (!Object.keys(options).length) {
-                client.reply(interaction, 'no options were provided');
+                client.reply(interaction, 'No options were provided');
                 return;
             }
 
@@ -142,7 +142,7 @@ module.exports = new Command({
                     { '$set': options }
                 );
 
-                interaction.reply('welcome message embed has been updated')
+                interaction.reply('Updated welcome message embed settings!')
                 return;
             }
 
@@ -150,7 +150,7 @@ module.exports = new Command({
                 !options.description ||
                 !options.title
             ) {
-                client.reply(interaction, 'there must be at least one description and title inside the welcome message embed');
+                client.reply(interaction, 'There must be at least one description and title in the embed');
                 return;
             }
 
@@ -158,7 +158,7 @@ module.exports = new Command({
                 options.color &&
                 !options.color.match(/^#[a-f0-9]{6}$/i)
             ) {
-                client.reply(interaction, 'option color must be of a proper hex format');
+                client.reply(interaction, 'The color option must be of a proper color hex format');
                 return;
             }
 
@@ -168,7 +168,7 @@ module.exports = new Command({
                 ...options,
             });
 
-            interaction.reply('welcome message embed has been created');
+            interaction.reply('Welcome message embed set-up is done!');
             return;
         };
 
@@ -179,14 +179,14 @@ module.exports = new Command({
             });
 
             if (!Object.keys(options).length) {
-                client.reply(interaction, 'no options were provided');
+                client.reply(interaction, 'No options were provided');
                 return;
             }
 
             const embed = await WelcomeMessage.findOne({ 'guildId': interaction.guildId });
 
             if (!embed) {
-                client.reply(interaction, 'oops, welcome messages might be disabled or no embed has been set');
+                client.reply(interaction, 'Welcome messages might be disabled or no welcome embed has been set');
                 return;
             }
 
@@ -195,11 +195,11 @@ module.exports = new Command({
                 { '$set': options }
             );
 
-            interaction.reply('welcome message channel have been updated');
+            interaction.reply('Update welcome message channel settings!');
             return;
         };
 
-        if (client.routing(interaction, 'role', 'add')) {
+        if (client.routing(interaction, 'role', 'set')) {
             const role = interaction.options.getRole('role');
 
             const _role = await WelcomeRole.findOne({
@@ -208,7 +208,7 @@ module.exports = new Command({
             });
 
             if (_role) {
-                client.reply(interaction, `role ${inlineCode(role.name)} is already set as a welcome role`);
+                client.reply(interaction, `Role ${inlineCode(role.name)} is already set as a welcome role`);
                 return;
             }
 
@@ -217,11 +217,11 @@ module.exports = new Command({
                 'roleId': role.id
             })
 
-            interaction.reply(`added role ${inlineCode(role.name)} to welcome roles`);
+            interaction.reply(`Added role ${inlineCode(role.name)}`);
             return;
         }
 
-        if (client.routing(interaction, 'role', 'remove')) {
+        if (client.routing(interaction, 'role', 'unset')) {
             const role = interaction.options.getRole('role');
 
             await WelcomeRole.findOneAndDelete({
@@ -229,7 +229,7 @@ module.exports = new Command({
                 'roleId': role.id,
             })
 
-            interaction.reply(`removed role ${inlineCode(role.name)} from welcome roles`);
+            interaction.reply(`Removed role ${inlineCode(role.name)}`);
             return;
         }
 
@@ -244,11 +244,11 @@ module.exports = new Command({
             }
 
             let description = roles.length
-                ? `these are the set welcome roles: ${roles.join(', ')}`
-                : `no roles found. use ${inlineCode('/welcome roles add')} to add a welcome role`;
+                ? `Here are the current welcome roles for newcomers: ${roles.join(', ')}`
+                : `No roles found. Use ${inlineCode('/welcome roles add')} to add new welcome roles`;
 
             const embed = new EmbedBuilder()
-                .setTitle('welcome roles')
+                .setTitle('List of Welcome Roles')
                 .setDescription(description);
 
             interaction.reply({ 'embeds': [embed] });

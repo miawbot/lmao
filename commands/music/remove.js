@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'remove',
-    'description': 'remove a song',
+    'description': 'Remove a song from the queue',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -14,7 +14,7 @@ module.exports = new Command({
     'options': [
         {
             'name': 'index',
-            'description': 'specify index of song to remove',
+            'description': 'Provide an index',
             'type': ApplicationCommandOptionType.Number,
             'required': true,
         },
@@ -32,12 +32,12 @@ module.exports = new Command({
         const song = songs[index];
 
         if (!song) {
-            client.reply(interaction, 'no song was found with this index in the queue');
+            client.reply(interaction, 'Referred song by index does not exist in the queue');
             return;
         }
 
         songs.splice(index, 1);
 
-        interaction.reply(`removed ${inlineCode(song.name)} from queue`);
+        interaction.reply(`I have removed ${inlineCode(song.name)} from the queue`);
     },
 });

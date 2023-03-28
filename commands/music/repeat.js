@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'repeat',
-    'description': 'toggle repeat for current song',
+    'description': 'Toggle repeat',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -22,6 +22,6 @@ module.exports = new Command({
 
         client.player.setRepeatMode(interaction, queue.repeatMode != 1 ? 1 : 0);
 
-        interaction.reply(`repeat set to ${inlineCode(queue.repeatMode === 1 ? 'true' : 'false')}`);
+        interaction.reply(`I have set the repeat to be on ${inlineCode(queue.repeatMode === 1 ? 'true' : 'false')}`);
     },
 });

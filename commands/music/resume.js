@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'resume',
-    'description': 'resume a paused queue',
+    'description': 'Resume playback',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -21,12 +21,12 @@ module.exports = new Command({
         const queue = client.player.getQueue(interaction.guildId);
 
         if (!queue.paused) {
-            client.reply(interaction, 'queue is not paused');
+            client.reply(interaction, 'Playback is not paused');
             return;
         }
 
         queue.resume();
 
-        interaction.reply('queue has been resumed');
+        interaction.reply('Done!');
     },
 });
