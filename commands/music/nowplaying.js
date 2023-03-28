@@ -37,7 +37,7 @@ module.exports = new Command({
                 },
                 {
                     'name': 'Requested by',
-                    'value': userMention(song.user.username),
+                    'value': userMention(song.user.id),
                     'inline': true,
                 },
                 {
