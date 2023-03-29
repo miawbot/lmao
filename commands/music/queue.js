@@ -18,8 +18,6 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        await interaction.deferReply()
-
         const queue = client.player.getQueue(interaction.guildId);
         const songs = { 'queued': [] };
 
