@@ -61,9 +61,9 @@ class Topokki extends Client {
      */
     getSubcommand(interaction) {
         const options = {
-            'name': interaction.commandName,
-            'group': interaction.options.getSubcommandGroup(),
-            'sub': interaction.options.getSubcommand()
+            '1': interaction.commandName,
+            '2': interaction.options.getSubcommandGroup(),
+            '3': interaction.options.getSubcommand()
         };
 
         let route = Object.values(this.sanitize(options)).join('.');
