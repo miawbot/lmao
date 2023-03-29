@@ -1,11 +1,14 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction, inlineCode } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, inlineCode, PermissionFlagsBits } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'clear',
     'description': 'Remove messages in the current channel',
-    'ownerOnly': true,
+    'defaultMemberPermissions': [
+        PermissionFlagsBits.Administrator,
+        PermissionFlagsBits.ManageMessages
+    ],
     'options': [
         {
             'name': 'amount',

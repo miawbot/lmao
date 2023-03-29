@@ -1,6 +1,6 @@
 const fg = require('fast-glob');
 const { Client, GatewayIntentBits, Collection, CommandInteraction, InteractionResponse } = require('discord.js');
-const { Command } = require('../helpers/command');
+const { Command, Subcommand } = require('../helpers/command');
 const { Event } = require('../helpers/event');
 const { Player } = require('./player');
 const { Database } = require('./database');
@@ -26,7 +26,17 @@ class Topokki extends Client {
         this.instance = this;
         this.database = new Database();
         this.voiceChannelCache = new Collection();
+
+        /**
+         * @type {Collection<String, Command>}
+         */
         this.commands = new Collection();
+
+        /**
+         * @type {Collection<String, Subcommand>}
+         */
+        this.subcommands = new Collection();
+
         this.player = new Player(this);
     }
 
@@ -35,7 +45,7 @@ class Topokki extends Client {
      */
     init() {
         this.loadCommands();
-        this.loadEvents();
+        this.loadEvents().then(() => console.log('Events have been loaded'));
 
         this.database.connect(process.env.MONGO_URI);
         this.loadSchemas();
@@ -44,34 +54,21 @@ class Topokki extends Client {
     }
 
     /**
-     * Validated command routing
+     * Get current relative subcommand that responds to the related interaction
      * 
      * @param {CommandInteraction} interaction 
-     * @param {String} group 
-     * @param {String} sub 
-     * @param {Function} callback
-     * @returns {Boolean}
+     * @returns {Subcommand|undefined}
      */
-    routing(interaction, group, sub = null) {
-        const _group = interaction.options.getSubcommandGroup();
-        const _sub = interaction.options.getSubcommand();
+    getSubcommand(interaction) {
+        const options = {
+            'name': interaction.commandName,
+            'group': interaction.options.getSubcommandGroup(),
+            'sub': interaction.options.getSubcommand()
+        };
 
-        if (
-            _group === group &&
-            _sub === sub
-        ) {
-            return true;
-        }
+        let route = Object.values(this.sanitize(options)).join('.');
 
-        if (
-            _group === null &&
-            sub === null &&
-            _sub === group
-        ) {
-            return true;
-        }
-
-        return false;
+        return this.subcommands.get(route);
     }
 
     /**
@@ -106,11 +103,18 @@ class Topokki extends Client {
      * Load commands
      */
     async loadCommands() {
-        for (const f of await fg('./commands/**/*.js')) {
-            const cmd = require('.' + f);
-            if (cmd instanceof Command) {
-                this.commands.set(cmd.name, cmd);
-            };
+        for (const file of await fg('./commands/**/**/**/*.js')) {
+            const command = require('.' + file);
+            if (
+                command instanceof Command ||
+                command instanceof Subcommand
+            ) {
+                let _this = command?.constructor === Subcommand
+                    ? this.subcommands
+                    : this.commands;
+
+                _this.set(command.name, command);
+            }
         }
     }
 
@@ -118,14 +122,15 @@ class Topokki extends Client {
      * Load events
      */
     async loadEvents() {
-        for (const f of await fg('./events/**/*.js')) {
-            const evt = require('.' + f);
-            if (evt instanceof Event) {
-                const _this = evt.isPlayer
+        for (const file of await fg('./events/**/*.js')) {
+            const event = require('.' + file);
+
+            if (event instanceof Event) {
+                const _this = event.isPlayer
                     ? this.player
                     : this;
 
-                _this.on(evt.name, (...args) => evt.callback(this, ...args));
+                _this.on(event.name, (...args) => event.callback(this, ...args));
             }
         }
     }

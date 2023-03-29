@@ -9,22 +9,22 @@ module.exports = new Event({
      * @param {Topokki} client 
      */
     async callback(client, old, current) {
-        const temp = await client.database
+        const tempChannel = await client.database
             .get('temporaryVoiceChannel')
             .findOne({ 'guildId': old.guild.id || current.guild.id });
 
         if (
-            !temp ||
-            !temp.isEnabled
+            !tempChannel ||
+            !tempChannel.isEnabled
         ) {
             return;
         };
 
-        if (current?.channelId === temp.channelId) {
+        if (current?.channelId === tempChannel.channelId) {
             const member = current.member;
 
             const channel = await member.guild.channels.create({
-                'name': `${member.user.username}'s channel`,
+                'name': tempChannel.defaultName.replace(/{member}/gi, member.user.username),
                 'parent': current.channel?.parentId || null,
                 'type': 2
             });

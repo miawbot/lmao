@@ -36,7 +36,7 @@ class CommandType {
     description = '';
     options = [];
     isPlayer = false;
-    ownerOnly = false;
+    dmPermission = false;
 
     /**
      * @type {CommandSettings}
@@ -50,7 +50,7 @@ class CommandType {
 }
 
 class Command extends CommandType {
-    
+
     /**
      * 
      * @param {CommandType} data 
@@ -68,10 +68,11 @@ class Command extends CommandType {
 
         data = Object.assign(new CommandType(), data);
 
-        if (data.ownerOnly) {
-            this.default_permission = false;
-        };
+        if (data?.defaultMemberPermissions) {
+            this.defaultMemberPermissions = data.defaultMemberPermissions;
+        }
 
+        this.dmPermission = data.dmPermission;
         this.name = data.name;
         this.description = data.description;
         this.options = data.options;
@@ -80,8 +81,10 @@ class Command extends CommandType {
 
         /**
          * 
+         * @type {Function}
          * @param {Topokki} client
          * @param {CommandInteraction} interaction
+         * @returns {Promise<Function>}
          */
         this.callback = data.callback;
     }
@@ -96,4 +99,43 @@ class Command extends CommandType {
     }
 }
 
-module.exports = { Command, CommandSettings, CommandType };
+class SubcommandType {
+    name = '';
+
+    /**
+     * @type {Function}
+     */
+    callback = null;
+}
+
+
+class Subcommand extends SubcommandType {
+
+    /**
+    * 
+    * @param {SubcommandType} data 
+    */
+    constructor(data) {
+        super();
+
+        if (
+            !data.name ||
+            !data.callback
+        ) {
+            throw new Error('Subcommand module is missing properties');
+        }
+
+        this.name = data.name;
+
+        /**
+         * 
+         * @type {Function}
+         * @param {Topokki} client
+         * @param {CommandInteraction} interaction
+         * @returns {Promise<Function>}
+         */
+        this.callback = data.callback;
+    }
+}
+
+module.exports = { Command, CommandSettings, CommandType, Subcommand };

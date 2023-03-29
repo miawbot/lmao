@@ -11,7 +11,8 @@ module.exports = new Event({
      */
     async callback(client) {
         await client.registerCommands();
-        client.user.setActivity('VALORANT', { type: ActivityType.Streaming })
         console.log('Commands have been loaded');
+        
+        client.user.setActivity('VALORANT VCT', { type: ActivityType.Competing })
     },
 });

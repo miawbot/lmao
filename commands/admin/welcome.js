@@ -1,21 +1,21 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, roleMention, inlineCode } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, ChannelType, PermissionFlagsBits } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'welcome',
     'description': 'Set up a welcome message when a user is invited to this server',
     'isPlayer': true,
-    'ownerOnly': true,
+    'defaultMemberPermissions': [PermissionFlagsBits.Administrator],
     'options': [
         {
             'type': ApplicationCommandOptionType.SubcommandGroup,
-            'name': 'message',
-            'description': 'Welcome message settings',
+            'name': 'embed',
+            'description': 'Welcome embed settings',
             'options': [
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'embed',
+                    'name': 'setup',
                     'description': 'Create/update welcome message embed',
                     'options': [
                         {
@@ -59,7 +59,7 @@ module.exports = new Command({
                             'type': ApplicationCommandOptionType.Channel,
                             'name': 'text_channel',
                             'description': 'Provide a text channel where welcome messages can be sent to',
-                            'channel_types': [0],
+                            'channel_types': [ChannelType.GuildText],
                         },
                         {
                             'type': ApplicationCommandOptionType.Boolean,
@@ -67,6 +67,11 @@ module.exports = new Command({
                             'description': 'Enable/disable welcome messages',
                         },
                     ],
+                },
+                {
+                    'type': ApplicationCommandOptionType.Subcommand,
+                    'name': 'view',
+                    'description': 'View welcome message embed',
                 },
             ],
         },
@@ -77,7 +82,7 @@ module.exports = new Command({
             'options': [
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'set',
+                    'name': 'add',
                     'description': 'Add a new role to be given to newcomers',
                     'options': [
                         {
@@ -90,8 +95,8 @@ module.exports = new Command({
                 },
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'unset',
-                    'description': 'Unset a welcome role',
+                    'name': 'remove',
+                    'description': 'Remove a role from welcome roles',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.Role,
@@ -116,142 +121,10 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const WelcomeMessage = client.database.get('welcomeMessage');
-        const WelcomeRole = client.database.get('welcomeRole');
+        const subcommand = client.getSubcommand(interaction);
 
-        if (client.routing(interaction, 'message', 'embed')) {
-            const options = client.sanitize({
-                'title': interaction.options.getString('title'),
-                'description': interaction.options.getString('description'),
-                'color': interaction.options.getString('color'),
-                'image': interaction.options.getString('image'),
-                'footer': interaction.options.getString('footer'),
-                'timestamp': interaction.options.getBoolean('timestamp'),
-            });
-
-            if (!Object.keys(options).length) {
-                client.reply(interaction, 'No options were provided');
-                return;
-            }
-
-            const embed = await WelcomeMessage.findOne({ 'guildId': interaction.guildId });
-
-            if (embed) {
-                await WelcomeMessage.findOneAndUpdate(
-                    { 'guildId': interaction.guildId },
-                    { '$set': options }
-                );
-
-                interaction.reply('Updated welcome message embed settings!')
-                return;
-            }
-
-            if (
-                !options.description ||
-                !options.title
-            ) {
-                client.reply(interaction, 'There must be at least one description and title in the embed');
-                return;
-            }
-
-            if (
-                options.color &&
-                !options.color.match(/^#[a-f0-9]{6}$/i)
-            ) {
-                client.reply(interaction, 'The color option must be of a proper color hex format');
-                return;
-            }
-
-            await WelcomeMessage.create({
-                'guildId': interaction.guildId,
-                'isEnabled': true,
-                ...options,
-            });
-
-            interaction.reply('Welcome message embed set-up is done!');
-            return;
-        };
-
-        if (client.routing(interaction, 'message', 'channel')) {
-            const options = client.sanitize({
-                'channelId': interaction.options.getChannel('text_channel')?.id,
-                'isEnabled': interaction.options.getBoolean('enabled')
-            });
-
-            if (!Object.keys(options).length) {
-                client.reply(interaction, 'No options were provided');
-                return;
-            }
-
-            const embed = await WelcomeMessage.findOne({ 'guildId': interaction.guildId });
-
-            if (!embed) {
-                client.reply(interaction, 'Welcome messages might be disabled or no welcome embed has been set');
-                return;
-            }
-
-            await WelcomeMessage.findOneAndUpdate(
-                { 'guildId': interaction.guildId },
-                { '$set': options }
-            );
-
-            interaction.reply('Update welcome message channel settings!');
-            return;
-        };
-
-        if (client.routing(interaction, 'role', 'set')) {
-            const role = interaction.options.getRole('role');
-
-            const _role = await WelcomeRole.findOne({
-                'guildId': interaction.guildId,
-                'roleId': role.id
-            });
-
-            if (_role) {
-                client.reply(interaction, `Role ${inlineCode(role.name)} is already set as a welcome role`);
-                return;
-            }
-
-            await WelcomeRole.create({
-                'guildId': interaction.guildId,
-                'roleId': role.id
-            })
-
-            interaction.reply(`Added role ${inlineCode(role.name)}`);
-            return;
-        }
-
-        if (client.routing(interaction, 'role', 'unset')) {
-            const role = interaction.options.getRole('role');
-
-            await WelcomeRole.findOneAndDelete({
-                'guildId': interaction.guildId,
-                'roleId': role.id,
-            })
-
-            interaction.reply(`Removed role ${inlineCode(role.name)}`);
-            return;
-        }
-
-        if (client.routing(interaction, 'role', 'list')) {
-            const _roles = await WelcomeRole.find({ 'guildId': interaction.guildId }) || [];
-
-            const roles = [];
-            for (const role of _roles) {
-                if (interaction.member.guild.roles.cache.get(role.roleId)) {
-                    roles.push(roleMention(role.roleId));
-                };
-            }
-
-            let description = roles.length
-                ? `Here are the current welcome roles for newcomers: ${roles.join(', ')}`
-                : `No roles found. Use ${inlineCode('/welcome roles add')} to add new welcome roles`;
-
-            const embed = new EmbedBuilder()
-                .setTitle('List of Welcome Roles')
-                .setDescription(description);
-
-            interaction.reply({ 'embeds': [embed] });
+        if (subcommand) {
+            await subcommand.callback?.(client, interaction);
         }
     },
 });

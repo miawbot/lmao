@@ -1,0 +1,60 @@
+const { Topokki } = require('../../../../structures/topokki');
+const { CommandInteraction, EmbedBuilder, userMention } = require('discord.js');
+const { Subcommand } = require('../../../../helpers/command');
+
+module.exports = new Subcommand({
+    'name': 'welcome.embed.view',
+
+    /**
+     * 
+     * @param {Topokki} client 
+     * @param {CommandInteraction} interaction 
+     */
+    async callback(client, interaction) {
+        const WelcomeMessage = client.database.get('welcomeMessage');
+        const member = interaction.member;
+
+        WelcomeMessage.findOne({ 'guildId': member.guild.id }).then((message) => {
+            if (!message) {
+                client.reply(interaction, 'Unable to view embed since there is no embed created');
+                return;
+            }
+
+            const embed = new EmbedBuilder();
+
+            if (message.title) {
+                const _title = message.title
+                    .replace(/{member}/gi, member.user.tag)
+                    .replace(/{guild}/gi, member.guild.name)
+
+                embed.setTitle(_title);
+            }
+
+            if (message.description) {
+                const _desc = message.description
+                    .replace(/{member}/gi, userMention(member.user.id))
+                    .replace(/{guild}/gi, member.guild.name);
+
+                embed.setDescription(_desc);
+            }
+
+            if (message.color) {
+                embed.setColor(message.color);
+            }
+
+            if (message.image) {
+                embed.setImage(message.image);
+            }
+
+            if (message.footer) {
+                embed.setFooter({ text: message.footer });
+            }
+
+            if (message.timestamp) {
+                embed.setTimestamp();
+            }
+
+            interaction.reply({ 'embeds': [embed] });
+        })
+    }
+});

@@ -1,17 +1,22 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, ChannelType, PermissionFlagsBits } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'temporaryvoice',
     'description': 'Set up temporary voice channels',
-    'ownerOnly': true,
+    'defaultMemberPermissions': [PermissionFlagsBits.Administrator],
     'options': [
         {
             'type': ApplicationCommandOptionType.Channel,
             'name': 'voice_channel',
             'description': 'Provide a voice channel to act as a hook for temporary voice channels',
-            'channel_types': [2],
+            'channel_types': [ChannelType.GuildVoice],
+        },
+        {
+            'type': ApplicationCommandOptionType.String,
+            'name': 'default_name',
+            'description': 'Change the default channel name',
         },
         {
             'type': ApplicationCommandOptionType.Boolean,
@@ -30,7 +35,8 @@ module.exports = new Command({
 
         const options = client.sanitize({
             'isEnabled': interaction.options.getBoolean('enabled'),
-            'channelId': interaction.options.getChannel('voice_channel')?.id
+            'channelId': interaction.options.getChannel('voice_channel')?.id,
+            'defaultName': interaction.options.getString('default_name'),
         });
 
         if (!Object.keys(options).length) {
