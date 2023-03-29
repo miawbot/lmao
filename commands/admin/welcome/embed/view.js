@@ -16,7 +16,7 @@ module.exports = new Subcommand({
 
         WelcomeMessage.findOne({ 'guildId': member.guild.id }).then((message) => {
             if (!message) {
-                client.reply(interaction, 'Unable to view embed since there is no embed created');
+                client.reply(interaction, 'Unable to view embed since there is no embed set');
                 return;
             }
 
