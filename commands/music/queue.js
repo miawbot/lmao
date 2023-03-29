@@ -41,7 +41,7 @@ module.exports = new Command({
                 'value': songs.queued.join('\n\n') || 'None',
             });
 
-        await interaction.editReply({ 'embeds': [embed] });
+        interaction.reply({ 'embeds': [embed] });
     },
 },
 );
