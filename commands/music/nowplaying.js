@@ -20,6 +20,7 @@ module.exports = new Command({
     callback(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId);
         const song = queue.songs[0];
+        const nextUp = queue.songs[1];
 
         const embed = new EmbedBuilder()
             .setTitle(song.name)
@@ -44,7 +45,7 @@ module.exports = new Command({
                 },
                 {
                     'name': 'Next up',
-                    'value': queue.songs[1]?.name || 'None',
+                    'value': nextUp ? `[${nextUp.name}](${nextUp.url})` : 'None',
                     'inline': true,
                 },
             );
