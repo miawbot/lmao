@@ -34,6 +34,22 @@ module.exports = new Event({
             ) {
                 return;
             }
+            
+            if (message.title) {
+                const _title = message.title
+                    .replace(/{member}/gi, member.user.tag)
+                    .replace(/{guild}/gi, member.guild.name)
+
+                embed.setTitle(_title);
+            }
+
+            if (message.description) {
+                const _desc = message.description
+                    .replace(/{member}/gi, userMention(member.user.id))
+                    .replace(/{guild}/gi, member.guild.name);
+
+                embed.setDescription(_desc);
+            }
 
             if (message.color) {
                 embed.setColor(message.color);
@@ -49,20 +65,6 @@ module.exports = new Event({
 
             if (message.timestamp) {
                 embed.setTimestamp();
-            }
-
-            if (message.title) {
-                embed.setTitle(message.title
-                    .replace(/{member}/gi, member.user.tag)
-                    .replace(/{guild}/gi, member.guild.name)
-                );
-            }
-
-            if (message.description) {
-                embed.setDescription(message.description
-                    .replace(/{member}/gi, userMention(member.user.id))
-                    .replace(/{guild}/gi, member.guild.name)
-                );
             }
 
             channel.send({ 'embeds': [embed] });
