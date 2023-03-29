@@ -35,7 +35,7 @@ module.exports = new Command({
             .setTitle('Leaderboard')
             .setDescription('Here is a list of the most active members of this server')
             .setTimestamp()
-            .setColor('#f9ddd4')
+            .setColor('#ffc9b9')
             .setFields({
                 'name': 'Members',
                 'value': entries.join('\n\n'),

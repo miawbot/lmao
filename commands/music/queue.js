@@ -37,7 +37,7 @@ module.exports = new Command({
             .setDescription(songs.current)
             .setFooter({ 'text': `${queue.songs.length - 1 || 'No'} songs in queue` })
             .setTimestamp()
-            .setColor('#f9ddd4')
+            .setColor('#ffc9b9')
             .addFields({
                 'name': 'Next up',
                 'value': songs.queued.slice(0, 10).join('\n\n') || 'None',

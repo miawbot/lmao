@@ -25,7 +25,7 @@ module.exports = new Command({
             .setTitle(song.name)
             .setURL(song.url)
             .setTimestamp()
-            .setColor('#f9ddd4')
+            .setColor('#ffc9b9')
             .setFields(
                 {
                     'name': 'By',
