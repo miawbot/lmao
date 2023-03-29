@@ -13,6 +13,6 @@ module.exports = new Event({
         await client.registerCommands();
         console.log('Commands have been loaded');
         
-        client.user.setActivity('VALORANT VCT', { type: ActivityType.Competing })
+        client.user.setActivity('VALORANT VCT', { 'type': ActivityType.Competing })
     },
 });
