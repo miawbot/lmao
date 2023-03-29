@@ -84,7 +84,6 @@ class Command extends CommandType {
          * @type {Function}
          * @param {Topokki} client
          * @param {CommandInteraction} interaction
-         * @returns {Promise<Function>}
          */
         this.callback = data.callback;
     }
@@ -132,7 +131,6 @@ class Subcommand extends SubcommandType {
          * @type {Function}
          * @param {Topokki} client
          * @param {CommandInteraction} interaction
-         * @returns {Promise<Function>}
          */
         this.callback = data.callback;
     }
