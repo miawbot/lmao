@@ -23,7 +23,7 @@ module.exports = new Command({
         const queue = client.player.getQueue(interaction.guildId);
         const songs = { 'queued': [] };
 
-        for (const [id, song] of queue.songs.entries()) {
+        for (const [id, song] of queue.songs.slice(0, 10).entries()) {
             if (id === 0) {
                 songs.current = `[${song.name}](${song.url}) - ${song.formattedDuration}`;
                 continue;
@@ -40,7 +40,7 @@ module.exports = new Command({
             .setColor('#ffc9b9')
             .addFields({
                 'name': 'Next up',
-                'value': songs.queued.slice(0, 10).join('\n\n') || 'None',
+                'value': songs.queued.join('\n\n') || 'None',
             });
 
         await interaction.editReply({ 'embeds': [embed] });
