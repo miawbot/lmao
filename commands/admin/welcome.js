@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'welcome',
-    'description': 'Set up a welcome message when a user is invited to this server',
+    'description': 'Set up a welcome message when a person is invited to this server',
     'isPlayer': true,
     'defaultMemberPermissions': [PermissionFlagsBits.Administrator],
     'options': [

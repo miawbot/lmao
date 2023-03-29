@@ -4,7 +4,7 @@ const { Topokki } = require('../../structures/topokki');
 
 module.exports = new Command({
     'name': 'queue',
-    'description': 'Get the queue',
+    'description': 'Show a list of songs in queue',
     'isPlayer': true,
     'settings': {
         'sharedVoiceChannel': true,
@@ -25,11 +25,11 @@ module.exports = new Command({
 
         for (const [id, song] of queue.songs.entries()) {
             if (id === 0) {
-                songs.current = `${song.name} - ${song.formattedDuration}`;
+                songs.current = `[${song.name}](${song.url}) - ${song.formattedDuration}`;
                 continue;
             }
 
-            songs.queued.push(`**${id}** - ${song.name} - ${song.formattedDuration}`);
+            songs.queued.push(`**${id}** - [${song.name}](${song.url}) - ${song.formattedDuration}`);
         }
 
         const embed = new EmbedBuilder()
@@ -37,6 +37,7 @@ module.exports = new Command({
             .setDescription(songs.current)
             .setFooter({ 'text': `${queue.songs.length - 1 || 'No'} songs in queue` })
             .setTimestamp()
+            .setColor('#f9ddd4')
             .addFields({
                 'name': 'Next up',
                 'value': songs.queued.slice(0, 10).join('\n\n') || 'None',

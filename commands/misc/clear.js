@@ -38,6 +38,6 @@ module.exports = new Command({
 
         await interaction.channel.bulkDelete(amount, true);
 
-        interaction.reply(`I have deleted ${inlineCode(amount)} messages in this channel`);
+        client.reply(interaction, `I have deleted ${inlineCode(amount)} messages in this channel`);
     }
 })

@@ -23,7 +23,9 @@ module.exports = new Command({
 
         const embed = new EmbedBuilder()
             .setTitle(song.name)
+            .setURL(song.url)
             .setTimestamp()
+            .setColor('#f9ddd4')
             .setFields(
                 {
                     'name': 'By',

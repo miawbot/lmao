@@ -61,6 +61,6 @@ module.exports = new Command({
             },
         );
 
-        interaction.reply(`The settings have been updated`);
+        interaction.reply('The settings have been updated');
     }
 })
