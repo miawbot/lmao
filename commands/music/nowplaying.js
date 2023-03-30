@@ -24,7 +24,6 @@ module.exports = new Command({
 
         const embed = new EmbedBuilder()
             .setTitle(song.name)
-            .setURL(song.url)
             .setTimestamp()
             .setColor('#1E1F22')
             .setFields(
@@ -40,12 +39,12 @@ module.exports = new Command({
                 },
                 {
                     'name': 'Requested by',
-                    'value': userMention(song.user.id),
+                    'value': song.user.tag,
                     'inline': true,
                 },
                 {
                     'name': 'Next up',
-                    'value': nextUp ? `[${nextUp.name}](${nextUp.url})` : 'None',
+                    'value': nextUp ? nextUp.name : 'None',
                     'inline': true,
                 },
             );

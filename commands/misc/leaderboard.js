@@ -1,5 +1,5 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, userMention } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, userMention, bold } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
@@ -26,21 +26,35 @@ module.exports = new Command({
                 .fetch(member.userId)
                 .catch(() => null);
 
-            if (user) {
-                entries.push(`**${id + 1}** - ${userMention(user.id)}`);
+            if (
+                user &&
+                !user.bot &&
+                member.points > 0
+            ) {
+                entries.push({
+                    'text': `${bold(id + 1)} - ${user.tag}`,
+                    'points': member.points
+                });
             }
         }
 
         const embed = new EmbedBuilder()
-            .setTitle('Leaderboard')
-            .setDescription('Here is a list of the most active members of this server')
+            .setTitle('Most Active Members')
+            .setDescription('The list of the most active members of this server')
             .setTimestamp()
             .setColor('#1E1F22')
-            .setFields({
-                'name': 'Members',
-                'value': entries.join('\n\n'),
-                'inline': true,
-            });
+            .setFields(
+                {
+                    'name': 'Members',
+                    'value': entries.map((v) => v.text).join('\n\n'),
+                    'inline': true,
+                },
+                {
+                    'name': 'Points',
+                    'value': entries.map((v) => v.points).join('\n\n'),
+                    'inline': true,
+                }
+            );
 
         interaction.reply({ 'embeds': [embed] })
     }

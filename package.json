@@ -19,6 +19,7 @@
     "distube": "^4.0.4",
     "dotenv": "^16.0.3",
     "fast-glob": "^3.2.12",
+    "ffmpeg-static": "^4.4.1",
     "libsodium-wrappers": "^0.7.11",
     "mongoose": "^7.0.2",
     "node": "^19.8.1",
@@ -33,6 +34,5 @@
   "bugs": {
     "url": "https://github.com/frogyushi/topokki/issues"
   },
-  "homepage": "https://github.com/frogyushi/topokki#readme",
-  "devDependencies": {}
+  "homepage": "https://github.com/frogyushi/topokki#readme"
 }

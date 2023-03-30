@@ -1,5 +1,5 @@
 const { Command } = require('../../helpers/command');
-const { EmbedBuilder, CommandInteraction } = require('discord.js');
+const { EmbedBuilder, CommandInteraction, bold } = require('discord.js');
 const { Topokki } = require('../../structures/topokki');
 
 module.exports = new Command({
@@ -23,11 +23,11 @@ module.exports = new Command({
 
         for (const [id, song] of queue.songs.slice(0, 10).entries()) {
             if (id === 0) {
-                songs.current = `[${song.name}](${song.url}) - ${song.formattedDuration}`;
+                songs.current = `${song.name} - ${song.formattedDuration}`;
                 continue;
             }
 
-            songs.queued.push(`**${id}** - [${song.name}](${song.url}) - ${song.formattedDuration}`);
+            songs.queued.push(`${bold(id)} - ${song.name} - ${song.formattedDuration}`);
         }
 
         const embed = new EmbedBuilder()
@@ -43,5 +43,4 @@ module.exports = new Command({
 
         interaction.reply({ 'embeds': [embed] });
     },
-},
-);
+});

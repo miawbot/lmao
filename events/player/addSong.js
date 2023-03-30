@@ -17,7 +17,6 @@ module.exports = new Event({
         const embed = new EmbedBuilder()
             .setAuthor({ 'name': 'Added to Queue' })
             .setTitle(song.name)
-            .setURL(song.url)
             .setTimestamp()
             .setColor('#1E1F22')
             .addFields(

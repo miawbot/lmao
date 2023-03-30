@@ -13,7 +13,10 @@ module.exports = new Event({
     async callback(client, message) {
         const Leaderboard = client.database.get('leaderboard');
 
-        if (message.author.id === client.user.id) {
+        if (
+            message.author.id === client.user.id ||
+            message.author.bot
+        ) {
             return;
         }
 
@@ -34,7 +37,7 @@ module.exports = new Event({
 
         const minutes = Math.floor((Date.now() - member.lastActive) / 60000);
 
-        if (minutes >= 10) {
+        if (minutes >= 5) {
             await Leaderboard.findOneAndUpdate(
                 {
                     'guildId': message.guildId,

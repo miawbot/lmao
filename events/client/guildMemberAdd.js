@@ -16,7 +16,14 @@ module.exports = new Event({
 
         WelcomeRole.find({ 'guildId': member.guild.id }).then((roles) => {
             if (roles) {
-                member.roles.add(roles.map(({ roleId }) => roleId))
+                const _roles = [];
+                for (const role of roles) {
+                    if (role) {
+                        _roles.push(role)
+                    }
+                }
+
+                member.roles.add(_roles);
             }
         });
 
@@ -34,7 +41,7 @@ module.exports = new Event({
             ) {
                 return;
             }
-            
+
             if (message.title) {
                 const _title = message.title
                     .replace(/{member}/gi, member.user.tag)

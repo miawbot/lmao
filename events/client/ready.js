@@ -10,9 +10,8 @@ module.exports = new Event({
      * @param {Topokki} client 
      */
     async callback(client) {
-        await client.registerCommands();
-        console.log('Commands have been loaded');
-        
-        client.user.setActivity('VALORANT VCT', { 'type': ActivityType.Competing })
+        client.registerCommands().then(() => console.log('Commands have been loaded'));
+
+        client.user.setActivity('the clouds :)', { 'type': ActivityType.Watching })
     },
 });
