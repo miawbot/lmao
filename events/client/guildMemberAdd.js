@@ -15,16 +15,11 @@ module.exports = new Event({
         const WelcomeRole = client.database.get('welcomeRole');
 
         WelcomeRole.find({ 'guildId': member.guild.id }).then((roles) => {
-            if (roles) {
-                const _roles = [];
-                for (const role of roles) {
-                    if (role) {
-                        _roles.push(role)
-                    }
-                }
-
-                member.roles.add(_roles);
+            if (!roles) {
+                return;
             }
+
+            member.roles.add(roles.filter((v) => v?.roleId));
         });
 
         WelcomeMessage.findOne({ 'guildId': member.guild.id }).then((message) => {

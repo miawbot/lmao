@@ -12,6 +12,11 @@ module.exports = new Command({
             'type': ApplicationCommandOptionType.String,
             'required': true,
         },
+        {
+            'name': 'hidden',
+            'description': 'Set reply to be anonymous',
+            'type': ApplicationCommandOptionType.Boolean,
+        }
     ],
 
     /**
@@ -20,6 +25,17 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {
-        interaction.reply(interaction.options.getString('message'));
+        const message = interaction.options.getString('message');
+        const hidden = interaction.options.getBoolean('hidden') || false;
+
+        if (hidden) {
+            interaction.deferReply();
+            interaction.deleteReply();
+            
+            interaction.channel.send(message);
+            return;
+        }
+
+        interaction.reply(message);
     }
 })
