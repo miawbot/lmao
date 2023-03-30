@@ -13,8 +13,8 @@ module.exports = new Command({
     },
     'options': [
         {
-            'name': 'index',
-            'description': 'Provide an index',
+            'name': 'position',
+            'description': 'Provide a position',
             'type': ApplicationCommandOptionType.Number,
             'required': true,
         },
@@ -26,16 +26,16 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     callback(client, interaction) {
-        const index = interaction.options.getNumber('index');
+        const position = interaction.options.getNumber('position');
         const songs = client.player.getQueue(interaction.guildId)?.songs || [];
-        const song = songs[index];
+        const song = songs[position];
 
         if (!song) {
-            client.reply(interaction, 'Referred song by index does not exist in the queue');
+            client.reply(interaction, 'Referred song by position does not exist in the queue');
             return;
         }
 
-        songs.splice(index, 1);
+        songs.splice(position, 1);
         songs.splice(1, 0, song);
 
         interaction.reply(`I have moved ${inlineCode(song.name)} to the first position in the queue!`);
