@@ -31,7 +31,6 @@ module.exports = new Event({
 
             client.voiceChannelCache.set(channel.id, member);
             member.voice.setChannel(channel.id);
-            return;
         }
 
         if (
@@ -39,7 +38,6 @@ module.exports = new Event({
             !old.channel.members.size
         ) {
             old.channel.delete();
-            return;
         }
     },
 });
