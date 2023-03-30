@@ -27,7 +27,7 @@ module.exports = new Subcommand({
 
         const embed = new EmbedBuilder()
             .setTitle('List of Welcome Roles')
-            .setColor('#ffc9b9')
+            .setColor('#1E1F22')
             .setDescription(description);
 
         interaction.reply({ 'embeds': [embed] });

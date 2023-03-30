@@ -19,7 +19,7 @@ module.exports = new Event({
             .setTitle(song.name)
             .setURL(song.url)
             .setTimestamp()
-            .setColor('#ffc9b9')
+            .setColor('#1E1F22')
             .addFields(
                 {
                     'name': 'By',
