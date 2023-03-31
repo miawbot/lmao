@@ -31,7 +31,7 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const TemporaryVoiceChannel = client.database.get('temporaryVoiceChannel');
+        const TemporaryVoiceChannel = client.database.get('temporary.voicechannel');
 
         const options = client.sanitize({
             'isEnabled': interaction.options.getBoolean('enabled'),

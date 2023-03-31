@@ -1,6 +1,6 @@
-const { client } = require('../structures/topokki')
+const { client } = require('../../structures/topokki')
 
-module.exports = client.database.schema('temporaryVoiceChannel', {
+module.exports = client.database.schema('temporary.voicechannel', {
     'guildId': {
         'type': String,
         'required': true,

@@ -11,7 +11,7 @@ module.exports = new Subcommand({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const WelcomeRole = client.database.get('welcomeRole');
+        const WelcomeRole = client.database.get('welcome.role');
         const _roles = await WelcomeRole.find({ 'guildId': interaction.guildId }) || [];
 
         const roles = [];

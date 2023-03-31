@@ -1,6 +1,6 @@
-const { client } = require('../structures/topokki')
+const { client } = require('../../structures/topokki')
 
-module.exports = client.database.schema('welcomeMessage', {
+module.exports = client.database.schema('welcome.embed', {
     'guildId': {
         'type': String,
         'required': true,

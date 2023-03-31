@@ -11,7 +11,7 @@ module.exports = new Subcommand({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const WelcomeMessage = client.database.get('welcomeMessage');
+        const welcomeEmbed = client.database.get('welcome.embed');
 
         const options = client.sanitize({
             'channelId': interaction.options.getChannel('text_channel')?.id,
@@ -23,14 +23,14 @@ module.exports = new Subcommand({
             return;
         }
 
-        const embed = await WelcomeMessage.findOne({ 'guildId': interaction.guildId });
+        const embed = await welcomeEmbed.findOne({ 'guildId': interaction.guildId });
 
         if (!embed) {
             client.reply(interaction, 'Welcome messages might be disabled or no welcome embed has been set');
             return;
         }
 
-        await WelcomeMessage.findOneAndUpdate(
+        await welcomeEmbed.findOneAndUpdate(
             { 'guildId': interaction.guildId },
             { '$set': options }
         );

@@ -11,8 +11,8 @@ module.exports = new Event({
      * @param {GuildMember} member 
      */
     callback(client, member) {
-        const WelcomeMessage = client.database.get('welcomeMessage');
-        const WelcomeRole = client.database.get('welcomeRole');
+        const welcomeEmbed = client.database.get('welcome.embed');
+        const WelcomeRole = client.database.get('welcome.role');
 
         WelcomeRole.find({ 'guildId': member.guild.id }).then((roles) => {
             if (!roles) {
@@ -22,7 +22,7 @@ module.exports = new Event({
             member.roles.add(roles.filter((v) => v?.roleId));
         });
 
-        WelcomeMessage.findOne({ 'guildId': member.guild.id }).then((message) => {
+        welcomeEmbed.findOne({ 'guildId': member.guild.id }).then((message) => {
             if (!message) {
                 return;
             }

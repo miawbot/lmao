@@ -10,7 +10,7 @@ module.exports = new Event({
      */
     async callback(client, old, current) {
         const tempChannel = await client.database
-            .get('temporaryVoiceChannel')
+            .get('temporary.voicechannel')
             .findOne({ 'guildId': old.guild.id || current.guild.id });
 
         if (
