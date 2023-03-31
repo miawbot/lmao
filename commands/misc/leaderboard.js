@@ -19,7 +19,8 @@ module.exports = new Command({
             .sort({ 'points': -1 })
             .limit(10) || [];
 
-        const entries = [];
+        const texts = [];
+        const points = [];
 
         for (const [id, member] of members.entries()) {
             const user = await client.users
@@ -31,27 +32,25 @@ module.exports = new Command({
                 !user.bot &&
                 member.points > 0
             ) {
-                entries.push({
-                    'text': `${bold(id + 1)} - ${user.tag}`,
-                    'points': member.points
-                });
+                texts.push(bold(id + 1) + ' - ' + user.tag);
+                points.push(member.points);
             }
         }
 
         const embed = new EmbedBuilder()
-            .setTitle('Most Active Members')
+            .setTitle('Leaderboard')
             .setDescription('The list of the most active members of this server')
             .setTimestamp()
             .setColor('#1E1F22')
             .setFields(
                 {
                     'name': 'Members',
-                    'value': entries.map((v) => v.text).join('\n\n'),
+                    'value': texts.join('\n\n'),
                     'inline': true,
                 },
                 {
                     'name': 'Points',
-                    'value': entries.map((v) => v.points).join('\n\n'),
+                    'value': points.join('\n\n'),
                     'inline': true,
                 }
             );
