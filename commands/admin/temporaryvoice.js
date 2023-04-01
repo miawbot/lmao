@@ -48,7 +48,7 @@ module.exports = new Command({
 
         if (
             !channel &&
-            (!channel.channelId && !options.channelId)
+            (!channel?.channelId && !options.channelId)
         ) {
             client.reply(interaction, 'Unable to update setting since no voice channel has been configured');
             return;
