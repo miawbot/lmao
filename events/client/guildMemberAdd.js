@@ -66,7 +66,8 @@ module.exports = new Event({
             if (message.description) {
                 const _desc = message.description
                     .replace(/{member}/gi, userMention(member.user.id))
-                    .replace(/{guild}/gi, member.guild.name);
+                    .replace(/{guild}/gi, member.guild.name)
+                    .replace(/\\n/g, '\n');
 
                 embed.setDescription(_desc);
             }
