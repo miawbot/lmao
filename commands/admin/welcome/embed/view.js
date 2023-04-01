@@ -11,10 +11,10 @@ module.exports = new Subcommand({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const welcomeEmbed = client.database.get('welcome.embed');
+        const WelcomeEmbed = client.database.get('welcome.embed');
         const member = interaction.member;
 
-        welcomeEmbed.findOne({ 'guildId': member.guild.id }).then((message) => {
+        WelcomeEmbed.findOne({ 'guildId': member.guild.id }).then((message) => {
             if (!message) {
                 client.reply(interaction, 'Unable to view embed since there is no embed set');
                 return;

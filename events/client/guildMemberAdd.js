@@ -11,7 +11,8 @@ module.exports = new Event({
      * @param {GuildMember} member 
      */
     callback(client, member) {
-        const welcomeEmbed = client.database.get('welcome.embed');
+        const BotPrevention = client.database.get('botprevention');
+        const WelcomeEmbed = client.database.get('welcome.embed');
         const WelcomeRole = client.database.get('welcome.role');
 
         WelcomeRole.find({ 'guildId': member.guild.id }).then((roles) => {
@@ -22,7 +23,24 @@ module.exports = new Event({
             member.roles.add(roles.filter((v) => v?.roleId));
         });
 
-        welcomeEmbed.findOne({ 'guildId': member.guild.id }).then((message) => {
+        BotPrevention.findOne({ 'guildId': member.guild.id }).then((settings) => {
+            if (
+                !settings &&
+                !settings.isEnabled
+            ) {
+                return;
+            }
+
+            setTimeout(() => {
+                if (member.user.bot) {
+                    return;
+                }
+
+                member.kick();
+            }, settings.timeout);
+        })
+
+        WelcomeEmbed.findOne({ 'guildId': member.guild.id }).then((message) => {
             if (!message) {
                 return;
             }

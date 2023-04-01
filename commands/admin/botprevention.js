@@ -3,20 +3,14 @@ const { ApplicationCommandOptionType, CommandInteraction, ChannelType, Permissio
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
-    'name': 'temporaryvoice',
-    'description': 'Set up temporary voice channels',
+    'name': 'botprevention',
+    'description': 'Set up prevention for bot accounts (not actual bots)',
     'defaultMemberPermissions': [PermissionFlagsBits.Administrator],
     'options': [
         {
-            'type': ApplicationCommandOptionType.Channel,
-            'name': 'voice_channel',
-            'description': 'Provide a voice channel to act as a hook for temporary voice channels',
-            'channel_types': [ChannelType.GuildVoice],
-        },
-        {
-            'type': ApplicationCommandOptionType.String,
-            'name': 'default_name',
-            'description': 'Change the default channel name',
+            'type': ApplicationCommandOptionType.Number,
+            'name': 'timeout',
+            'description': 'Provide a timeout in minutes',
         },
         {
             'type': ApplicationCommandOptionType.Boolean,
@@ -31,12 +25,11 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const TemporaryVoiceChannel = client.database.get('temporary.voicechannel');
+        const BotPrevention = client.database.get('botprevention');
 
         const options = client.sanitize({
             'isEnabled': interaction.options.getBoolean('is_enabled'),
-            'channelId': interaction.options.getChannel('voice_channel')?.id,
-            'defaultName': interaction.options.getString('default_name'),
+            'timeout': interaction.options.getNumber('timeout'),
         });
 
         if (!Object.keys(options).length) {
@@ -44,17 +37,7 @@ module.exports = new Command({
             return;
         }
 
-        const channel = await TemporaryVoiceChannel.findOne({ 'guildId': interaction.guildId });
-
-        if (
-            !channel &&
-            !options.channelId
-        ) {
-            client.reply(interaction, 'Unable to update setting since no voice channel has been configured');
-            return;
-        };
-
-        await TemporaryVoiceChannel.findOneAndUpdate(
+        await BotPrevention.findOneAndUpdate(
             { 'guildId': interaction.guildId },
             { '$set': options },
             {

@@ -15,7 +15,7 @@ module.exports = new Command({
             'options': [
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'setup',
+                    'name': 'manage',
                     'description': 'Create/update welcome message embed',
                     'options': [
                         {
@@ -63,15 +63,15 @@ module.exports = new Command({
                         },
                         {
                             'type': ApplicationCommandOptionType.Boolean,
-                            'name': 'enabled',
-                            'description': 'Enable/disable welcome messages',
+                            'name': 'is_enabled',
+                            'description': 'Enable/disable',
                         },
                     ],
                 },
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'view',
-                    'description': 'View welcome message embed',
+                    'name': 'show',
+                    'description': 'Show welcome message embed',
                 },
             ],
         },
@@ -108,7 +108,7 @@ module.exports = new Command({
                 },
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
-                    'name': 'list',
+                    'name': 'show',
                     'description': 'Show a list of every welcome role that has been set',
                 },
             ],

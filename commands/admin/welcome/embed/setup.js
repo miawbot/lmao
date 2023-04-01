@@ -11,7 +11,7 @@ module.exports = new Subcommand({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const welcomeEmbed = client.database.get('welcome.embed');
+        const WelcomeEmbed = client.database.get('welcome.embed');
 
         const options = client.sanitize({
             'title': interaction.options.getString('title'),
@@ -27,10 +27,10 @@ module.exports = new Subcommand({
             return;
         }
 
-        const embed = await welcomeEmbed.findOne({ 'guildId': interaction.guildId });
+        const embed = await WelcomeEmbed.findOne({ 'guildId': interaction.guildId });
 
         if (embed) {
-            await welcomeEmbed.findOneAndUpdate(
+            await WelcomeEmbed.findOneAndUpdate(
                 { 'guildId': interaction.guildId },
                 { '$set': options }
             );
@@ -55,7 +55,7 @@ module.exports = new Subcommand({
             return;
         }
 
-        await welcomeEmbed.create({
+        await WelcomeEmbed.create({
             'guildId': interaction.guildId,
             'isEnabled': true,
             ...options,

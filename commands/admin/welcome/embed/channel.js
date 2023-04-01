@@ -11,11 +11,11 @@ module.exports = new Subcommand({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const welcomeEmbed = client.database.get('welcome.embed');
+        const WelcomeEmbed = client.database.get('welcome.embed');
 
         const options = client.sanitize({
             'channelId': interaction.options.getChannel('text_channel')?.id,
-            'isEnabled': interaction.options.getBoolean('enabled')
+            'isEnabled': interaction.options.getBoolean('is_enabled')
         });
 
         if (!Object.keys(options).length) {
@@ -23,14 +23,14 @@ module.exports = new Subcommand({
             return;
         }
 
-        const embed = await welcomeEmbed.findOne({ 'guildId': interaction.guildId });
+        const embed = await WelcomeEmbed.findOne({ 'guildId': interaction.guildId });
 
         if (!embed) {
             client.reply(interaction, 'Welcome messages might be disabled or no welcome embed has been set');
             return;
         }
 
-        await welcomeEmbed.findOneAndUpdate(
+        await WelcomeEmbed.findOneAndUpdate(
             { 'guildId': interaction.guildId },
             { '$set': options }
         );
