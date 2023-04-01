@@ -19,26 +19,29 @@ module.exports = new Command({
      */
     async callback(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId);
-        const songs = { 'queued': [] };
+        const queued = []
+        const current = [];
 
         for (const [id, song] of queue.songs.slice(0, 10).entries()) {
+            const temp = song.name + ' - ' + song.formattedDuration;
+
             if (id === 0) {
-                songs.current = `${song.name} - ${song.formattedDuration}`;
+                current = temp;
                 continue;
             }
 
-            songs.queued.push(`${bold(id)} - ${song.name} - ${song.formattedDuration}`);
+            queued.push(bold(id) + ' - ' + temp);
         }
 
         const embed = new EmbedBuilder()
             .setTitle('Now Playing')
-            .setDescription(songs.current)
-            .setFooter({ 'text': `${queue.songs.length - 1 || 'No'} songs in queue` })
+            .setDescription(current)
+            .setFooter({ 'text': (queue.songs.length - 1 || 'No') + ' songs in queue' })
             .setTimestamp()
             .setColor('#1E1F22')
             .addFields({
                 'name': 'Next up',
-                'value': songs.queued.join('\n\n') || 'None',
+                'value': queued.join('\n\n') || 'None',
             });
 
         interaction.reply({ 'embeds': [embed] });
