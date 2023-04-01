@@ -11,11 +11,13 @@ module.exports = new Command({
             'type': ApplicationCommandOptionType.Number,
             'name': 'timeout',
             'description': 'Provide a timeout in minutes',
+            'required': true,
         },
         {
             'type': ApplicationCommandOptionType.Boolean,
             'name': 'is_enabled',
             'description': 'Enable/disable',
+            'required': true,
         },
     ],
 
