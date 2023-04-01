@@ -35,9 +35,8 @@ module.exports = new Command({
             return;
         }
 
-        songs
-            .splice(position, 1)
-            .splice(1, 0, song);
+        songs.splice(position, 1);
+        songs.splice(1, 0, song);
 
         interaction.reply(`I have moved ${inlineCode(song.name)} to the first position in the queue!`);
     },
