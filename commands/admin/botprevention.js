@@ -27,17 +27,17 @@ module.exports = new Command({
     async callback(client, interaction) {
         const BotPrevention = client.database.get('botprevention');
 
+        const setting = await BotPrevention.findOne({ 'guildId': interaction.guildId });
+
         const options = client.sanitize({
             'isEnabled': interaction.options.getBoolean('is_enabled'),
-            'timeout': interaction.options.getNumber('timeout') * (1000 * 60),
+            'timeout': (interaction.options.getNumber('timeout') * (1000 * 60)) ?? setting.timeout,
         });
 
         if (!Object.keys(options).length) {
             client.reply(interaction, 'No options were provided');
             return;
         }
-
-        const setting = await BotPrevention.findOne({ 'guildId': interaction.guildId });
 
         if (
             !setting ||
