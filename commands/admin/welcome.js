@@ -16,7 +16,7 @@ module.exports = new Command({
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
                     'name': 'manage',
-                    'description': 'Create/update welcome message embed',
+                    'description': 'Managing welcome message embed settings',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.String,

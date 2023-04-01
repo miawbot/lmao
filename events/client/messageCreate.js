@@ -13,6 +13,10 @@ module.exports = new Event({
     async callback(client, message) {
         const Leaderboard = client.database.get('leaderboard');
 
+        if (!client.botPreventionCache.get(message.member.id)) {
+            client.botPreventionCache.set(message.member.id, true);
+        }
+
         if (
             message.author.id === client.user.id ||
             message.author.bot

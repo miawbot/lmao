@@ -1,5 +1,6 @@
 const { Topokki } = require('../../structures/topokki');
 const { Event } = require('../../helpers/event');
+const { ChannelType } = require('discord.js');
 
 module.exports = new Event({
     'name': 'voiceStateUpdate',
@@ -26,7 +27,7 @@ module.exports = new Event({
             const channel = await member.guild.channels.create({
                 'name': tempChannel.defaultName.replace(/{member}/gi, member.user.username),
                 'parent': current.channel?.parentId || null,
-                'type': 2
+                'type': ChannelType.GuildVoice
             });
 
             client.voiceChannelCache.set(channel.id, member);

@@ -31,8 +31,14 @@ module.exports = new Event({
                 return;
             }
 
-            setTimeout(() => {
-                if (member.user.bot) {
+            const timeout = setTimeout(() => {
+                const isActive = client.botPreventionCache.get(member.user.id);
+
+                if (
+                    isActive ||
+                    member.user.bot
+                ) {
+                    clearTimeout(timeout);
                     return;
                 }
 

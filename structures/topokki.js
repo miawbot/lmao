@@ -26,6 +26,7 @@ class Topokki extends Client {
         this.instance = this;
         this.database = new Database();
         this.voiceChannelCache = new Collection();
+        this.botPreventionCache = new Collection();
 
         /**
          * @type {Collection<String, Command>}
