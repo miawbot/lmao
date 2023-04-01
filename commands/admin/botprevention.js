@@ -41,7 +41,7 @@ module.exports = new Command({
 
         if (
             !setting ||
-            !setting.timeout
+            (!setting.timeout && !options.timeout)
         ) {
             client.reply(interaction, 'Unable to update setting since no timeout has been set');
             return;
