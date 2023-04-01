@@ -3,7 +3,7 @@ const { CommandInteraction } = require('discord.js');
 const { Subcommand } = require('../../../../helpers/command');
 
 module.exports = new Subcommand({
-    'name': 'welcome.embed.setup',
+    'name': 'welcome.embed.manage',
 
     /**
      * 

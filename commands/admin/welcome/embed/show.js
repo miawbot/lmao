@@ -3,7 +3,7 @@ const { CommandInteraction, EmbedBuilder, userMention } = require('discord.js');
 const { Subcommand } = require('../../../../helpers/command');
 
 module.exports = new Subcommand({
-    'name': 'welcome.embed.view',
+    'name': 'welcome.embed.show',
 
     /**
      * 
