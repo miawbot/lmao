@@ -9,5 +9,8 @@ module.exports = client.database.schema('botprevention', {
         'type': Number,
         'default': 300000
     },
-    'isEnabled': { 'type': String },
+    'isEnabled': {
+        'type': Boolean,
+        'default': false
+    },
 });

@@ -11,13 +11,11 @@ module.exports = new Command({
             'type': ApplicationCommandOptionType.Number,
             'name': 'timeout',
             'description': 'Provide a timeout in minutes',
-            'required': true,
         },
         {
             'type': ApplicationCommandOptionType.Boolean,
             'name': 'is_enabled',
             'description': 'Enable/disable',
-            'required': true,
         },
     ],
 
@@ -36,6 +34,16 @@ module.exports = new Command({
 
         if (!Object.keys(options).length) {
             client.reply(interaction, 'No options were provided');
+            return;
+        }
+
+        const setting = await BotPrevention.findOne({ 'guildId': interaction.guildId });
+
+        if (
+            !setting ||
+            !setting.timeout
+        ) {
+            client.reply(interaction, 'Unable to update setting since no timeout has been set');
             return;
         }
 
