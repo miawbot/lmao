@@ -29,7 +29,7 @@ module.exports = new Command({
 
         const options = client.sanitize({
             'isEnabled': interaction.options.getBoolean('is_enabled'),
-            'timeout': interaction.options.getNumber('timeout'),
+            'timeout': interaction.options.getNumber('timeout') * (1000 * 60),
         });
 
         if (!Object.keys(options).length) {
