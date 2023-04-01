@@ -47,7 +47,7 @@ module.exports = new Command({
         const channel = await TemporaryVoiceChannel.findOne({ 'guildId': interaction.guildId });
 
         if (
-            !channel ||
+            !channel &&
             !options.channelId
         ) {
             client.reply(interaction, 'Unable to update setting since no voice channel has been configured');
