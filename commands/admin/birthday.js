@@ -14,12 +14,12 @@ module.exports = new Command({
                 {
                     'type': ApplicationCommandOptionType.String,
                     'name': 'date',
-                    'description': 'Set a date',
+                    'description': 'Set a birthday date',
                 },
                 {
                     'type': ApplicationCommandOptionType.Boolean,
-                    'name': 'is_enabled',
-                    'description': 'Enable/disable',
+                    'name': 'is_public',
+                    'description': 'Decide whether others can see your birthday or not',
                 },
             ],
         },
