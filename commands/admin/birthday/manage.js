@@ -29,8 +29,8 @@ module.exports = new Subcommand({
         }
 
         if (
-            !setting ||
-            (!setting?.date || !options.date)
+            !setting &&
+            (!setting?.date && !options.date)
         ) {
             client.reply(interaction, 'Unable to update setting since no date has been set');
             return;
