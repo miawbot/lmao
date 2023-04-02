@@ -19,7 +19,7 @@ module.exports = new Subcommand({
         })
 
         const options = client.sanitize({
-            'isEnabled': interaction.options.getBoolean('is_enabled'),
+            'isEnabled': interaction.options.getBoolean('is_public'),
             'date': interaction.options.getString('date'),
         });
 
