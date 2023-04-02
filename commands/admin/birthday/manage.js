@@ -12,7 +12,11 @@ module.exports = new Subcommand({
      */
     async callback(client, interaction) {
         const Birthday = client.database.get('birthday');
-        const setting = Birthday.findOne({ 'guildId': interaction.guildId, 'userId': interaction.user.id })
+
+        const setting = await Birthday.findOne({
+            'guildId': interaction.guildId,
+            'userId': interaction.user.id
+        })
 
         const options = client.sanitize({
             'isEnabled': interaction.options.getBoolean('is_enabled'),
@@ -25,7 +29,7 @@ module.exports = new Subcommand({
         }
 
         if (
-            !setting &&
+            !setting ||
             (!setting?.date && !options.date)
         ) {
             client.reply(interaction, 'Unable to update setting since no date has been set');
@@ -34,19 +38,13 @@ module.exports = new Subcommand({
 
         if (options?.date) {
             const date = new Date(options.date);
-
-            if (
-                !(date instanceof Date) &&
-                isNaN(date.valueOf())
-            ) {
+            if (!(date instanceof Date && !isNaN(date))) {
                 client.reply(interaction, 'Provided date is invalid, please try again')
                 return;
             }
-
-            options.date = date.toLocaleString('default', { month: 'long' }) + ' ' + date.getDate();
         }
 
-        await BotPrevention.findOneAndUpdate(
+        await Birthday.findOneAndUpdate(
             {
                 'guildId': interaction.guildId,
                 'userId': interaction.user.id

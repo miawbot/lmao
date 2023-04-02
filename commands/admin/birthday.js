@@ -30,8 +30,8 @@ module.exports = new Command({
             'options': [
                 {
                     'type': ApplicationCommandOptionType.User,
-                    'name': 'user',
-                    'description': 'Provide an user',
+                    'name': 'member',
+                    'description': 'Provide a member',
                     'required': true
                 },
             ],

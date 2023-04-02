@@ -38,6 +38,7 @@ module.exports = new Event({
                     isActive ||
                     member.user.bot
                 ) {
+                    client.botPreventionCache.delete(member.user.id);
                     clearTimeout(timeout);
                     return;
                 }

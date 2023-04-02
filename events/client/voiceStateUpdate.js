@@ -14,6 +14,12 @@ module.exports = new Event({
             .get('temporary.voicechannel')
             .findOne({ 'guildId': old.guild.id || current.guild.id });
 
+        const member = old.member || current.member;
+
+        if (!client.botPreventionCache.get(member?.id)) {
+            client.botPreventionCache.set(member?.id, true);
+        }
+
         if (
             !tempChannel ||
             !tempChannel.isEnabled
