@@ -38,6 +38,7 @@ module.exports = new Subcommand({
 
         if (options?.date) {
             const date = new Date(options.date);
+            
             if (!(date instanceof Date && !isNaN(date))) {
                 client.reply(interaction, 'Provided date is invalid, please try again')
                 return;

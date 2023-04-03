@@ -1,5 +1,5 @@
 const { Command } = require('../../helpers/command');
-const { EmbedBuilder, CommandInteraction, userMention } = require('discord.js');
+const { EmbedBuilder, CommandInteraction } = require('discord.js');
 const { Topokki } = require('../../structures/topokki');
 
 module.exports = new Command({

@@ -61,15 +61,13 @@ class Topokki extends Client {
      * @returns {Subcommand|undefined}
      */
     getSubcommand(interaction) {
-        const options = {
-            '1': interaction.commandName,
-            '2': interaction.options.getSubcommandGroup(),
-            '3': interaction.options.getSubcommand()
-        };
+        const options = this.sanitize([
+            interaction.commandName,
+            interaction.options.getSubcommandGroup(),
+            interaction.options.getSubcommand()
+        ]);
 
-        let route = Object.values(this.sanitize(options)).join('.');
-
-        return this.subcommands.get(route);
+        return this.subcommands.get(options.join('.'));
     }
 
     /**
@@ -93,11 +91,15 @@ class Topokki extends Client {
     /**
      * Removes keys with nullish and undefined values
      * 
-     * @param {Object} options 
+     * @param {Object|String[]} data 
      * @returns {Object}
      */
-    sanitize(options) {
-        return Object.fromEntries(Object.entries(options).filter(([_, v]) => v != null || v != undefined));
+    sanitize(data) {
+        if (Array.isArray(data)) {
+            return data.filter(Boolean);
+        }
+
+        return Object.fromEntries(Object.entries(data).filter(([_, v]) => v != null || v != undefined));
     }
 
     /**

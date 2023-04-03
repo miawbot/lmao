@@ -3,7 +3,7 @@ const { CommandInteraction, EmbedBuilder, inlineCode } = require('discord.js');
 const { Subcommand } = require('../../../helpers/command');
 
 module.exports = new Subcommand({
-    'name': 'birthday.show',
+    'name': 'birthday.channel',
 
     /**
      * 
@@ -28,6 +28,9 @@ module.exports = new Subcommand({
         let date = setting.date;
         date = date.toLocaleString('default', { month: 'long' }) + ' ' + date.getDate()
 
-        interaction.reply(`${user.username}'s birthday is on ${inlineCode(date)}`);
+        const embed = new EmbedBuilder()
+            .setDescription(`${user.username}'s birthday is on ${inlineCode(date)}`);
+
+        interaction.reply({ 'embeds': [embed] });
     }
 });

@@ -1,5 +1,5 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction, ChannelType, PermissionFlagsBits } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
