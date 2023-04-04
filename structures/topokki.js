@@ -115,7 +115,7 @@ class Topokki extends Client {
         for (const file of await fg('./cron/*.js')) {
             const cron = require('.' + file);
             if (cron instanceof Cron) {
-                cron.start(client, cron.schedule);
+                cron.start(client);
                 this.crons.set(cron.name, cron);
             }
         }

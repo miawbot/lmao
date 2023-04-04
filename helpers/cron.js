@@ -16,7 +16,7 @@ class CronType {
     name = '';
 
     /**
-     * @type {CronScheduleType}
+     * @type {CronScheduleType|String}
      */
     schedule = {};
 
@@ -42,7 +42,11 @@ class Cron extends CronType {
             throw new Error('Cron module is missing properties');
         }
 
-        this.schedule = Object.assign(new CronScheduleType(), data.schedule);
+        this.schedule = data.schedule;
+
+        if (typeof data.schedule === 'object') {
+            this.schedule = Object.assign(new CronScheduleType(), data.schedule);
+        }
 
         data = Object.assign(new CronType(), data);
 
@@ -58,19 +62,16 @@ class Cron extends CronType {
      * @param {CronScheduleType} schedule 
      * @param {Function} callback 
      */
-    scheduleStart(client, schedule, callback) {
-        this.cron.schedule(Object.values(schedule).join(' '), async () => {
-            await callback?.(client, schedule, this);
-        })
-    }
+    start(client) {
+        let _schedule = this.schedule;
 
-    /**
-     * Start cronjob callback
-     * 
-     * @param {Topokki} client 
-     */
-    async start(client, schedule) {
-        await this.callback?.(client, client.sanitize(schedule), this);
+        if (typeof schedule === 'object') {
+            _schedule = Object.values(client.sanitize(this.schedule)).join(' ');
+        }
+
+        this.cron.schedule(_schedule, async () => {
+            await this.callback?.(client, this);
+        })
     }
 }
 
