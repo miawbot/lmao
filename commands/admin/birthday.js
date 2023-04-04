@@ -64,8 +64,6 @@ module.exports = new Command({
     async callback(client, interaction) {
         const subcommand = client.getSubcommand(interaction);
 
-        console.log(subcommand);
-
         if (subcommand) {
             await subcommand.callback?.(client, interaction);
         }

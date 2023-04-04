@@ -114,13 +114,15 @@ class Topokki extends Client {
      * @param {CommandInteraction} interaction 
      * @returns 
      */
-    validate(interaction, perms = []) {
+    async validate(interaction, perms = []) {
         const _perms = interaction.member.permissions;
 
         if (!_perms.has(perms)) {
-            client.reply(interaction, 'U have insufficient permissions to use this command');
-            return;
+            await client.reply(interaction, 'U have insufficient permissions to use this command');
+            return false;
         }
+
+        return true;
     }
 
     /**

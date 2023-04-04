@@ -144,8 +144,10 @@ class Subcommand extends SubcommandType {
     }
 
     async cb(client, interaction) {
-        client.validate(interaction, this.defaultMemberPermissions);
-        await this._callback(client, interaction);
+        const access = await client.validate(interaction, this.defaultMemberPermissions);
+        if (access) {
+            await this._callback(client, interaction);
+        }
     }
 }
 
