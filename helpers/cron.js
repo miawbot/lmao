@@ -65,8 +65,8 @@ class Cron extends CronType {
     start(client) {
         let _schedule = this.schedule;
 
-        if (typeof schedule === 'object') {
-            _schedule = Object.values(client.sanitize(this.schedule)).join(' ');
+        if (typeof _schedule === 'object') {
+            _schedule = Object.values(client.sanitize(_schedule)).join(' ');
         }
 
         this.cron.schedule(_schedule, async () => {

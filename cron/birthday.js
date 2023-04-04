@@ -4,7 +4,11 @@ const { Topokki } = require("../structures/topokki");
 
 module.exports = new Cron({
     'name': 'birthday',
-    'schedule': '0 0 0 * * *',
+    'schedule': {
+        'seconds': 0,
+        'minutes': 0,
+        'hours': 0,
+    },
 
     /**
      * 
