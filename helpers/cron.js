@@ -2,7 +2,7 @@ const cron = require('node-cron');
 
 class CronScheduleType {
     /**
-     * @type {String}
+     * @type {?String}
      */
     seconds = null;
     minutes = '*';
