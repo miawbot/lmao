@@ -40,7 +40,7 @@ module.exports = new Command({
         try {
             await client.player.playSong(interaction, search, skip ? { 'skip': true } : {});
         } catch (err) {
-            client.reply(interaction, 'I could not process this request, please try again');
+            interaction.followUp({ 'content': 'I could not process this request, please try again', 'epheremal': true });
             return;
         }
     }

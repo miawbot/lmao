@@ -4,6 +4,7 @@ const { Subcommand } = require('../../../helpers/command');
 
 module.exports = new Subcommand({
     'name': 'birthday.manage',
+    'defaultMemberPermissions': [PermissionsBitField.Flags.Administrator],
 
     /**
      * 

@@ -109,6 +109,21 @@ class Topokki extends Client {
     }
 
     /**
+     * Checks permissions for subcommands
+     * 
+     * @param {CommandInteraction} interaction 
+     * @returns 
+     */
+    validate(interaction, perms = []) {
+        const _perms = interaction.member.permissions;
+
+        if (!_perms.has(perms)) {
+            client.reply(interaction, 'U have insufficient permissions to use this command');
+            return;
+        }
+    }
+
+    /**
      * Load Cronjobs
      */
     async loadCrons() {

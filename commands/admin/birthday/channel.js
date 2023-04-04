@@ -4,6 +4,7 @@ const { Subcommand } = require('../../../helpers/command');
 
 module.exports = new Subcommand({
     'name': 'birthday.channel',
+    'defaultMemberPermissions': [PermissionsBitField.Flags.Administrator],
 
     /**
      * 
@@ -11,11 +12,6 @@ module.exports = new Subcommand({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        if (!interaction.member.permissions.has([PermissionsBitField.Flags.Administrator])) {
-            client.reply(interaction, 'U have insuffiecient permissions to use this command');
-            return;
-        }
-
         const BirthdayChannel = client.database.get('birthday.channel');
         const setting = await BirthdayChannel.findOne({ 'guildId': interaction.guildId });
 

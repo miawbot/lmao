@@ -102,6 +102,11 @@ class SubcommandType {
     name = '';
 
     /**
+     * @type {bigint[]}
+     */
+    defaultMemberPermissions = [];
+
+    /**
      * @type {Function}
      */
     callback = null;
@@ -124,6 +129,7 @@ class Subcommand extends SubcommandType {
             throw new Error('Subcommand module is missing properties');
         }
 
+        this.defaultMemberPermissions = data.defaultMemberPermissions;
         this.name = data.name;
 
         /**
@@ -132,7 +138,14 @@ class Subcommand extends SubcommandType {
          * @param {Topokki} client
          * @param {CommandInteraction} interaction
          */
-        this.callback = data.callback;
+        this._callback = data.callback;
+
+        this.callback = this.cb;
+    }
+
+    async cb(client, interaction) {
+        client.validate(interaction, this.defaultMemberPermissions);
+        await this._callback(client, interaction);
     }
 }
 
