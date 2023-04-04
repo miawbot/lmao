@@ -28,7 +28,7 @@ module.exports = new Command({
     callback(client, interaction) {
         const position = interaction.options.getNumber('position');
 
-        const songs = client.player.getQueue(interaction.guildId)?.songs || [];
+        const songs = client.player.getQueue(interaction.guildId)?.songs ?? [];
         const song = songs[position];
 
         if (!song) {

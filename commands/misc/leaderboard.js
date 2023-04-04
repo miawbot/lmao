@@ -17,7 +17,7 @@ module.exports = new Command({
         const members = await Leaderboard
             .find({ 'guildId': interaction.guildId })
             .sort({ 'points': -1 })
-            .limit(10) || [];
+            .limit(10) ?? [];
 
         const texts = [];
         const points = [];
@@ -45,12 +45,12 @@ module.exports = new Command({
             .setFields(
                 {
                     'name': 'Members',
-                    'value': texts.join('\n\n') || 'None',
+                    'value': texts.join('\n\n') ?? 'None',
                     'inline': true,
                 },
                 {
                     'name': 'Points',
-                    'value': points.join('\n\n') || 'None',
+                    'value': points.join('\n\n') ?? 'None',
                     'inline': true,
                 }
             );

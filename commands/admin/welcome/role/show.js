@@ -12,7 +12,7 @@ module.exports = new Subcommand({
      */
     async callback(client, interaction) {
         const WelcomeRole = client.database.get('welcome.role');
-        const _roles = await WelcomeRole.find({ 'guildId': interaction.guildId }) || [];
+        const _roles = await WelcomeRole.find({ 'guildId': interaction.guildId }) ?? [];
 
         const roles = [];
         for (const role of _roles) {

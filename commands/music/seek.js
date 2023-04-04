@@ -38,8 +38,8 @@ module.exports = new Command({
     callback(client, interaction) {
         const options = client.sanitize({
             'seconds': interaction.options.getNumber('seconds'),
-            'minutes': interaction.options.getNumber('minutes') || 0,
-            'hours': interaction.options.getNumber('hours') || 0,
+            'minutes': interaction.options.getNumber('minutes') ?? 0,
+            'hours': interaction.options.getNumber('hours') ?? 0,
         });
 
         client.player.seek(interaction, (options.hours * 3600) + (options.minutes * 60) + options.seconds);
