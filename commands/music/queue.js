@@ -20,7 +20,7 @@ module.exports = new Command({
     async callback(client, interaction) {
         const queue = client.player.getQueue(interaction.guildId);
         const queued = []
-        const current = [];
+        let current = '';
 
         for (const [id, song] of queue.songs.slice(0, 10).entries()) {
             const temp = song.name + ' - ' + song.formattedDuration;
