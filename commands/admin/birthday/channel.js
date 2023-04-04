@@ -1,5 +1,5 @@
 const { Topokki } = require('../../../structures/topokki');
-const { CommandInteraction } = require('discord.js');
+const { CommandInteraction, PermissionsBitField } = require('discord.js');
 const { Subcommand } = require('../../../helpers/command');
 
 module.exports = new Subcommand({
@@ -11,6 +11,11 @@ module.exports = new Subcommand({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
+        if (!interaction.member.permissions.has([PermissionsBitField.Flags.Administrator])) {
+            client.reply(interaction, 'U have insuffiecient permissions to use this command');
+            return;
+        }
+
         const BirthdayChannel = client.database.get('birthday.channel');
         const setting = await BirthdayChannel.findOne({ 'guildId': interaction.guildId });
 
