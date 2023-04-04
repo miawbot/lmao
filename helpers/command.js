@@ -94,7 +94,7 @@ class Command extends CommandType {
      * @returns {CommandSettings[]}
      */
     getSetting(setting) {
-        return this.settings[setting] ?? false;
+        return this.settings[setting] || false;
     }
 }
 

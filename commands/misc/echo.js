@@ -26,7 +26,7 @@ module.exports = new Command({
      */
     callback(client, interaction) {
         const message = interaction.options.getString('message');
-        const hidden = interaction.options.getBoolean('hidden') ?? false;
+        const hidden = interaction.options.getBoolean('hidden') || false;
 
         if (hidden) {
             interaction.deferReply();

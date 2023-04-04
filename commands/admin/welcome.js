@@ -46,7 +46,7 @@ module.exports = new Command({
                         {
                             'type': ApplicationCommandOptionType.Boolean,
                             'name': 'timestamp',
-                            'description': 'Enable/disable timestamp',
+                            'description': 'Enable or disable timestamp',
                         },
                     ],
                 },
@@ -101,7 +101,7 @@ module.exports = new Command({
                         {
                             'type': ApplicationCommandOptionType.Role,
                             'name': 'role',
-                            'description': 'provide a role',
+                            'description': 'Provide a role',
                             'required': true,
                         },
                     ],

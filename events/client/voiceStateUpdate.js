@@ -12,7 +12,7 @@ module.exports = new Event({
     async callback(client, old, current) {
         const tempChannel = await client.database
             .get('temporary.voicechannel')
-            .findOne({ 'guildId': old.guild.id ?? current.guild.id });
+            .findOne({ 'guildId': old.guild.id || current.guild.id });
 
         const member = old.member || current.member;
 
@@ -32,7 +32,7 @@ module.exports = new Event({
 
             const channel = await member.guild.channels.create({
                 'name': tempChannel.defaultName.replace(/{member}/gi, member.user.username),
-                'parent': current.channel?.parentId ?? null,
+                'parent': current.channel?.parentId || null,
                 'type': ChannelType.GuildVoice
             });
 

@@ -1,10 +1,30 @@
 const { Topokki } = require('../../structures/topokki');
-const { CommandInteraction, EmbedBuilder, bold } = require('discord.js');
+const { CommandInteraction, EmbedBuilder, bold, ApplicationCommandOptionType } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'leaderboard',
-    'description': 'Show a list of the most active members of this server',
+    'description': 'Most active members of this server',
+    'options': [
+        {
+            'type': ApplicationCommandOptionType.Subcommand,
+            'name': 'remove',
+            'description': 'Remove a leaderboard score',
+            'options': [
+                {
+                    'type': ApplicationCommandOptionType.User,
+                    'name': 'member',
+                    'description': 'Provide a member',
+                    'required': true,
+                },
+            ]
+        },
+        {
+            'type': ApplicationCommandOptionType.Subcommand,
+            'name': 'show',
+            'description': 'Show leaderboard',
+        }
+    ],
 
     /**
      * 
@@ -12,49 +32,10 @@ module.exports = new Command({
      * @param {CommandInteraction} interaction 
      */
     async callback(client, interaction) {
-        const Leaderboard = client.database.get('leaderboard');
+        const subcommand = client.getSubcommand(interaction);
 
-        const members = await Leaderboard
-            .find({ 'guildId': interaction.guildId })
-            .sort({ 'points': -1 })
-            .limit(10) ?? [];
-
-        const texts = [];
-        const points = [];
-
-        for (const [id, member] of members.entries()) {
-            const user = await client.users
-                .fetch(member.userId)
-                .catch(() => null);
-
-            if (
-                user &&
-                !user.bot &&
-                member.points > 0
-            ) {
-                texts.push(bold(id + 1) + ' - ' + user.tag);
-                points.push(member.points);
-            }
+        if (subcommand) {
+            await subcommand.callback?.(client, interaction);
         }
-
-        const embed = new EmbedBuilder()
-            .setTitle('Leaderboard')
-            .setDescription('The list of the most active members of this server')
-            .setTimestamp()
-            .setColor('#1E1F22')
-            .setFields(
-                {
-                    'name': 'Members',
-                    'value': texts.join('\n\n') ?? 'None',
-                    'inline': true,
-                },
-                {
-                    'name': 'Points',
-                    'value': points.join('\n\n') ?? 'None',
-                    'inline': true,
-                }
-            );
-
-        interaction.reply({ 'embeds': [embed] })
     }
 })

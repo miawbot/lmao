@@ -41,7 +41,7 @@ module.exports = new Command({
             .setColor('#1E1F22')
             .addFields({
                 'name': 'Next up',
-                'value': queued.join('\n\n') ?? 'None',
+                'value': queued.join('\n\n') || 'None',
             });
 
         interaction.reply({ 'embeds': [embed] });
