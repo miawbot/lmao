@@ -26,7 +26,7 @@ module.exports = new Subcommand({
 
         if (
             !setting &&
-            (!setting?.channel && !options.channel)
+            (!setting?.channelId && !options.channelId)
         ) {
             client.reply(interaction, 'Unable to update setting since no text channel has been set');
             return;

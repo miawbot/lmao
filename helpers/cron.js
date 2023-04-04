@@ -35,9 +35,6 @@ class Cron extends CronType {
     constructor(data) {
         super();
 
-        this.cron = cron;
-        this.active = false;
-
         if (
             !data.name ||
             !data.callback
@@ -49,6 +46,7 @@ class Cron extends CronType {
 
         data = Object.assign(new CronType(), data);
 
+        this.cron = cron;
         this.name = data.name;
         this.callback = data.callback;
     }
