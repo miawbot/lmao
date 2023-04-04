@@ -4,19 +4,19 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'welcome',
-    'description': 'Set up a welcome message when a person is invited to this server',
+    'description': 'Set up welcome messages for newcomers to the server',
     'isPlayer': true,
     'defaultMemberPermissions': [PermissionFlagsBits.Administrator],
     'options': [
         {
             'type': ApplicationCommandOptionType.SubcommandGroup,
             'name': 'embed',
-            'description': 'Welcome embed settings',
+            'description': 'Manage embed settings',
             'options': [
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
                     'name': 'manage',
-                    'description': 'Managing welcome message embed settings',
+                    'description': 'Manage embed settings',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.String,
@@ -53,18 +53,18 @@ module.exports = new Command({
                 {
                     'type': ApplicationCommandOptionType.Subcommand,
                     'name': 'channel',
-                    'description': 'Welcome channel settings',
+                    'description': 'Manage channel settings',
                     'options': [
                         {
                             'type': ApplicationCommandOptionType.Channel,
                             'name': 'text_channel',
-                            'description': 'Provide a text channel where welcome messages can be sent to',
+                            'description': 'Provide a text channel',
                             'channel_types': [ChannelType.GuildText],
                         },
                         {
                             'type': ApplicationCommandOptionType.Boolean,
                             'name': 'is_enabled',
-                            'description': 'Enable/disable',
+                            'description': 'Enable or disable function',
                         },
                     ],
                 },
@@ -78,7 +78,7 @@ module.exports = new Command({
         {
             'type': ApplicationCommandOptionType.SubcommandGroup,
             'name': 'role',
-            'description': 'Welcome role settings',
+            'description': 'Manage role settings',
             'options': [
                 {
                     'type': ApplicationCommandOptionType.Subcommand,

@@ -4,7 +4,7 @@ const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
     'name': 'botprevention',
-    'description': 'Set up prevention for bot accounts (not actual bots)',
+    'description': 'Set up prevention for inactive users',
     'defaultMemberPermissions': [PermissionFlagsBits.Administrator],
     'options': [
         {
@@ -15,7 +15,7 @@ module.exports = new Command({
         {
             'type': ApplicationCommandOptionType.Boolean,
             'name': 'is_enabled',
-            'description': 'Enable/disable',
+            'description': 'Enable or disable function',
         },
     ],
 

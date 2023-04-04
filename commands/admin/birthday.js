@@ -1,5 +1,5 @@
 const { Topokki } = require('../../structures/topokki');
-const { ApplicationCommandOptionType, CommandInteraction } = require('discord.js');
+const { ApplicationCommandOptionType, CommandInteraction, ChannelType } = require('discord.js');
 const { Command } = require('../../helpers/command');
 
 module.exports = new Command({
@@ -36,6 +36,24 @@ module.exports = new Command({
                 },
             ],
         },
+        {
+            'type': ApplicationCommandOptionType.Subcommand,
+            'name': 'channel',
+            'description': 'Manage channel settings',
+            'options': [
+                {
+                    'type': ApplicationCommandOptionType.Channel,
+                    'name': 'text_channel',
+                    'description': 'Provide a text channel',
+                    'channel_types': [ChannelType.GuildText],
+                },
+                {
+                    'type': ApplicationCommandOptionType.Boolean,
+                    'name': 'is_enabled',
+                    'description': 'Enable or disable function',
+                },
+            ],
+        }
     ],
 
     /**

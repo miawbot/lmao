@@ -1,9 +1,10 @@
 const fg = require('fast-glob');
-const { Client, GatewayIntentBits, Collection, CommandInteraction, InteractionResponse } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, CommandInteraction, InteractionResponse, inlineCode, EmbedBuilder } = require('discord.js');
 const { Command, Subcommand } = require('../helpers/command');
 const { Event } = require('../helpers/event');
 const { Player } = require('./player');
 const { Database } = require('./database');
+const { Cron } = require('../helpers/cron');
 
 class Topokki extends Client {
 
@@ -20,11 +21,15 @@ class Topokki extends Client {
                 GatewayIntentBits.GuildInvites,
                 GatewayIntentBits.DirectMessages,
                 GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildModeration,
+                GatewayIntentBits.GuildIntegrations,
+                GatewayIntentBits.GuildPresences
             ]
         })
 
         this.instance = this;
         this.database = new Database();
+        this.crons = new Collection();
         this.voiceChannelCache = new Collection();
         this.botPreventionCache = new Collection();
 
@@ -44,12 +49,13 @@ class Topokki extends Client {
     /**
      * Load dependencies and other stuff 
      */
-    init() {
-        this.loadCommands();
+    async init() {
+        await this.loadCommands();
         this.loadEvents().then(() => console.log('Events have been loaded'));
 
         this.database.connect(process.env.MONGO_URI);
-        this.loadSchemas();
+        await this.loadSchemas();
+        await this.loadCrons();
 
         this.login(process.env.CLIENT_TOKEN).then(() => console.log('Client is online'));
     }
@@ -103,6 +109,19 @@ class Topokki extends Client {
     }
 
     /**
+     * Load Cronjobs
+     */
+    async loadCrons() {
+        for (const file of await fg('./cron/*.js')) {
+            const cron = require('.' + file);
+            if (cron instanceof Cron) {
+                cron.start(client, cron.schedule);
+                this.crons.set(cron.name, cron);
+            }
+        }
+    }
+
+    /**
      * Load commands
      */
     async loadCommands() {
@@ -127,7 +146,6 @@ class Topokki extends Client {
     async loadEvents() {
         for (const file of await fg('./events/**/*.js')) {
             const event = require('.' + file);
-
             if (event instanceof Event) {
                 const _this = event.isPlayer
                     ? this.player
@@ -142,8 +160,8 @@ class Topokki extends Client {
      * Load Mongoose schemas
      */
     async loadSchemas() {
-        for (const f of await fg('./models/**/*.js')) {
-            const { name, model } = require('.' + f);
+        for (const file of await fg('./models/**/*.js')) {
+            const { name, model } = require('.' + file);
             this.database.set(name, model)
         }
     }

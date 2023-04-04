@@ -45,12 +45,12 @@ module.exports = new Command({
             .setFields(
                 {
                     'name': 'Members',
-                    'value': texts.join('\n\n'),
+                    'value': texts.join('\n\n') || 'None',
                     'inline': true,
                 },
                 {
                     'name': 'Points',
-                    'value': points.join('\n\n'),
+                    'value': points.join('\n\n') || 'None',
                     'inline': true,
                 }
             );

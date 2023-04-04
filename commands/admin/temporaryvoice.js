@@ -10,18 +10,18 @@ module.exports = new Command({
         {
             'type': ApplicationCommandOptionType.Channel,
             'name': 'voice_channel',
-            'description': 'Provide a voice channel to act as a hook for temporary voice channels',
+            'description': 'Provide a voice channel',
             'channel_types': [ChannelType.GuildVoice],
         },
         {
             'type': ApplicationCommandOptionType.String,
             'name': 'default_name',
-            'description': 'Change the default channel name',
+            'description': 'Change the default name for channels',
         },
         {
             'type': ApplicationCommandOptionType.Boolean,
             'name': 'is_enabled',
-            'description': 'Enable/disable',
+            'description': 'Enable or disable function',
         },
     ],
 

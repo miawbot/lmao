@@ -23,6 +23,7 @@
     "libsodium-wrappers": "^0.7.11",
     "mongoose": "^7.0.2",
     "node": "^19.8.1",
+    "node-cron": "^3.0.2",
     "nodemon": "^2.0.21",
     "opusscript": "^0.0.8"
   },
