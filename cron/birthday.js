@@ -17,6 +17,10 @@ module.exports = new Cron({
 
         for (const setting of await Birthday.find()) {
             cron.scheduleStart(client, schedule, async () => {
+                if (Date.now !== Birthday.date) {
+                    return;
+                }
+
                 const _channel = await BirthdayChannel.findOne({ 'guildId': setting.guildId });
 
                 if (
