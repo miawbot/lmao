@@ -63,13 +63,13 @@ class Cron extends CronType {
      * @param {Function} callback 
      */
     start(client) {
-        let _schedule = this.schedule;
+        let schedule = this.schedule;
 
-        if (typeof _schedule === 'object') {
-            _schedule = Object.values(client.sanitize(_schedule)).join(' ');
+        if (typeof schedule === 'object') {
+            schedule = Object.values(client.sanitize(schedule)).join(' ');
         }
 
-        this.cron.schedule(_schedule, async () => {
+        this.cron.schedule(schedule, async () => {
             await this.callback?.(client, this);
         })
     }
