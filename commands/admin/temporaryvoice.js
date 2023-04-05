@@ -10,12 +10,12 @@ module.exports = new Command({
         {
             'type': ApplicationCommandOptionType.Subcommand,
             'name': 'manage',
-            'description': 'Manage temporary voice channels settings',
+            'description': 'Manage personal settings',
             'options': [
                 {
                     'type': ApplicationCommandOptionType.String,
                     'name': 'name',
-                    'description': 'Customize channel name',
+                    'description': 'Customize personal channel name',
                 },
             ],
         },
