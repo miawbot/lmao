@@ -1,6 +1,6 @@
 const { Topokki } = require('../../structures/topokki');
 const { Event } = require('../../helpers/event');
-const { ChannelType } = require('discord.js');
+const { ChannelType, GuildMember, Guild } = require('discord.js');
 
 module.exports = new Event({
     'name': 'voiceStateUpdate',
@@ -10,34 +10,58 @@ module.exports = new Event({
      * @param {Topokki} client 
      */
     async callback(client, old, current) {
-        const tempChannel = await client.database
-            .get('temporary.voicechannel')
-            .findOne({ 'guildId': old.guild.id || current.guild.id });
+        const CustomVoiceChannel = client.database.get('customvoicechannel');
+        const TemporaryVoiceChannel = client.database.get('temporary.voicechannel');
 
+        const guild = old.guild || current.guild;
         const member = old.member || current.member;
 
         if (!client.botPreventionCache.get(member?.id)) {
             client.botPreventionCache.set(member?.id, true);
         }
 
+        const setting = await TemporaryVoiceChannel.findOne({ 'guildId': guild.id });
+
+        let custom = await CustomVoiceChannel.findOne({
+            'guildId': guild.id,
+            'userId': member.id
+        });
+
+        if (!custom?.name) {
+            custom = await CustomVoiceChannel.findOneAndUpdate(
+                {
+                    'guildId': guild.id,
+                    'userId': member.id
+                },
+                {
+                    '$set': {
+                        'name': "{member}'s channel"
+                    },
+                },
+                {
+                    'upsert': true,
+                    'new': true,
+                    'setDefaultsOnInsert': true,
+                },
+            );
+        }
+
         if (
-            !tempChannel ||
-            !tempChannel.isEnabled
+            !setting ||
+            !setting.isEnabled
         ) {
             return;
         };
 
-        if (current?.channelId === tempChannel.channelId) {
-            const member = current.member;
-
-            const channel = await member.guild.channels.create({
-                'name': tempChannel.defaultName.replace(/{member}/gi, member.user.username),
+        if (current?.channelId === setting.channelId) {
+            const newChannel = await guild.channels.create({
+                'name': custom.name.replace(/{member}/gi, member.user.username),
                 'parent': current.channel?.parentId || null,
                 'type': ChannelType.GuildVoice
             });
 
-            client.voiceChannelCache.set(channel.id, member);
-            member.voice.setChannel(channel.id);
+            client.voiceChannelCache.set(newChannel.id, member);
+            member.voice.setChannel(newChannel.id);
         }
 
         if (

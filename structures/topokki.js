@@ -177,7 +177,7 @@ class Topokki extends Client {
      * Load Mongoose schemas
      */
     async loadSchemas() {
-        for (const file of await fg('./models/**/*.js')) {
+        for (const file of await fg('./models/**/**/*.js')) {
             const { name, model } = require('.' + file);
             this.database.set(name, model)
         }

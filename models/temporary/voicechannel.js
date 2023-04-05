@@ -6,10 +6,6 @@ module.exports = client.database.schema('temporary.voicechannel', {
         'required': true,
         'unique': true
     },
-    'defaultName': {
-        'type': String,
-        'default': "{member}'s channel"
-    },
     'channelId': { 'type': String },
     'isEnabled': {
         'type': Boolean,

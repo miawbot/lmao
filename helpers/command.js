@@ -35,6 +35,7 @@ class CommandType {
     name = '';
     description = '';
     options = [];
+    isCommandCategory = false;
     isPlayer = false;
     dmPermission = false;
 
@@ -61,7 +62,7 @@ class Command extends CommandType {
         if (
             !data.name ||
             !data.description ||
-            !data.callback
+            (!data.callback && !data.isCommandCategory)
         ) {
             throw new Error('Command module is missing properties');
         }
@@ -72,12 +73,13 @@ class Command extends CommandType {
             this.defaultMemberPermissions = data.defaultMemberPermissions;
         }
 
-        this.dmPermission = data.dmPermission;
         this.name = data.name;
         this.description = data.description;
         this.options = data.options;
         this.isPlayer = data.isPlayer;
+        this.isCommandCategory = data.isCommandCategory;
         this.settings = data.settings;
+        this.dmPermission = data.dmPermission;
 
         /**
          * 
@@ -85,7 +87,24 @@ class Command extends CommandType {
          * @param {Topokki} client
          * @param {CommandInteraction} interaction
          */
-        this.callback = data.callback;
+        this._callback = data.callback;
+
+        /**
+         * 
+         * @type {Function}
+         * @param {Topokki} client
+         * @param {CommandInteraction} interaction
+         */
+        this.callback = this.cb;
+    }
+
+    /**
+     * 
+     * @param {Topokki} client 
+     * @param {CommandInteraction} interaction 
+     */
+    async cb(client, interaction) {
+        await client.getSubcommand(interaction)?.callback?.(client, interaction);
     }
 
     /**
@@ -140,6 +159,12 @@ class Subcommand extends SubcommandType {
          */
         this._callback = data.callback;
 
+        /**
+         * 
+         * @type {Function}
+         * @param {Topokki} client
+         * @param {CommandInteraction} interaction
+         */
         this.callback = this.cb;
     }
 
@@ -150,7 +175,6 @@ class Subcommand extends SubcommandType {
      */
     async cb(client, interaction) {
         const access = await client.validate(interaction, this.defaultMemberPermissions);
-        
         if (access) {
             await this._callback(client, interaction);
         }
