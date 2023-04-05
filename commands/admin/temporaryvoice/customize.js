@@ -3,7 +3,7 @@ const { CommandInteraction, PermissionsBitField } = require('discord.js');
 const { Subcommand } = require('../../../helpers/command');
 
 module.exports = new Subcommand({
-    'name': 'temporaryvoice.manage',
+    'name': 'temporaryvoice.customize',
 
     /**
      * 

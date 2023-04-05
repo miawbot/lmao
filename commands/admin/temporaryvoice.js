@@ -9,13 +9,18 @@ module.exports = new Command({
     'options': [
         {
             'type': ApplicationCommandOptionType.Subcommand,
-            'name': 'manage',
-            'description': 'Manage personal settings',
+            'name': 'customize',
+            'description': 'Customize personal settings',
             'options': [
                 {
                     'type': ApplicationCommandOptionType.String,
                     'name': 'name',
-                    'description': 'Customize personal channel name',
+                    'description': 'Change personal channel name',
+                },
+                {
+                    'type': ApplicationCommandOptionType.String,
+                    'name': 'max_slots',
+                    'description': 'Change amount of slots set in personal channel',
                 },
             ],
         },
