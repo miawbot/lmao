@@ -143,8 +143,14 @@ class Subcommand extends SubcommandType {
         this.callback = this.cb;
     }
 
+    /**
+     * 
+     * @param {Topokki} client 
+     * @param {CommandInteraction} interaction 
+     */
     async cb(client, interaction) {
         const access = await client.validate(interaction, this.defaultMemberPermissions);
+        
         if (access) {
             await this._callback(client, interaction);
         }
