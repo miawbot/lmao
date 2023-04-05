@@ -5,6 +5,10 @@ module.exports = client.database.schema('customvoicechannel', {
         'type': String,
         'required': true,
     },
-    'name': { 'type': String },
     'userId': { 'type': String },
+    'name': { 'type': String },
+    'maxSlots': {
+        'type': Number,
+        'default': 0
+    },
 });

@@ -57,7 +57,8 @@ module.exports = new Event({
             const newChannel = await guild.channels.create({
                 'name': custom.name.replace(/{member}/gi, member.user.username),
                 'parent': current.channel?.parentId || null,
-                'type': ChannelType.GuildVoice
+                'type': ChannelType.GuildVoice,
+                'userLimit': custom.maxSlots
             });
 
             client.voiceChannelCache.set(newChannel.id, member);

@@ -18,9 +18,11 @@ module.exports = new Command({
                     'description': 'Change personal channel name',
                 },
                 {
-                    'type': ApplicationCommandOptionType.String,
+                    'type': ApplicationCommandOptionType.Number,
                     'name': 'max_slots',
                     'description': 'Change amount of slots set in personal channel',
+                    'min_value': 0,
+                    'max_value': 99,
                 },
             ],
         },

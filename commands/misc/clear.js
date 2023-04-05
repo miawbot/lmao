@@ -15,6 +15,8 @@ module.exports = new Command({
             'description': 'Provide an amount',
             'type': ApplicationCommandOptionType.Number,
             'required': true,
+            'min_value': 1,
+            'max_value': 100,
         },
     ],
 
@@ -25,16 +27,6 @@ module.exports = new Command({
      */
     async callback(client, interaction) {
         const amount = interaction.options.getNumber('amount');
-
-        if (amount < 1) {
-            client.reply(interaction, 'The amount must be greater than 0');
-            return;
-        }
-
-        if (amount > 100) {
-            client.reply(interaction, 'The amount must be lower than 100');
-            return;
-        }
 
         await interaction.channel.bulkDelete(amount, true);
 

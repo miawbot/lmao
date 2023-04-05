@@ -13,13 +13,9 @@ module.exports = new Subcommand({
     async callback(client, interaction) {
         const CustomVoiceChannel = client.database.get('customvoicechannel');
 
-        const setting = await CustomVoiceChannel.findOne({
-            'guildId': interaction.guildId,
-            'userId': interaction.user.id
-        })
-
         const options = client.sanitize({
             'name': interaction.options.getString('name'),
+            'maxSlots': interaction.options.getNumber('max_slots'),
         });
 
         if (!Object.keys(options).length) {
@@ -27,12 +23,16 @@ module.exports = new Subcommand({
             return;
         }
 
+        const guild = client.guilds.cache.get(interaction.guildId);
+        const member = guild.members.cache.get(interaction.member.user.id);
+        const channel = member.voice.channel;
+
         if (
-            !setting &&
-            (!setting?.name && !options.name)
+            channel &&
+            options.maxSlots &&
+            client.voiceChannelCache.get(channel.id)?.id === member.id
         ) {
-            client.reply(interaction, 'Unable to update setting since no name has been set');
-            return;
+            channel.setUserLimit(options.maxSlots)
         }
 
         await CustomVoiceChannel.findOneAndUpdate(

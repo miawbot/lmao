@@ -11,6 +11,7 @@ module.exports = new Command({
             'type': ApplicationCommandOptionType.Number,
             'name': 'timeout',
             'description': 'Provide a timeout in minutes',
+            'min_value': 1,
         },
         {
             'type': ApplicationCommandOptionType.Boolean,
