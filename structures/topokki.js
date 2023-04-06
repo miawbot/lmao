@@ -112,7 +112,7 @@ class Topokki extends Client {
      * Checks permissions for subcommands
      * 
      * @param {CommandInteraction} interaction 
-     * @returns 
+     * @returns {Boolean}
      */
     async validate(interaction, perms = []) {
         const _perms = interaction.member.permissions;

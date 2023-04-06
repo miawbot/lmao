@@ -87,29 +87,7 @@ class Command extends CommandType {
          * @param {Topokki} client
          * @param {CommandInteraction} interaction
          */
-        this._callback = data.callback;
-
-        /**
-         * 
-         * @type {Function}
-         * @param {Topokki} client
-         * @param {CommandInteraction} interaction
-         */
-        this.callback = this.cb;
-    }
-
-    /**
-     * 
-     * @param {Topokki} client 
-     * @param {CommandInteraction} interaction 
-     */
-    async cb(client, interaction) {
-        if (this.isCommandCategory) {
-            await client.getSubcommand(interaction)?.callback?.(client, interaction);
-            return;
-        }
-
-        this._callback?.(client, interaction)
+        this.callback = data.callback;
     }
 
     /**
@@ -180,6 +158,7 @@ class Subcommand extends SubcommandType {
      */
     async cb(client, interaction) {
         const access = await client.validate(interaction, this.defaultMemberPermissions);
+        
         if (access) {
             await this._callback(client, interaction);
         }

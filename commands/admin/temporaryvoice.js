@@ -5,7 +5,6 @@ const { Command } = require('../../helpers/command');
 module.exports = new Command({
     'name': 'temporaryvoice',
     'description': 'Set up temporary voice channels',
-    'isCommandCategory': true,
     'options': [
         {
             'type': ApplicationCommandOptionType.Subcommand,
@@ -45,4 +44,13 @@ module.exports = new Command({
             ],
         }
     ],
+
+    /**
+     * 
+     * @param {Topokki} client 
+     * @param {CommandInteraction} interaction 
+     */
+    async callback(client, interaction) {
+        await client.getSubcommand(interaction)?.callback?.(client, interaction);
+    }
 })

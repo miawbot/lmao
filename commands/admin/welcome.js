@@ -5,7 +5,6 @@ const { Command } = require('../../helpers/command');
 module.exports = new Command({
     'name': 'welcome',
     'description': 'Set up welcome messages for newcomers to the server',
-    'isCommandCategory': true,
     'isPlayer': true,
     'defaultMemberPermissions': [PermissionFlagsBits.Administrator],
     'options': [
@@ -115,4 +114,13 @@ module.exports = new Command({
             ],
         },
     ],
+
+    /**
+     * 
+     * @param {Topokki} client 
+     * @param {CommandInteraction} interaction 
+     */
+    async callback(client, interaction) {
+        await client.getSubcommand(interaction)?.callback?.(client, interaction);
+    }
 });

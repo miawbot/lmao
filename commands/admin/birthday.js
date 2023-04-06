@@ -5,7 +5,6 @@ const { Command } = require('../../helpers/command');
 module.exports = new Command({
     'name': 'birthday',
     'description': 'Set up your birthday information',
-    'isCommandCategory': true,
     'options': [
         {
             'type': ApplicationCommandOptionType.Subcommand,
@@ -56,4 +55,13 @@ module.exports = new Command({
             ],
         }
     ],
+
+    /**
+     * 
+     * @param {Topokki} client 
+     * @param {CommandInteraction} interaction 
+     */
+    async callback(client, interaction) {
+        await client.getSubcommand(interaction)?.callback?.(client, interaction);
+    }
 })
