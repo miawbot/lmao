@@ -104,7 +104,12 @@ class Command extends CommandType {
      * @param {CommandInteraction} interaction 
      */
     async cb(client, interaction) {
-        await client.getSubcommand(interaction)?.callback?.(client, interaction);
+        if (this.isCommandCategory) {
+            await client.getSubcommand(interaction)?.callback?.(client, interaction);
+            return;
+        }
+
+        this._callback?.(client, interaction)
     }
 
     /**
