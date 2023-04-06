@@ -29,15 +29,10 @@ module.exports = new Subcommand({
 
         if (
             channel &&
+            options.maxSlots &&
             client.voiceChannelCache.get(channel.id)?.id === member.id
         ) {
-            if (options.name) {
-                channel.setName(options.name)
-            }
-
-            if (options.maxSlots) {
-                channel.setUserLimit(options.maxSlots)
-            }
+            channel.setUserLimit(options.maxSlots)
         }
 
         await CustomVoiceChannel.findOneAndUpdate(
