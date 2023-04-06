@@ -35,7 +35,6 @@ class CommandType {
     name = '';
     description = '';
     options = [];
-    isCommandCategory = false;
     isPlayer = false;
     dmPermission = false;
 
@@ -62,7 +61,7 @@ class Command extends CommandType {
         if (
             !data.name ||
             !data.description ||
-            (!data.callback && !data.isCommandCategory)
+            !data.callback
         ) {
             throw new Error('Command module is missing properties');
         }
@@ -77,7 +76,6 @@ class Command extends CommandType {
         this.description = data.description;
         this.options = data.options;
         this.isPlayer = data.isPlayer;
-        this.isCommandCategory = data.isCommandCategory;
         this.settings = data.settings;
         this.dmPermission = data.dmPermission;
 
